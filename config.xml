@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        version="2.0.0.0" 
+        id="alienblack">
+  <author href="http://alienblack.com/"
+    rim:copyright="Copyright 2013 Amos Chan">Amos Chan</author>
+  <name>Alien Black</name>
+  <description>A Reddit client for Blackberry 10</description>
+  <content src="index.html" />
+  <license href="http://alienblack.com/" />
+  <access uri="http://alienblack.local" subdomains="true">
+    <feature id="blackberry.app" required="true" version="1.0.0.0"/>
+    <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
+  </access>
+</widget>
+
