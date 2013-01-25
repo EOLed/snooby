@@ -1,12 +1,20 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="css/bbui-min.css" />
-    <script type="text/javascript" src="js/bbui-min.js" />
-    <script type="text/javascript" src="local:///chrome/webworks.js" />
+    <title>Alien Black</title>
+    <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
+    <script type="text/javascript" src="js/bbui-min.js"></script>
+    <script type="text/javascript" src="local:///chrome/webworks.js"></script>
     <script type="text/javascript">
-      document.addEventListener('webworksready', function(e) {
-          bb.init();
-          bb.pushScreen('frontpage.html', 'frontpage');
+      function ready() {
+        bb.init();
+        bb.pushScreen('frontpage.html', 'frontpage');
+        var el = document.createElement('div');
+        el.innerHTML = 'uuid: ' + blackberry.identity.uuid;
+        document.documentElement.appendChild(el);
+      }
+      window.addEventListener('load', function(e) {
+        document.addEventListener('webworksready', ready);
       }, false);
     </script>
   </head>

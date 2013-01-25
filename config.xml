@@ -9,6 +9,7 @@
   <description>A Reddit client for Blackberry 10</description>
   <content src="index.html" />
   <license href="http://alienblack.com/" />
+  <feature id="blackberry.identity" required="true" version="1.0.0.0"/>
   <access uri="http://alienblack.local" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
