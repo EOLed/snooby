@@ -3,15 +3,14 @@
   <head>
     <title>Alien Black</title>
     <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
+    <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
     <script type="text/javascript" src="js/bbui-min.js"></script>
     <script type="text/javascript" src="local:///chrome/webworks.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript">
       function ready() {
         bb.init();
         bb.pushScreen('frontpage.html', 'frontpage');
-        var el = document.createElement('div');
-        el.innerHTML = 'uuid: ' + blackberry.identity.uuid;
-        document.documentElement.appendChild(el);
       }
       window.addEventListener('load', function(e) {
         document.addEventListener('webworksready', ready);

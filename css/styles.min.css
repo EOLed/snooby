@@ -1,0 +1,8 @@
+div#listing div {
+  height: auto;
+}
+
+div#listing .title {
+  white-space: normal;
+  height: auto;
+}
