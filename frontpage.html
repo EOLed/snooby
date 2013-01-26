@@ -1,6 +1,7 @@
 <div data-bb-type="screen" data-bb-indicator="true">
   <div data-bb-type="title" data-bb-caption="Front Page" data-bb-back-caption="Reddits"></div>
-  <div id="listing" data-bb-type="image-list" data-bb-image-effect="fade" data-bb-context="true">
+  <div id="listing" class="container">
+    
   </div>
   <div data-bb-type="action-bar">
     <div data-bb-type="action" data-bb-style="tab" data-bb-img="img/icons/ic_email.png"></div>
@@ -12,16 +13,9 @@
 </div>
 
 <script type="text/javascript">
-  $($.get('http://reddit.com/.json', function(data) {
-    var listing = JSON.parse(data);
-    $.each(listing.data.children, function(index, value) {
-      var thread = document.createElement('div');
-      thread.setAttribute('data-bb-type', 'item');
-      thread.innerHTML = 'nice description';
-      thread.setAttribute('data-bb-title', value.data.title);
-      if (value.data.thumbnail && value.data.thumbnail != 'self')
-        thread.setAttribute('data-bb-img', value.data.thumbnail);
-      document.getElementById('listing').appendItem(thread);
-    });
-  }));
+  listing(false, function(post) {
+    var thread = $('<div/>').addClass('row');
+    $('<div/>', { text: post.data.title }).addClass('span12').addClass('post').appendTo(thread);
+    $(thread).appendTo('#listing');
+  });
 </script>

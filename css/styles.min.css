@@ -1,8 +1,9 @@
-div#listing div {
-  height: auto;
+body {
+  line-height: normal;
 }
 
-div#listing .title {
-  white-space: normal;
-  height: auto;
+div#listing .post {
+  padding-bottom: 15px;
+  font-size: 20px;
 }
+
