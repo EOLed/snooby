@@ -32,3 +32,20 @@ div#listing .details-section {
 .link-section .comments i {
   color: #888;
 }
+
+#linkHeader {
+  background-color: #eee;
+  padding-bottom: 50px;
+}
+
+#linkHeader .link-title {
+  font-weight: bold;
+  font-size: .75em;
+  margin-top: 15px;
+}
+
+#linkHeader .link-details {
+  color: #c60;
+  font-size: .65em;
+  margin-top: 5px;
+}

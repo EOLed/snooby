@@ -16,7 +16,10 @@
     <script type="text/javascript" src="js/reddit.js"></script>
     <script type="text/javascript">
       function ready() {
-        bb.init();
+        bb.init({ ondomready: function(element, id, params) {
+            if (id == 'comments')
+              commentsScreenReady(element, params);
+        }});
         bb.pushScreen('frontpage.html', 'frontpage');
       }
       window.addEventListener('load', function(e) {

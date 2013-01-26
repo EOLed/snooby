@@ -1,0 +1,26 @@
+<div data-bb-type="screen" data-bb-indicator="true">
+  <script type="text/javascript" src="js/comments.js"></script>
+  <div data-bb-type="title" data-bb-caption="Comments" data-bb-back-caption="Reddits"></div>
+  <div id="linkHeader"></div>
+  <div id="comments"></div>
+  <div data-bb-type="action-bar">
+    <div data-bb-type="action" data-bb-style="tab" data-bb-img="img/icons/ic_email.png"></div>
+    <div data-bb-type="action" data-bb-style="tab" data-bb-img="img/icons/ic_settings.png"></div>
+    <div data-bb-type="action" data-bb-style="tab" data-bb-img="img/icons/ic_add.png"></div>
+    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_search.png"></div>
+    <div data-bb-type="action" data-bb-style="tab" data-bb-img="img/icons/ic_expand.png"></div>
+  </div>
+</div>
+
+<script id="linkHeaderTemplate" type="text/template">
+  <div class="container">
+    <div class="row link-title">
+      <div class="span12">
+        {{title}}
+      </div>
+    </div>
+    <div class="row link-details">
+      <div class="span12">{{domain}} • {{numComments}} comments</div>
+    </div>
+  </div>
+</script>

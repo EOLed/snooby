@@ -12,6 +12,7 @@ build:
 	@echo "Setting up build environment...             ${CHECK} Done"
 	@jshint js/bbui-reddit.js
 	@jshint js/reddit.js
+	@jshint js/comments.js
 	@echo "Running JSHint on javascript...             ${CHECK} Done"
 	@echo "Cleaning up build environment...            ${CHECK} Done"
 	@zip -r /tmp/alienblack.zip . -x .*

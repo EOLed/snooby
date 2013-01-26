@@ -9,5 +9,9 @@ function bbifyPost(link, callback) {
                                 author: link.data.author });
   var div = $('<div/>');
   div.html(html);
+  div.click(function() {
+    bb.pushScreen('comments.html', 'comments', { link: link });
+  });
+
   callback(div);
 }
