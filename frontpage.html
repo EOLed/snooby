@@ -1,6 +1,6 @@
 <div data-bb-type="screen" data-bb-indicator="true">
   <div data-bb-type="title" data-bb-caption="Front Page" data-bb-back-caption="Reddits"></div>
-  <div id="listing" class="container">
+  <div id="listing">
     
   </div>
   <div data-bb-type="action-bar">
@@ -14,8 +14,8 @@
 
 <script type="text/javascript">
   listing(false, function(post) {
-    var thread = $('<div/>').addClass('row');
-    $('<div/>', { text: post.data.title }).addClass('span12').addClass('post').appendTo(thread);
-    $(thread).appendTo('#listing');
+    bbifyPost(post, function(bbPost) {
+      $(bbPost).appendTo('#listing');
+    });
   });
 </script>

@@ -4,6 +4,10 @@ body {
 
 div#listing .post {
   padding-bottom: 15px;
-  font-size: 20px;
+  font-size: .85em;
+}
+
+div#listing .details {
+  font-size: .75em;
 }
 

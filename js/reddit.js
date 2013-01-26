@@ -1,7 +1,6 @@
 function listing(subreddits, callback) {
   if (!subreddits) { 
-    $($.get('http://reddit.com/.json', function(data) {
-      var listing = JSON.parse(data);
+    $($.get('http://reddit.com/.json', function(listing) {
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
