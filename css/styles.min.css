@@ -21,3 +21,12 @@ div#listing .details-section {
 .link-section .comments {
   text-align: center;
 }
+
+.link-section .comments .comment-count {
+  color: #c60;
+  clear: both;
+}
+
+.link-section .comments i {
+  color: #888;
+}
