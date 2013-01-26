@@ -2,12 +2,19 @@ body {
   line-height: normal;
 }
 
-div#listing .post {
-  padding-bottom: 15px;
-  font-size: .85em;
+div#listing .link-section {
+  font-size: .75em;
+  padding: 20px 0;
 }
 
-div#listing .details {
-  font-size: .75em;
+div#listing .details-section {
+  font-size: .65em;
+  padding: 10px 0;
+  background-color: #ddd;
+  color: #444;
+}
+
+.details-section span.subreddit {
+  color: #c60;
 }
 
