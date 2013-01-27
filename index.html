@@ -16,11 +16,19 @@
     <script type="text/javascript" src="js/reddit.js"></script>
     <script type="text/javascript">
       function ready() {
-        bb.init({ ondomready: function(element, id, params) {
-            if (id == 'comments')
-              commentsScreenReady(element, params);
-        }});
-        bb.pushScreen('frontpage.html', 'frontpage');
+        subreddits(null, function() {
+          bb.init({ 
+            ondomready: function(element, id, params) {
+              if (id == 'comments')
+                commentsScreenReady(element, params);
+            }, 
+            onscreenready: function(element, id, params) {
+              if (id == 'frontpage')
+                frontPageScreenReady(element, params);
+            }
+          });
+          bb.pushScreen('frontpage.html', 'frontpage');
+        });
       }
       window.addEventListener('load', function(e) {
         document.addEventListener('webworksready', ready);

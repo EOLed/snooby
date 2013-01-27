@@ -6,6 +6,34 @@ function listing(subreddits, callback) {
       });
     }));
   } else {
-    alert('subreddit posts not supported yet.');
+    console.error('subreddit posts not supported yet.');
   }
+}
+
+function subreddits(callback, done) {
+  var cachedSubreddits = JSON.parse(localStorage.getItem('subreddits'));
+  if (cachedSubreddits === null) {
+    $.get('http://reddit.com/reddits.json', function(listing) {
+      var sortedSubreddits = [];
+      listing.data.children.sort(function(a, b) {
+        return a.data.display_name.localeCompare(b.data.display_name);
+      });
+      console.log('caching subreddits...');
+      localStorage.setItem('subreddits', JSON.stringify(listing.data.children));
+      _processSubreddits(listing.data.children, callback, done);
+    });
+  } else {
+    console.log('using cached subreddits...');
+    _processSubreddits(cachedSubreddits, callback, done);
+  }
+}
+
+function _processSubreddits(reddits, callback, done) {
+  $.each(reddits, function(index, value) {
+    if (typeof callback == 'function')
+      callback(value);
+  });
+
+  if (typeof done == 'function')
+    done();
 }

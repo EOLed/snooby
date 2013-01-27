@@ -15,3 +15,19 @@ function bbifyPost(link, callback) {
 
   callback(div);
 }
+
+function createSubredditTabOption(subreddit, callback) {
+  var tab = document.createElement('div');
+  tab.setAttribute('data-bb-type', 'action');
+  tab.setAttribute('data-bb-style', 'tab');
+  tab.setAttribute('data-bb-overflow', true);
+  tab.setAttribute('data-bb-img', 'img/icons/ic_view_list.png');
+  tab.setAttribute('data-bb-bb-accent-text', 'description');
+  tab.innerHTML = subreddit.data.display_name;
+
+  tab.click(function() {
+    bb.pushScreen('subreddit.html', 'subreddit', { subreddit: subreddit });
+  });
+
+  callback(tab);
+}

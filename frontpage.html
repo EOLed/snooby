@@ -1,16 +1,43 @@
 <div data-bb-type="screen" data-bb-indicator="true">
+  <script type="text/javascript" src="js/frontpage.js"></script>
   <div data-bb-type="title" data-bb-caption="Front Page"></div>
-  <div id="listing">
-    
-  </div>
-  <div data-bb-type="action-bar">
-    <div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="img/icons/ic_view_list.png" data-bb-accent-text="Montreal Canadiens">habs</div>
-    <div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="img/icons/ic_view_list.png" data-bb-accent-text="Call of Duty: Black Ops 2">blackops2</div>
-    <div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="img/icons/ic_view_list.png" data-bb-accent-text="Heading to Montr\u00e9al this weekend. Suggestions?">montreal</div>
-    <div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="img/icons/ic_view_list.png" data-bb-accent-text="Modern Warefare 3">mw3</div>
+  <div id="listing"></div>
+  <div id="frontPageActionBar" data-bb-type="action-bar">
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_settings.png">Settings</div>
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_search.png">Search</div>
   </div>
+  <script id="linkTemplate" type="text/template">
+    <div class="link-section">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="span10">
+            {{title}}
+          </div>
+          <div class="span2 comments">
+            <div class="comment-count">{{numComments}}</div>
+            <i class='icon-comment'></i>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="details-section">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <span class="subreddit">{{subreddit}}</span> • {{score}} • {{domain}} • {{author}}
+          </div>
+        </div>
+      </div>  
+    </div>
+  </script>
+
+  <script id="subredditTabTemplate" type="text/template">
+    <div data-bb-type="action" 
+      data-bb-style="tab" 
+      data-bb-overflow="true" 
+      data-bb-img="img/icons/ic_view_list.png" 
+      data-bb-accent-text="{{description}}">{{subreddit}}</div>
+  </script>
 </div>
 
 <script type="text/javascript">
@@ -21,27 +48,3 @@
   });
 </script>
 
-<script id="linkTemplate" type="text/template">
-  <div class="link-section">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="span10">
-          {{title}}
-        </div>
-        <div class="span2 comments">
-          <div class="comment-count">{{numComments}}</div>
-          <i class='icon-comment'></i>
-        </div>
-      </div>
-    </div>  
-  </div>
-  <div class="details-section">
-    <div class="container">
-      <div class="row">
-        <div class="span12">
-          <span class="subreddit">{{subreddit}}</span> • {{score}} • {{domain}} • {{author}}
-        </div>
-      </div>
-    </div>  
-  </div>
-</script>
