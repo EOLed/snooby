@@ -16,6 +16,7 @@
     <script type="text/javascript" src="js/reddit.js"></script>
     <script type="text/javascript">
       function ready() {
+        alert('blocking dialog to start web inspector');
         subreddits(null, function() {
           bb.init({ 
             ondomready: function(element, id, params) {
@@ -23,6 +24,8 @@
                 commentsScreenReady(element, params);
             }, 
             onscreenready: function(element, id, params) {
+              if (id == 'subreddit')
+                frontPageScreenReady(element, params);
               if (id == 'frontpage')
                 frontPageScreenReady(element, params);
             }

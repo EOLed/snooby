@@ -22,12 +22,12 @@ function createSubredditTabOption(subreddit, callback) {
   tab.setAttribute('data-bb-style', 'tab');
   tab.setAttribute('data-bb-overflow', true);
   tab.setAttribute('data-bb-img', 'img/icons/ic_view_list.png');
-  tab.setAttribute('data-bb-bb-accent-text', 'description');
   tab.innerHTML = subreddit.data.display_name;
-
-  tab.click(function() {
-    bb.pushScreen('subreddit.html', 'subreddit', { subreddit: subreddit });
-  });
+  tab.setAttribute('onclick', 'switchSubreddit(\'' + subreddit.data.display_name +  '\');');
 
   callback(tab);
+}
+
+function switchSubreddit(subreddit) {
+
 }

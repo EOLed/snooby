@@ -5,6 +5,12 @@ function listing(subreddits, callback) {
         callback(value);
       });
     }));
+  } else if (typeof subreddits == 'string') {
+    $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
+      $.each(listing.data.children, function(index, value) {
+        callback(value);
+      });
+    }));
   } else {
     console.error('subreddit posts not supported yet.');
   }
