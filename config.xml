@@ -2,20 +2,20 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         version="2.0.0.0" 
-        id="alienblack">
-  <author href="http://alienblack.com/"
+        id="snooby">
+  <author href="http://snooby.co/"
     rim:copyright="Copyright 2013 Amos Chan">Amos Chan</author>
-  <name>Front Page</name>
+  <name>Snooby</name>
   <description>A Reddit client for Blackberry 10</description>
   <content src="index.html" />
-  <license href="http://alienblack.com/" />
+  <license href="http://snooby.co/" />
   <icon src="img/icons/app-114.png" />
   <feature id="blackberry.identity" required="true" version="1.0.0.0"/>
   <access uri="http://reddit.com" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
   </access>
-  <access uri="http://alienblack.local" subdomains="true">
+  <access uri="http://snooby.local" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
   </access>
