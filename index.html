@@ -25,12 +25,10 @@
             }, 
             onscreenready: function(element, id, params) {
               if (id == 'subreddit')
-                frontPageScreenReady(element, params);
-              if (id == 'frontpage')
-                frontPageScreenReady(element, params);
+                subredditScreenReady(element, params);
             }
           });
-          bb.pushScreen('frontpage.html', 'frontpage');
+          bb.pushScreen('subreddit.html', 'subreddit');
         });
       }
       window.addEventListener('load', function(e) {

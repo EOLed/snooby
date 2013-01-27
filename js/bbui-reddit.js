@@ -29,5 +29,10 @@ function createSubredditTabOption(subreddit, callback) {
 }
 
 function switchSubreddit(subreddit) {
-
+  $('#listing').empty();
+  listing(subreddit, function(post) {
+    bbifyPost(post, function(bbPost) {
+      $(bbPost).appendTo('#listing');
+    });
+  });
 }
