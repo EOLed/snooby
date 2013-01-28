@@ -1,6 +1,7 @@
 <div data-bb-type="screen" data-bb-indicator="true">
   <script type="text/javascript" src="js/subreddit.js"></script>
-  <div id="listing"></div>
+  <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
+  <div id="listing" style="display: none;"></div>
   <div id="actionBar" data-bb-type="action-bar">
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_settings.png">Settings</div>
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_search.png">Search</div>
@@ -36,6 +37,8 @@
     var subredditDefined = (typeof params !== "undefined" && typeof params.subreddit !== "undefined");
     var subreddit =  subredditDefined ? params.subreddit : false;
     listing(subreddit, function(post) {
+      $('#loading').hide();
+      $('#listing').show();
       bbifyPost(post, function(bbPost) {
         $(bbPost).appendTo('#listing');
       });

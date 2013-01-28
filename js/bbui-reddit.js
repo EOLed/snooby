@@ -29,8 +29,11 @@ function createSubredditTabOption(subreddit, callback) {
 }
 
 function switchSubreddit(subreddit) {
+  $('#loading').show();
   $('#listing').empty();
   listing(subreddit, function(post) {
+    $('#loading').hide();
+    $('#listing').show();
     bbifyPost(post, function(bbPost) {
       $(bbPost).appendTo('#listing');
     });

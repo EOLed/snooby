@@ -6,6 +6,7 @@ function listing(subreddits, callback) {
       });
     }));
   } else if (typeof subreddits == 'string') {
+    $('#loading').show();
     $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
       $.each(listing.data.children, function(index, value) {
         callback(value);
