@@ -1,4 +1,14 @@
 function subredditScreenReady(element, params) {
+  var visited = typeof window.subredditState !== 'undefined';
+  alert('been here: ' + visited);
+
+  if (!visited) {
+    window.subredditState = {};
+    window.subredditState.screenReady = true;
+    window.subredditState.domReady = false;
+    window.subredditState.subreddit = params.subreddit;
+  }
+
   subreddits(function(subreddit) {
     createSubredditTabOption(subreddit, function(subredditTab) {
       element.getElementById('actionBar').appendChild(subredditTab);
@@ -7,16 +17,16 @@ function subredditScreenReady(element, params) {
 }
 
 function subredditDomReady(element, params) {
-  alert('here we go again');
-  var subredditDefined = (typeof params !== "undefined" && typeof params.subreddit !== "undefined");
-  var subreddit =  subredditDefined ? params.subreddit : false;
-
-  var visited = element.getAttribute('data-snooby-visited');
-  console.log('visited? ' + JSON.stringify(visited));
-  if (typeof visited === 'undefined' || visited !== true) {
-    element.setAttribute('data-snooby-visited', true);
-    console.log('marked element as visited');
-    listing(subreddit, function(post) {
+  if (window.subredditState.domReady) {
+    alert('domready is ready');
+    $('#loading').hide();
+    $('#listing').html(window.subredditState.listing);
+    $('#listing').show();
+    $('#subreddit').children('div').eq(1).scrollTop(window.subredditState.scrollTop);
+  } else {
+    alert('here we go again');
+    window.subredditState.domReady = true;
+    listing(params.subreddit, function(post) {
       $('#loading').hide();
       $('#listing').show();
       bbifyPost(post, function(bbPost) {
@@ -24,4 +34,9 @@ function subredditDomReady(element, params) {
       });
     });
   }
+}
+
+function subredditUnload(element) {
+  window.subredditState.listing = $('#listing').html();
+  window.subredditState.scrollTop = $('#subreddit').children('div').eq(1).scrollTop();
 }

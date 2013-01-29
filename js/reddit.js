@@ -1,19 +1,17 @@
 function listing(subreddits, callback) {
-  if (!subreddits) { 
+  $('#loading').show();
+  if (subreddits == 'frontpage') { 
     $($.get('http://reddit.com/.json', function(listing) {
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
     }));
-  } else if (typeof subreddits == 'string') {
-    $('#loading').show();
+  } else { 
     $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
     }));
-  } else {
-    console.error('subreddit posts not supported yet.');
   }
 }
 

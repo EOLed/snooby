@@ -30,7 +30,10 @@
                 subredditScreenReady(element, params);
             }
           });
-          bb.pushScreen('subreddit.html', 'subreddit');
+
+          bb.pushScreen('subreddit.html', 
+                        'subreddit', 
+                        {subreddit: 'frontpage'});
         });
       }
       window.addEventListener('load', function(e) {
