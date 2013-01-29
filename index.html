@@ -20,7 +20,9 @@
         subreddits(null, function() {
           bb.init({ 
             ondomready: function(element, id, params) {
-              if (id == 'comments')
+              if (id == 'subreddit') {
+                subredditDomReady(element, params);
+              } else if (id == 'comments')
                 commentsScreenReady(element, params);
             }, 
             onscreenready: function(element, id, params) {

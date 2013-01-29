@@ -33,16 +33,5 @@
 </div>
 
 <script type="text/javascript">
-  $(function() {
-    var subredditDefined = (typeof params !== "undefined" && typeof params.subreddit !== "undefined");
-    var subreddit =  subredditDefined ? params.subreddit : false;
-    listing(subreddit, function(post) {
-      $('#loading').hide();
-      $('#listing').show();
-      bbifyPost(post, function(bbPost) {
-        $(bbPost).appendTo('#listing');
-      });
-    });
-  });
 </script>
 
