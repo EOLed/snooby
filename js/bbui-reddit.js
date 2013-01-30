@@ -16,6 +16,17 @@ function bbifyPost(link, callback) {
   callback(div);
 }
 
+function bbifyComment(comment, callback) {
+  var commentTemplate = $('#commentTemplate').html();
+  var html = Mustache.to_html(commentTemplate,
+                              { body: SnuOwnd.getParser().render(comment.data.body),
+                                author: comment.data.author,
+                                score: comment.data.ups - comment.data.downs });
+  var div = $('<div/>');
+  div.html(html);
+  callback(div);
+}
+
 function createSubredditTabOption(subreddit, callback) {
   var tab = document.createElement('div');
   tab.setAttribute('data-bb-type', 'action');

@@ -19,6 +19,17 @@ function listing(subreddits, callback) {
   }
 }
 
+function comments(permalink, callback) {
+  $($.get('http://reddit.com' + permalink + '.json', function(comments) {
+    comments.shift();
+    $.each(comments, function(index, comment) {
+      $.each(comment.data.children, function(commentIndex, value) {
+        callback(value);
+      });
+    });
+  }));
+}
+
 function subreddits(callback, done) {
   var cachedSubreddits = JSON.parse(localStorage.getItem('subreddits'));
   if (cachedSubreddits === null) {

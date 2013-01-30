@@ -1,4 +1,5 @@
 <div data-bb-type="screen" data-bb-indicator="true">
+  <script type="text/javascript" src="js/snuownd.js"></script>
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader"></div>
   <div id="comments"></div>
@@ -7,6 +8,14 @@
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png">Upvote</div>
   </div>
 </div>
+
+<script type="text/javascript">
+  comments(params.link.data.permalink, function(comment) {
+    bbifyComment(comment, function(bbComment) {
+      $(bbComment).appendTo('#comments');
+    });
+  });
+</script>
 
 <script id="linkHeaderTemplate" type="text/template">
   <div class="container">
@@ -17,6 +26,16 @@
     </div>
     <div class="row link-details">
       <div class="span12">{{domain}} • {{numComments}} comments</div>
+    </div>
+  </div>
+</script>
+
+<script id="commentTemplate" type="text/template">
+  <div class="container">
+    <div class="row comment">
+      <div class="span12">
+        {{author}} [{{score}}]: {{{body}}}
+      </div>
     </div>
   </div>
 </script>

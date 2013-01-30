@@ -60,3 +60,11 @@ div#listing .details-section {
   width: 200px;
   margin-top: 80px;
 }
+
+#comments {
+  font-size: .75em;
+}
+
+#comments .comment {
+  margin-bottom: .5em;
+}
