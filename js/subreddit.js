@@ -1,6 +1,5 @@
 function subredditScreenReady(element, params) {
   var visited = typeof window.subredditState !== 'undefined';
-  alert('been here: ' + visited);
 
   if (!visited) {
     window.subredditState = {};
@@ -18,17 +17,16 @@ function subredditScreenReady(element, params) {
 
 function subredditDomReady(element, params) {
   if (window.subredditState.domReady) {
-    alert('domready is ready');
     $('#loading').hide();
+    console.log('loading subreddit listings from memory');
     $.each(window.subredditState.listing.data.children, function(index, value) {
       bbifyPost(value, function(bbPost) {
         $(bbPost).appendTo('#listing');
       });
+      setTimeout(function() { scrollback(); }, 0);
     });
-    $('#listing').show();
-    $('#subreddit').children('div').eq(1).scrollTop(window.subredditState.scrollTop);
   } else {
-    alert('here we go again');
+    console.log('loading subreddit listings from reddit');
     window.subredditState.domReady = true;
     listing(params.subreddit, function(post) {
       $('#loading').hide();
@@ -42,4 +40,9 @@ function subredditDomReady(element, params) {
 
 function subredditUnload(element) {
   window.subredditState.scrollTop = $('#subreddit').children('div').eq(1).scrollTop();
+}
+
+function scrollback() {
+  $('#subreddit').children('div').eq(1).scrollTop(window.subredditState.scrollTop);
+  $('#listing').show();
 }
