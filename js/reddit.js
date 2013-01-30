@@ -2,12 +2,14 @@ function listing(subreddits, callback) {
   $('#loading').show();
   if (subreddits == 'frontpage') { 
     $($.get('http://reddit.com/.json', function(listing) {
+      window.subredditState.listing = listing;    
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
     }));
   } else { 
     $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
+      window.subredditState.listing = listing;    
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
