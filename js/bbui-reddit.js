@@ -22,6 +22,7 @@ function createSubredditTabOption(subreddit, callback) {
   tab.setAttribute('data-bb-style', 'tab');
   tab.setAttribute('data-bb-overflow', true);
   tab.setAttribute('data-bb-img', 'img/icons/ic_view_list.png');
+  tab.setAttribute('id', 'tab-' + subreddit.data.display_name);
   tab.innerHTML = subreddit.data.display_name;
   tab.setAttribute('onclick', 'switchSubreddit(\'' + subreddit.data.display_name +  '\');');
 

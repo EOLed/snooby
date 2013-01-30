@@ -19,15 +19,18 @@ function subredditDomReady(element, params) {
   if (window.subredditState.domReady) {
     $('#loading').hide();
     console.log('loading subreddit listings from memory');
+    document.getElementById('actionBar').setSelectedTab(document.getElementById('tab-' + window.subredditState.subreddit));
     $.each(window.subredditState.listing.data.children, function(index, value) {
       bbifyPost(value, function(bbPost) {
         $(bbPost).appendTo('#listing');
       });
       setTimeout(function() { scrollback(); }, 0);
     });
+
   } else {
     console.log('loading subreddit listings from reddit');
     window.subredditState.domReady = true;
+    document.getElementById('actionBar').setSelectedTab(document.getElementById('tab-' + params.subreddit));
     listing(params.subreddit, function(post) {
       $('#loading').hide();
       $('#listing').show();

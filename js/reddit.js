@@ -3,6 +3,7 @@ function listing(subreddits, callback) {
   if (subreddits == 'frontpage') { 
     $($.get('http://reddit.com/.json', function(listing) {
       window.subredditState.listing = listing;    
+      window.subredditState.subreddit = subreddits;
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
@@ -10,6 +11,7 @@ function listing(subreddits, callback) {
   } else { 
     $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
       window.subredditState.listing = listing;    
+      window.subredditState.subreddit = subreddits;
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
@@ -36,6 +38,8 @@ function subreddits(callback, done) {
 }
 
 function _processSubreddits(reddits, callback, done) {
+  var frontpage = { data: { display_name: 'frontpage' } };
+  reddits.unshift(frontpage);
   $.each(reddits, function(index, value) {
     if (typeof callback == 'function')
       callback(value);
