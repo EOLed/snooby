@@ -65,6 +65,10 @@ div#listing .details-section {
   font-size: .75em;
 }
 
+#comments ul, #comments ol {
+  margin-left: 38px;
+}
+
 #comments li {
   line-height: normal;
 }
@@ -74,21 +78,32 @@ div#listing .details-section {
 }
 
 #comments .comment .reply {
-  padding-left: .4em;
-  border-left: .1em solid #49aec0
+  padding-left: .5em;
+  border-left: .1em solid #9e25d4
 }
 
 #comments .comment .reply .reply {
-  padding-left: .6em;
-  border-left: .1em solid #fe5a27;
+  border-left: .1em solid #67ff52;
 }
 
 #comments .comment .reply .reply .reply {
-  padding-left: .8em;
-  border-left: .1em solid #b16848;
+  border-left: .1em solid #3fb3e6;
+}
+
+#comments .comment .reply .reply .reply .reply {
+  border-left: .1em solid #e6da22;
+}
+
+#comments .comment .reply .reply .reply .reply .reply {
+  border-left: .1em solid #ff7f9d;
+}
+
+#comments .comment .reply .reply .reply .reply .reply .reply {
+  border-left: .1em solid #444;
 }
 
 .comment-author {
   font-size: .8em;
   color: #999;
+  line-height: 1.6em;
 }
