@@ -65,6 +65,10 @@ div#listing .details-section {
   font-size: .75em;
 }
 
+#comments li {
+  line-height: normal;
+}
+
 #comments .comment {
   margin-bottom: .5em;
 }
