@@ -1288,7 +1288,10 @@
 		if (link.s.indexOf('mailto:')==0) {
 			escape_html(out, link.s.slice(7), false);
 		} else {
-			escape_html(out, link.s, false);
+      var a = document.createElement('a');
+      a.href = link.s;
+			escape_html(out, a.hostname, false);
+      out.s += ' <i class="icon-external-link"></i>';
 		}
 
 		out.s += '</a>';

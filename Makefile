@@ -10,6 +10,8 @@ build:
 	@echo "Building Alien Black..."
 	@echo "${HR}\n"
 	@echo "Setting up build environment...             ${CHECK} Done"
+	@rm js/snuownd.js
+	@cp ~/repos/snuownd/snuownd.js js/snuownd.js
 	@jshint js/bbui-reddit.js
 	@jshint js/reddit.js
 	@jshint js/comments.js

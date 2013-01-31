@@ -2,7 +2,9 @@
   <script type="text/javascript" src="js/snuownd.js"></script>
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader"></div>
-  <div id="comments"></div>
+  <div class="container">
+    <div id="comments"></div>
+  </div>
   <div data-bb-type="action-bar" data-bb-back-caption="Back">
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png">Downvote</div>
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png">Upvote</div>
@@ -31,11 +33,14 @@
 </script>
 
 <script id="commentTemplate" type="text/template">
-  <div class="container">
-    <div class="row comment">
-      <div class="span12">
-        {{author}} [{{score}}]: {{{body}}}
-      </div>
+  <div class="row comment-author">
+    <div class="span">
+      {{author}} • [{{score}}] • {{time}}
+    </div>
+  </div>
+  <div class="row comment-body">
+    <div class="span">
+      {{{body}}}
     </div>
   </div>
 </script>

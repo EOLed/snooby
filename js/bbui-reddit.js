@@ -17,15 +17,90 @@ function bbifyPost(link, callback) {
 }
 
 function bbifyComment(comment, callback) {
+  if (typeof comment.data.body === 'undefined')
+    return;
+
+  // var div = $('<div/>');
+  // div.attr('id', comment.data.name);
+  // div.addClass('comment');
+  // var commentTemplate = $('#commentTemplate').html();
+  // var html = Mustache.to_html(commentTemplate,
+  //                             { body: SnuOwnd.getParser().render(comment.data.body),
+  //                               author: comment.data.author,
+  //                               score: comment.data.ups - comment.data.downs, 
+  //                               time: moment.unix(comment.data.created_utc * 1000).fromNow() });
+
+  // div.html(html);
+
+  var div = createCommentDiv(comment, 'comment');
+
+  console.log('creating div: ' + comment.data.name);
+
+  callback(div);
+
+  appendReplies(comment);
+}
+
+function createCommentDiv(comment, className) {
+  var div = $('<div/>');
+  div.attr('id', comment.data.name);
+  div.addClass(className);
   var commentTemplate = $('#commentTemplate').html();
   var html = Mustache.to_html(commentTemplate,
                               { body: SnuOwnd.getParser().render(comment.data.body),
                                 author: comment.data.author,
-                                score: comment.data.ups - comment.data.downs });
-  var div = $('<div/>');
+                                score: comment.data.ups - comment.data.downs,
+                                time: moment.unix(comment.data.created_utc).fromNow() });
+
   div.html(html);
-  callback(div);
+  return div;
 }
+
+function appendReplies(comment) {
+  var hasReplies = typeof comment.data.replies.data !== 'undefined';
+
+  if (hasReplies) {
+    $.each(comment.data.replies.data.children, function(key, value) {
+      if (typeof value.data.body === 'undefined')
+        return;
+
+      var div = createCommentDiv(value, 'reply');
+
+      if (value.data.parent_id !== '') {
+        div.appendTo('#' + value.data.parent_id);
+        console.log('appending to div: ' + value.data.parent_id);
+      }
+
+      appendReplies(value);
+    });
+  }
+}
+
+// function createCommentDiv(comment, parentDiv) {
+//   var div = $('<div/>');
+//   var commentTemplate = $('#commentTemplate').html();
+//   var html = Mustache.to_html(commentTemplate,
+//                               { body: SnuOwnd.getParser().render(comment.data.body),
+//                                 author: comment.data.author,
+//                                 score: comment.data.ups - comment.data.downs });
+// 
+//   div.html(html);
+// 
+//   var hasReplies = typeof comment.data.replies.data !== 'undefined';
+// 
+//   if (hasReplies) {
+//     $.each(comment.data.replies.data.children, function(key, value) {
+//       if (typeof value.data.body === 'undefined')
+//         return;
+// 
+//       createCommentDiv(value, div);
+//       if (typeof parentDiv !== 'undefined')
+//         parentDiv.append(div.html());
+//     });
+//   }
+// 
+//   return div;
+// }
 
 function createSubredditTabOption(subreddit, callback) {
   var tab = document.createElement('div');

@@ -68,3 +68,19 @@ div#listing .details-section {
 #comments .comment {
   margin-bottom: .5em;
 }
+
+#comments .comment .reply {
+  padding-left: .4em;
+  border-left: .1em solid #49aec0
+}
+
+#comments .comment .reply .reply {
+  padding-left: .6em;
+  border-left: .1em solid #fe5a27;
+}
+
+#comments .comment .reply .reply .reply {
+  padding-left: .8em;
+  border-left: .1em solid #b16848;
+}
+
