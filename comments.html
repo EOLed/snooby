@@ -3,6 +3,7 @@
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader"></div>
   <div class="container">
+    <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
     <div id="comments"></div>
   </div>
   <div data-bb-type="action-bar" data-bb-back-caption="Back">
@@ -14,6 +15,8 @@
 <script type="text/javascript">
   comments(params.link.data.permalink, function(comment) {
     bbifyComment(comment, function(bbComment) {
+      $('#loading').hide();
+      $('#comments').show();
       $(bbComment).appendTo('#comments');
     });
   });
