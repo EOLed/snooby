@@ -9,3 +9,14 @@ function commentsScreenReady(element, params) {
   $('#linkHeader').append(header);
 }
 
+function toggleComment(div) {
+  var icon = $(div).children().children('i')[0];
+  if (icon.className === 'icon-angle-right') {
+    icon.className = 'icon-angle-down';
+    $(div).next().hide();
+  } else {
+    icon.className = 'icon-angle-right';
+    $(div).next().show();
+  }
+}
+

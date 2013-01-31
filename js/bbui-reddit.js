@@ -20,18 +20,6 @@ function bbifyComment(comment, callback) {
   if (typeof comment.data.body === 'undefined')
     return;
 
-  // var div = $('<div/>');
-  // div.attr('id', comment.data.name);
-  // div.addClass('comment');
-  // var commentTemplate = $('#commentTemplate').html();
-  // var html = Mustache.to_html(commentTemplate,
-  //                             { body: SnuOwnd.getParser().render(comment.data.body),
-  //                               author: comment.data.author,
-  //                               score: comment.data.ups - comment.data.downs, 
-  //                               time: moment.unix(comment.data.created_utc * 1000).fromNow() });
-
-  // div.html(html);
-
   var div = createCommentDiv(comment, 'comment');
 
   console.log('creating div: ' + comment.data.name);
@@ -46,13 +34,18 @@ function createCommentDiv(comment, className) {
   div.attr('id', comment.data.name);
   div.addClass(className);
   var commentTemplate = $('#commentTemplate').html();
+  var score = comment.data.ups - comment.data.downs;
+
   var html = Mustache.to_html(commentTemplate,
                               { body: SnuOwnd.getParser().render(comment.data.body),
                                 author: comment.data.author,
-                                score: comment.data.ups - comment.data.downs,
+                                score: (score > 0 ? "+" : "") + score,
                                 time: moment.unix(comment.data.created_utc).fromNow() });
 
   div.html(html);
+  if (score < -4)
+    toggleComment(div.children()[0]);
+
   return div;
 }
 

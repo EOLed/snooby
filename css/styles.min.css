@@ -84,3 +84,7 @@ div#listing .details-section {
   border-left: .1em solid #b16848;
 }
 
+.comment-author {
+  font-size: .8em;
+  color: #999;
+}

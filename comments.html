@@ -33,12 +33,12 @@
 </script>
 
 <script id="commentTemplate" type="text/template">
-  <div class="row comment-author">
+  <div class="row comment-author" onclick="toggleComment(this)">
     <div class="span">
-      {{author}} • [{{score}}] • {{time}}
+      <i class='icon-angle-right'></i> {{author}} • {{score}} • {{time}}
     </div>
   </div>
-  <div class="row comment-body">
+  <div class="row comment-body" style="display: block;">
     <div class="span">
       {{{body}}}
     </div>
