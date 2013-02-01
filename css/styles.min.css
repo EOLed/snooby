@@ -37,7 +37,7 @@ div#listing .details-section {
   text-align: center;
 }
 
-.link-section .link-title a, .link-section .link-title a:visited {
+.link-title a, .link-title a:visited {
   color: #333;
 }
 

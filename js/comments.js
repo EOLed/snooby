@@ -1,7 +1,10 @@
 function commentsScreenReady(element, params) {
+  var domain = params.link.data.domain;
+  var selfPost = domain === 'self.' + params.link.data.subreddit;
   var headerTemplate = $('#linkHeaderTemplate').html();
   var html = Mustache.to_html(headerTemplate,
-                              { title: params.link.data.title,
+                              { title: selfPost ? params.link.data.title : 
+                                                  '<a href="' + params.link.data.url + '">' + params.link.data.title + '</a>',
                                 domain: params.link.data.domain,
                                 numComments: params.link.data.num_comments });
   var header = $('<div/>');
