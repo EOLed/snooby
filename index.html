@@ -18,6 +18,22 @@
     <script type="text/javascript">
       function ready() {
         alert('blocking dialog to start web inspector');
+        moment.relativeTime = {
+          future: '%s',
+          past: '%s',
+          s: '%ds',
+          ss: '%ds',
+          m: '%dm',
+          mm: '%dm',
+          h: '%dh',
+          hh: '%dh',
+          d: '%dd',
+          dd: '%dd',
+          M: '%dm',
+          MM: '%dm',
+          y: '%dy',
+          yy: '%dy'
+        };
         subreddits(null, function() {
           bb.init({ 
             ondomready: function(element, id, params) {

@@ -1,13 +1,34 @@
 function bbifyPost(link, callback) {
   var linkTemplate = $('#linkTemplate').html();
-  var selfPost = link.data.domain === 'self.' + link.data.subreddit;
+  var domain = link.data.domain;
+  var selfPost = domain === 'self.' + link.data.subreddit;
+  if (!selfPost) {
+    var len = domain.length;
+    if (len > 20) {
+      domain = domain.substring(0, domain.lastIndexOf('.'));
+      var lastIndex = domain.lastIndexOf('.');
+      if (lastIndex != -1)
+        domain = domain.substring(lastIndex + 1);
+    } else if (len > 10) {
+      domain = domain.substring(0, domain.lastIndexOf('.'));
+    }
+  }
+
+  var hasThumbnail = link.data.thumbnail !== '' && 
+                     link.data.thumbnail !== 'nsfw' && 
+                     link.data.thumbnail !== 'self';
+  var linkDescription = Mustache.to_html(hasThumbnail ? $('#titleWithThumbnail').html() : $('#titleWithoutThumbnail').html(),
+                                         { title: selfPost ? link.data.title : 
+                                                             '<a href="' + link.data.url + '">' + link.data.title + '</a>',
+                                           numComments: link.data.num_comments,
+                                           thumbnail: link.data.thumbnail });
+
   var html = Mustache.to_html(linkTemplate, 
-                              { title: selfPost ? link.data.title : 
-                                                  '<a href="' + link.data.url + '">' + link.data.title + '</a>',
-                                numComments: link.data.num_comments,
+                              { linkDescription: linkDescription,
                                 subreddit: link.data.subreddit,
                                 score: link.data.score,
-                                domain: link.data.domain,
+                                domain: domain,
+                                time: moment.unix(link.data.created_utc).fromNow(),
                                 author: link.data.author });
   var div = $('<div/>');
   div.html(html);

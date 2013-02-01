@@ -3,6 +3,10 @@ body {
   line-height: normal;
 }
 
+a {
+  outline: 0;
+}
+
 div#listing .link-section {
   font-size: .75em;
   padding: 20px 0;
@@ -23,7 +27,11 @@ div#listing .details-section {
   color: #c60;
 }
 
-.link-section .link-title a {
+.details-section .time {
+  text-align: center;
+}
+
+.link-section .link-title a, .link-section .link-title a:visited {
   color: #333;
 }
 
@@ -110,4 +118,8 @@ div#listing .details-section {
   font-size: .8em;
   color: #999;
   line-height: 1.6em;
+}
+
+img.thumb {
+  width: 100%
 }
