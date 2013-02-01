@@ -27,6 +27,12 @@ div#listing .details-section {
   color: #c60;
 }
 
+.details-section .meta, .details-section .time {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .details-section .time {
   text-align: center;
 }
