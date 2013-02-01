@@ -9,7 +9,16 @@ function commentsScreenReady(element, params) {
                                 numComments: params.link.data.num_comments });
   var header = $('<div/>');
   header.html(html);
+
+  html = Mustache.to_html($('#linkHeaderDetailsTemplate').html(),
+                          { author: params.link.data.author,
+                            score: params.link.data.score,
+                            time: moment.unix(params.link.data.created_utc).fromNow() });
+  var details = $('<div/>');
+  details.html(html);
+
   $('#linkHeader').append(header);
+  $('#linkDetails').append(details);
 }
 
 function toggleComment(div) {

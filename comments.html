@@ -2,6 +2,7 @@
   <script type="text/javascript" src="js/snuownd.js"></script>
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader"></div>
+  <div id="linkDetails"></div>
   <div class="container">
     <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
     <div id="comments"></div>
@@ -31,6 +32,16 @@
     </div>
     <div class="row link-details">
       <div class="span12">{{domain}} • {{numComments}} comments</div>
+    </div>
+  </div>
+</script>
+
+<script id="linkHeaderDetailsTemplate" type="text/template">
+  <div class="container">
+    <div class="row">
+      <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
+      <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
+      <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
     </div>
   </div>
 </script>

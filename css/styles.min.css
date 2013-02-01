@@ -28,9 +28,10 @@ div#listing .details-section {
 }
 
 .details-section .meta, .details-section .time {
-  text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  text-overflow: -blackberry-fade;
 }
 
 .details-section .time {
@@ -56,7 +57,7 @@ div#listing .details-section {
 
 #linkHeader {
   background-color: #eee;
-  padding-bottom: 50px;
+  padding-bottom: .8em;
 }
 
 #linkHeader .link-title {
@@ -69,6 +70,34 @@ div#listing .details-section {
   color: #c60;
   font-size: .65em;
   margin-top: 5px;
+}
+
+#linkDetails {
+  background-color: #444;
+  padding-bottom: .25em;
+  margin-bottom: .25em;
+}
+
+#linkDetails i {
+ margin-right: .3em;
+}
+
+#linkDetails .author, #linkDetails .score, #linkDetails .time {
+  color: #eee;
+  font-size: .75em;
+  margin-top: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-overflow: -blackberry-fade;
+}
+
+#linkDetails .score {
+  text-align: center;
+}
+
+#linkDetails .time {
+  text-align: right;
 }
 
 #loading {
