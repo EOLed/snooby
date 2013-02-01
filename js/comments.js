@@ -16,10 +16,10 @@ function toggleComment(div) {
   var icon = $(div).children().children('i')[0];
   if (icon.className === 'icon-angle-right') {
     icon.className = 'icon-angle-down';
-    $(div).next().hide();
+    $(div).next().show();
   } else {
     icon.className = 'icon-angle-right';
-    $(div).next().show();
+    $(div).next().hide();
   }
 }
 
