@@ -23,6 +23,10 @@ div#listing .details-section {
   color: #c60;
 }
 
+.link-section .link-title a {
+  color: #333;
+}
+
 .link-section .comments {
   text-align: center;
 }

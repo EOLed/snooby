@@ -1,7 +1,9 @@
 function bbifyPost(link, callback) {
   var linkTemplate = $('#linkTemplate').html();
+  var selfPost = link.data.domain === 'self.' + link.data.subreddit;
   var html = Mustache.to_html(linkTemplate, 
-                              { title: link.data.title,
+                              { title: selfPost ? link.data.title : 
+                                                  '<a href="' + link.data.url + '">' + link.data.title + '</a>',
                                 numComments: link.data.num_comments,
                                 subreddit: link.data.subreddit,
                                 score: link.data.score,
@@ -9,8 +11,16 @@ function bbifyPost(link, callback) {
                                 author: link.data.author });
   var div = $('<div/>');
   div.html(html);
-  div.click(function() {
+  $('.comments', div).click(function() {
     bb.pushScreen('comments.html', 'comments', { link: link });
+  });
+
+  $('.link-title', div).click(function() {
+    // self-post goes straight to comments
+    if (selfPost) {
+      bb.pushScreen('comments.html', 'comments', { link: link });
+    } else {
+    }
   });
 
   callback(div);
