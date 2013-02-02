@@ -169,6 +169,10 @@ img.thumb {
   margin: 0 .6em;
 }
 
+#supportSnooby {
+  display: none;
+}
+
 #supportSnooby a, #supportSnooby a:visited {
   color: #444;
   text-decoration: none;
