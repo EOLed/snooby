@@ -16,7 +16,8 @@ function bbifyPost(link, callback) {
 
   var hasThumbnail = link.data.thumbnail !== '' && 
                      link.data.thumbnail !== 'nsfw' && 
-                     link.data.thumbnail !== 'self';
+                     link.data.thumbnail !== 'self' &&
+                     link.data.thumbnail !== 'default';
   var linkDescription = Mustache.to_html(hasThumbnail ? $('#titleWithThumbnail').html() : $('#titleWithoutThumbnail').html(),
                                          { title: selfPost ? link.data.title : 
                                                              '<a href="' + link.data.url + '">' + link.data.title + '</a>',
