@@ -1,4 +1,9 @@
 <div id="subreddit" data-bb-type="screen">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
   <script type="text/javascript" src="js/subreddit.js" onunload="subredditUnload(this)"></script>
   <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
   <div id="ads">
@@ -16,7 +21,7 @@
   </div>
   <div id="listing" style="display: none;"></div>
   <div id="actionBar" data-bb-type="action-bar">
-    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_settings.png">Settings</div>
+    <div data-bb-type="action" onclick="bb.pushScreen('settings.html', 'settings');" data-bb-style="button" data-bb-img="img/icons/ic_settings.png">Settings</div>
     <!-- <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_search.png">Search</div> -->
   </div>
   <script id="linkTemplate" type="text/template">

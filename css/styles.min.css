@@ -158,3 +158,18 @@ div#listing .details-section {
 img.thumb {
   width: 100%
 }
+
+#settings .separator {
+  text-align: center;
+  margin: 1em 0;
+  color: #ccc;
+}
+
+#settings .separator i {
+  margin: 0 .6em;
+}
+
+#supportSnooby a, #supportSnooby a:visited {
+  color: #444;
+  text-decoration: none;
+}
