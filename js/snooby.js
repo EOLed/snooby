@@ -3,5 +3,9 @@ var snooby = {
     $.post('https://ssl.reddit.com/api/login', 
            { user: username, passwd: password, rem: true, api_type: 'json' },
            onsuccess);
-  }
+  },
+
+  logout: function(password, destination, modhash, onsuccess) {
+    $.post('https://ssl.reddit.com/logout', { uh: modhash, top: 'off' }, onsuccess);
+  },
 };
