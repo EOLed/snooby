@@ -2,21 +2,33 @@
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
+  <script type="text/javascript" src="js/settings.js"></script>
   <div data-bb-type="title" data-bb-caption="Settings" data-bb-back-caption="Close"></div>
-  <div data-bb-type="round-panel">
+  <div id="loginPanel" data-bb-type="round-panel" style="display: none">
     <div data-bb-type="panel-header">Reddit Account</div>
     <div data-bb-type="label-control-container">
       <div data-bb-type="row">
         <div data-bb-type="label"><i class="icon-user"></i> Username</div>
-        <input type="text" />
+        <input id="username" type="text" />
       </div>
       <div data-bb-type="row">
         <div data-bb-type="label"><i class="icon-key"></i> Password</div>
-        <input type="password" />
+        <input id="password" type="password" />
       </div>
     </div>
     <div data-bb-type="label-control-horizontal-row">
-      <div data-bb-type="button"><i class="icon-signin"> Login</i></div>
+      <div id="loginButton" data-bb-type="button" onclick="_settings.doLogin()">
+        <i class="icon-signin"> Login</i>
+      </div>
+    </div>
+  </div>
+  <div id="accountPanel" data-bb-type="round-panel" style="display: none">
+    <div data-bb-type="panel-header">Reddit Account</div>
+    <div id="currentLogin"></div>
+    <div data-bb-type="label-control-horizontal-row">
+      <div id="loginButton" data-bb-type="button" onclick="_settings.doLogout()">
+        <i class="icon-signout"> Log Out</i>
+      </div>
     </div>
   </div>
   <div class="separator">
@@ -34,7 +46,11 @@
       <div data-bb-type="button"><i class="icon-coffee"> Buy me a coffee</i></div>
     </div>
   </div>
+  <script id="loggedUserTemplate" type="text/template">
+    <p>
+      You are currently logged in as <strong>{{username}}</strong>.
+    </p>
+  </script>
 </div>
 <script type="text/javascript">
-  $('input').removeAttr('style');
 </script>

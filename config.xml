@@ -17,6 +17,10 @@
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
   </access>
+  <access uri="https://reddit.com" subdomains="true">
+    <feature id="blackberry.app" required="true" version="1.0.0.0"/>
+    <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
+  </access>
   <access uri="http://reddit.com" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
