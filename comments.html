@@ -19,8 +19,8 @@
 </div>
 
 <script type="text/javascript">
-  comments(params.link.data.permalink, function(comment) {
-    bbifyComment(comment, function(bbComment) {
+  comments(params.link.data.permalink, params.link.data.author, function(comment) {
+    bbifyComment(comment, params.link.data.author, function(bbComment) {
       $('#loading').hide();
       $('#comments').show();
       $(bbComment).appendTo('#comments');
@@ -52,9 +52,9 @@
 </script>
 
 <script id="commentTemplate" type="text/template">
-  <div class="row comment-author" onclick="toggleComment(this)">
+  <div class="row comment-author-section" onclick="toggleComment(this)">
     <div class="span">
-      <i class='icon-angle-down'></i> {{author}} • {{score}} • {{time}}
+      <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
     </div>
   </div>
   <div class="row comment-body" style="display: block;">

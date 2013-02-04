@@ -19,13 +19,13 @@ function listing(subreddits, callback) {
   }
 }
 
-function comments(permalink, callback) {
+function comments(permalink, op, callback) {
   $('#loading').show();
   $($.get('http://reddit.com' + permalink + '.json', function(comments) {
     comments.shift();
     $.each(comments, function(index, comment) {
       $.each(comment.data.children, function(commentIndex, value) {
-        callback(value);
+        callback(value, op);
       });
     });
   }));

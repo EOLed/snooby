@@ -48,29 +48,34 @@ function bbifyPost(link, callback) {
   callback(div);
 }
 
-function bbifyComment(comment, callback) {
+function bbifyComment(comment, op, callback) {
   if (typeof comment.data.body === 'undefined')
     return;
 
-  var div = createCommentDiv(comment, 'comment');
+  var div = createCommentDiv(comment, op, 'comment');
 
   console.log('creating div: ' + comment.data.name);
 
   callback(div);
 
-  appendReplies(comment);
+  appendReplies(comment, op);
 }
 
-function createCommentDiv(comment, className) {
+function createCommentDiv(comment, op, className) {
   var div = $('<div/>');
   div.attr('id', comment.data.name);
   div.addClass(className);
+
+  var author = comment.data.author;
+  if (comment.data.author == op)
+    author = '<span class="op">' + author + '</span>';
+
   var commentTemplate = $('#commentTemplate').html();
   var score = comment.data.ups - comment.data.downs;
 
   var html = Mustache.to_html(commentTemplate,
                               { body: SnuOwnd.getParser().render(comment.data.body),
-                                author: comment.data.author,
+                                author: author,
                                 score: (score > 0 ? "+" : "") + score,
                                 time: moment.unix(comment.data.created_utc).fromNow() });
 
@@ -81,7 +86,7 @@ function createCommentDiv(comment, className) {
   return div;
 }
 
-function appendReplies(comment) {
+function appendReplies(comment, op) {
   var hasReplies = typeof comment.data.replies.data !== 'undefined';
 
   if (hasReplies) {
@@ -89,43 +94,17 @@ function appendReplies(comment) {
       if (typeof value.data.body === 'undefined')
         return;
 
-      var div = createCommentDiv(value, 'reply');
+      var div = createCommentDiv(value, op, 'reply');
 
       if (value.data.parent_id !== '') {
         div.appendTo('#' + value.data.parent_id);
         console.log('appending to div: ' + value.data.parent_id);
       }
 
-      appendReplies(value);
+      appendReplies(value, op);
     });
   }
 }
-
-// function createCommentDiv(comment, parentDiv) {
-//   var div = $('<div/>');
-//   var commentTemplate = $('#commentTemplate').html();
-//   var html = Mustache.to_html(commentTemplate,
-//                               { body: SnuOwnd.getParser().render(comment.data.body),
-//                                 author: comment.data.author,
-//                                 score: comment.data.ups - comment.data.downs });
-// 
-//   div.html(html);
-// 
-//   var hasReplies = typeof comment.data.replies.data !== 'undefined';
-// 
-//   if (hasReplies) {
-//     $.each(comment.data.replies.data.children, function(key, value) {
-//       if (typeof value.data.body === 'undefined')
-//         return;
-// 
-//       createCommentDiv(value, div);
-//       if (typeof parentDiv !== 'undefined')
-//         parentDiv.append(div.html());
-//     });
-//   }
-// 
-//   return div;
-// }
 
 function createSubredditTabOption(subreddit, callback) {
   var tab = document.createElement('div');

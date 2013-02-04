@@ -149,10 +149,14 @@ div#listing .details-section {
   border-left: .1em solid #444;
 }
 
-.comment-author {
+.comment-author-section {
   font-size: .8em;
   color: #999;
   line-height: 1.6em;
+}
+
+.comment-author-section .op {
+  color: #4c0289; 
 }
 
 img.thumb {
