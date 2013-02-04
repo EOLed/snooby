@@ -19,6 +19,7 @@ function commentsScreenReady(element, params) {
 
   $('#linkHeader').append(header);
   $('#linkDetails').append(details);
+  $('#loading').show();
 }
 
 function toggleComment(div) {

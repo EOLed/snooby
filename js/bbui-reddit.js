@@ -54,8 +54,6 @@ function bbifyComment(comment, op, callback) {
 
   var div = createCommentDiv(comment, op, 'comment');
 
-  console.log('creating div: ' + comment.data.name);
-
   callback(div);
 
   appendReplies(comment, op);
@@ -98,7 +96,6 @@ function appendReplies(comment, op) {
 
       if (value.data.parent_id !== '') {
         div.appendTo('#' + value.data.parent_id);
-        console.log('appending to div: ' + value.data.parent_id);
       }
 
       appendReplies(value, op);
