@@ -12,6 +12,10 @@ div#listing .link-section {
   padding: 20px 0;
 }
 
+a {
+  -webkit-tap-highlight-color: #fff;
+}
+
 div#listing .details-section {
   font-size: .65em;
   padding: 10px 0;
