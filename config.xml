@@ -12,7 +12,6 @@
   <icon src="img/icons/app-114.png" />
   <rim:splash src="img/splash.png" />
   <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>
-  <feature id="blackberry.invoke.BrowserArguments" required="true" version="1.0.0.0"/>
   <feature id="blackberry.identity" required="true" version="1.0.0.0"/>
   <access uri="http://redditmedia.com" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>

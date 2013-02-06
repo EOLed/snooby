@@ -7,5 +7,5 @@ var snooby = {
 
   logout: function(modhash, onsuccess) {
     $.post('https://ssl.reddit.com/logout', { uh: modhash, top: 'off' }, onsuccess);
-  },
+  }
 };

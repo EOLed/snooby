@@ -7,20 +7,33 @@ CHECK=\033[32m✔\033[39m
 
 build:
 	@echo "\n${HR}"
-	@echo "Building Alien Black..."
+	@echo "Building Snooby..."
 	@echo "${HR}\n"
-	@echo "Setting up build environment...             ${CHECK} Done"
-	@rm js/snuownd.js
-	@cp ~/repos/snuownd/snuownd.js js/snuownd.js
 	@jshint js/bbui-reddit.js
 	@jshint js/reddit.js
 	@jshint js/comments.js
+	@jshint js/settings.js
+	@jshint js/subreddit.js
+	@jshint js/snooby.js
 	@echo "Running JSHint on javascript...             ${CHECK} Done"
+	@echo "Setting up build environment...             ${CHECK} Done"
+	@mkdir -p ${TMP}
+	@cp *.html ${TMP}
+	@cp config.xml ${TMP}
+	@cp -R js ${TMP}
+	@cp submodules/snuownd/snuownd.js ${TMP}/js
+	@mkdir -p ${TMP}/img/icons
+	@cp img/icons/ic_{up,down,view_list,rotate,settings,search}.png ${TMP}/img/icons
+	@cp img/icons/app-114.png ${TMP}/img/icons
+	@cp img/splash.png ${TMP}/img
+	@cp -R font ${TMP}
+	@cp -R css ${TMP}
 	@echo "Cleaning up build environment...            ${CHECK} Done"
 	@rm -Rf /tmp/snooby.zip
-	@zip -r /tmp/snooby.zip . -x .*
+	@cd ${TMP}; zip -r /tmp/snooby.zip . -x .*
 	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/bbwp /tmp/snooby.zip -d -o /tmp/output
 	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/dependencies/tools/bin/blackberry-deploy -installApp -device 172.16.29.128 -package /tmp/output/simulator/snooby.bar 
+	@rm -Rf ${TMP}
 	@echo "\n${HR}"
-	@echo "Alien Black successfully built at ${DATE}."
+	@echo "Snooby successfully built at ${DATE}."
 	@echo "${HR}\n"
