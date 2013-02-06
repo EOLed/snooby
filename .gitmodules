@@ -1,0 +1,3 @@
+[submodule "submodules/snuownd"]
+	path = submodules/snuownd
+	url = git@github.com:achan/snuownd.git
