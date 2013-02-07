@@ -10,7 +10,6 @@ build:
 	@echo "Building Snooby..."
 	@echo "${HR}\n"
 	@jshint js/bbui-reddit.js
-	@jshint js/reddit.js
 	@jshint js/comments.js
 	@jshint js/settings.js
 	@jshint js/subreddit.js
