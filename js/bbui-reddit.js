@@ -18,9 +18,13 @@ function bbifyPost(link, callback) {
                      link.data.thumbnail !== 'nsfw' && 
                      link.data.thumbnail !== 'self' &&
                      link.data.thumbnail !== 'default';
+
+  var linkTitle = selfPost ? link.data.title : '<a href="' + link.data.url + '">' + link.data.title + '</a>';
+  if (link.data.over_18) 
+    linkTitle += ' <span class="label label-important nsfw">nsfw</span>';
+
   var linkDescription = Mustache.to_html(hasThumbnail ? $('#titleWithThumbnail').html() : $('#titleWithoutThumbnail').html(),
-                                         { title: selfPost ? link.data.title : 
-                                                             '<a href="' + link.data.url + '">' + link.data.title + '</a>',
+                                         { title: linkTitle,
                                            numComments: link.data.num_comments,
                                            thumbnail: link.data.thumbnail });
 

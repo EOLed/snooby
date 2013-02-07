@@ -46,6 +46,13 @@ div#listing .details-section {
   color: #333;
 }
 
+.link-title .nsfw {
+  font-size: .8em;
+  padding: .2em .4em .4em;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
 .link-section .comments {
   text-align: center;
 }
