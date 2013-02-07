@@ -35,7 +35,7 @@
               if (id == 'subreddit')
                 subredditDomReady(element, params);
               else if (id == 'comments')
-                commentsScreenReady(element, params);
+                _comments.onScreenReady(element, params);
             }, 
             onscreenready: function(element, id, params) {
               if (id === 'subreddit')
