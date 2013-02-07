@@ -11,7 +11,7 @@ var _settings = {
       localStorage.setItem('snooby.user', JSON.stringify(user));
       localStorage.removeItem('subreddits');
 
-      subreddits(null, function() {
+      snooby.subreddits(null, function() {
         var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
         $('#currentLogin').html(html);
         $('#loginPanel').hide();
@@ -31,7 +31,7 @@ var _settings = {
       window.subredditState.subreddit = 'frontpage';
       localStorage.removeItem('subreddits');
       localStorage.removeItem('snooby.user');
-      subreddits(null, function() {
+      snooby.subreddits(null, function() {
         $('#loginPanel').show();
         $('#accountPanel').hide();
         document.getElementById('logoutButton').setCaption('<i class="icon-signout"> Log Out</i>');

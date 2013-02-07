@@ -9,7 +9,7 @@ function subredditScreenReady(element, params) {
     window.subredditState.scrollTop = 0;
   }
 
-  subreddits(function(subreddit) {
+  snooby.subreddits(function(subreddit) {
     createSubredditTabOption(subreddit, function(subredditTab) {
       element.getElementById('actionBar').appendChild(subredditTab);
     });
@@ -31,7 +31,7 @@ function subredditDomReady(element, params) {
   } else {
     console.log('loading subreddit listings from reddit');
     window.subredditState.domReady = true;
-    listing(params.subreddit, function(post) {
+    snooby.listing(params.subreddit, function(post) {
       $('#loading').hide();
       $('#listing').show();
       bbifyPost(post, function(bbPost) {

@@ -10,7 +10,6 @@
     <script type="text/javascript" src="js/mustache.js"></script>
     <script type="text/javascript" src="js/moment.min.js"></script>
     <script type="text/javascript" src="js/bbui-reddit.js"></script>
-    <script type="text/javascript" src="js/reddit.js"></script>
     <script type="text/javascript" src="js/snooby.js"></script>
     <script type="text/javascript">
       function ready() {
@@ -30,7 +29,7 @@
           y: '%dy',
           yy: '%dy'
         };
-        subreddits(null, function() {
+        snooby.subreddits(null, function() {
           bb.init({ 
             ondomready: function(element, id, params) {
               if (id == 'subreddit')

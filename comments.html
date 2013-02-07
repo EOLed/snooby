@@ -19,7 +19,7 @@
 </div>
 
 <script type="text/javascript">
-  comments(params.link.data.permalink, params.link.data.author, function(comment) {
+  snooby.comments(params.link.data.permalink, params.link.data.author, function(comment) {
     bbifyComment(comment, params.link.data.author, function(bbComment) {
       $('#loading').hide();
       $('#comments').show();
