@@ -31,7 +31,7 @@ build:
 	@echo "Cleaning up build environment...            ${CHECK} Done"
 	@rm -Rf /tmp/snooby.zip
 	@cd ${TMP}; zip -r /tmp/snooby.zip . -x .*
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/bbwp /tmp/snooby.zip -d -o /tmp/output
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/bbwp /tmp/snooby.zip -g <password> --buildId <buildId> -d -o /tmp/output
 	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/dependencies/tools/bin/blackberry-deploy -installApp -device 172.16.29.128 -package /tmp/output/simulator/snooby.bar 
 	@rm -Rf ${TMP}
 	@echo "\n${HR}"
