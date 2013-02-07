@@ -10,7 +10,7 @@ function subredditScreenReady(element, params) {
   }
 
   snooby.subreddits(function(subreddit) {
-    createSubredditTabOption(subreddit, function(subredditTab) {
+    bbr.createSubredditTabOption(subreddit, function(subredditTab) {
       element.getElementById('actionBar').appendChild(subredditTab);
     });
   });
@@ -22,7 +22,7 @@ function subredditDomReady(element, params) {
     $('#loading').hide();
     console.log('loading subreddit listings from memory');
     $.each(window.subredditState.listing.data.children, function(index, value) {
-      bbifyPost(value, function(bbPost) {
+      bbr.formatPost(value, function(bbPost) {
         $(bbPost).appendTo('#listing');
       });
       setTimeout(function() { scrollback(); }, 0);
@@ -34,7 +34,7 @@ function subredditDomReady(element, params) {
     snooby.listing(params.subreddit, function(post) {
       $('#loading').hide();
       $('#listing').show();
-      bbifyPost(post, function(bbPost) {
+      bbr.formatPost(post, function(bbPost) {
         $(bbPost).appendTo('#listing');
       });
     });

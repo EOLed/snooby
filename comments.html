@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
   snooby.comments(params.link.data.permalink, params.link.data.author, function(comment) {
-    bbifyComment(comment, params.link.data.author, function(bbComment) {
+    bbr.formatComment(comment, params.link.data.author, function(bbComment) {
       $('#loading').hide();
       $('#comments').show();
       $(bbComment).appendTo('#comments');
@@ -52,7 +52,7 @@
 </script>
 
 <script id="commentTemplate" type="text/template">
-  <div class="row comment-author-section" onclick="toggleComment(this)">
+  <div class="row comment-author-section" onclick="bbr.toggleComment(this)">
     <div class="span">
       <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
     </div>
