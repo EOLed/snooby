@@ -51,6 +51,8 @@ div#listing .details-section {
   padding: .2em .4em .4em;
   font-weight: normal;
   text-transform: uppercase;
+  background-color: #b11e28;
+  margin-left: .2em;
 }
 
 .link-section .comments {
