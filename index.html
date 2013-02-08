@@ -33,13 +33,13 @@
           bb.init({ 
             ondomready: function(element, id, params) {
               if (id == 'subreddit')
-                subredditDomReady(element, params);
+                _subreddits.onDomReady(element, params);
               else if (id == 'comments')
                 _comments.onScreenReady(element, params);
             }, 
             onscreenready: function(element, id, params) {
               if (id === 'subreddit')
-                subredditScreenReady(element, params);
+                _subreddits.onScreenReady(element, params);
               else if (id === 'settings')
                 _settings.onScreenReady(element, params);
             }
