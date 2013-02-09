@@ -10,23 +10,22 @@ var snooby = {
   },
 
   listing: function(subreddits, callback) {
-    $('#loading').show();
     if (subreddits == 'frontpage') { 
-      $($.get('http://reddit.com/.json', function(listing) {
-        window.subredditState.listing = listing;    
-        window.subredditState.subreddit = subreddits;
+      $.get('http://reddit.com/.json', function(listing) {
+        _cache.setItem('subreddit.listing', listing);    
+        _cache.setItem('subreddit.selected', subreddits);
         $.each(listing.data.children, function(index, value) {
           callback(value);
         });
-      }));
+      });
     } else { 
-      $($.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
-        window.subredditState.listing = listing;    
-        window.subredditState.subreddit = subreddits;
+      $.get('http://reddit.com/r/' + subreddits + '.json', function(listing) {
+        _cache.setItem('subreddit.listing', listing);
+        _cache.setItem('subreddit.selected', subreddits);
         $.each(listing.data.children, function(index, value) {
           callback(value);
         });
-      }));
+      });
     }
   },
 

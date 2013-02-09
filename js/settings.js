@@ -5,9 +5,9 @@ var _settings = {
     var password = $('#password').val();
     snooby.login(username, password, function(data, status, xhr) {
       var user = { username: username, password: password, modhash: data.json.data.modhash };
-      window.subredditState.screenReady = false;
-      window.subredditState.domReady = false;
-      window.subredditState.subreddit = 'frontpage';
+      _cache.setItem('subreddit.screenReady', false);
+      _cache.setItem('subreddit.domReady', false);
+      _cache.setItem('subreddit.selected', 'frontpage');
       localStorage.setItem('snooby.user', JSON.stringify(user));
       localStorage.removeItem('subreddits');
 
@@ -26,9 +26,9 @@ var _settings = {
     document.getElementById('logoutButton').setCaption('Logging out... <i class="icon-spinner icon-spin"></i>');
     var user = JSON.parse(localStorage.getItem('snooby.user'));
     snooby.logout(user.modhash, function() {
-      window.subredditState.screenReady = false;
-      window.subredditState.domReady = false;
-      window.subredditState.subreddit = 'frontpage';
+      _cache.setItem('subreddit.screenReady', false);
+      _cache.setItem('subreddit.domReady', false);
+      _cache.setItem('subreddit.selected', 'frontpage');
       localStorage.removeItem('subreddits');
       localStorage.removeItem('snooby.user');
       snooby.subreddits(null, function() {

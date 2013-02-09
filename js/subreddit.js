@@ -1,13 +1,13 @@
 var _subreddits = {
   onScreenReady: function(element, params) {
-    var visited = typeof window.subredditState !== 'undefined' && window.subredditState !== null;
+    var visited = _cache.itemExists('subreddit.visited');
 
     if (!visited) {
-      window.subredditState = {};
-      window.subredditState.screenReady = true;
-      window.subredditState.domReady = false;
-      window.subredditState.subreddit = params.subreddit;
-      window.subredditState.scrollTop = 0;
+      _cache.setItem('subreddit.visited', true);
+      _cache.setItem('subreddit.screenReady', true);
+      _cache.setItem('subreddit.domReady', false);
+      _cache.setItem('subreddit.selected', params.subreddit);
+      _cache.setItem('subreddit.scrollTop', 0);
     }
 
     snooby.subreddits(function(subreddit) {
@@ -19,12 +19,13 @@ var _subreddits = {
 
   onDomReady: function(element, params) {
     document.getElementById('actionBar').setSelectedTab(document.getElementById('tab-' + params.subreddit));
-    if (window.subredditState.domReady === true) {
+    if (_cache.getItem('subreddit.domReady') === true) {
       $('#loading').hide();
       console.log('loading subreddit listings from memory');
 
       var thiz = this;
-      $.each(window.subredditState.listing.data.children, function(index, value) {
+      var cachedListing = _cache.getItem('subreddit.listing');
+      $.each(cachedListing.data.children, function(index, value) {
         bbr.formatPost(value, function(bbPost) {
           $(bbPost).appendTo('#listing');
         });
@@ -33,7 +34,9 @@ var _subreddits = {
 
     } else {
       console.log('loading subreddit listings from reddit');
-      window.subredditState.domReady = true;
+      _cache.setItem('subreddit.domReady', true);
+      $('#loading').show();
+      $('#listing').hide();
       snooby.listing(params.subreddit, function(post) {
         $('#loading').hide();
         $('#listing').show();
@@ -45,11 +48,11 @@ var _subreddits = {
   },
 
   onUnload: function(element) {
-    window.subredditState.scrollTop = $('#subreddit').children('div').eq(1).scrollTop();
+    _cache.setItem('subreddit.scrollTop', $('#subreddit').children('div').eq(1).scrollTop());
   },
 
   scrollback: function() {
-    $('#subreddit').children('div').eq(1).scrollTop(window.subredditState.scrollTop);
+    $('#subreddit').children('div').eq(1).scrollTop(_cache.getItem('subreddit.scrollTop'));
     $('#listing').show();
   }
 };
