@@ -28,6 +28,34 @@ describe('Login', function() {
     var onsuccess = sinon.spy();
     snooby.login('mrlamb', 'mrlamb', onsuccess);
     server.respond();
-    expect(onsuccess.withArgs(JSON.parse(response)).calledOnce).toBe(true);
+    expect(onsuccess.withArgs(JSON.parse(response)).calledOnce).toBeTruthy();
+  });
+});
+
+describe('Logout', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('passes the correct parameters', function() {
+    snooby.logout('42324acbed', function() {});
+    expect(server.requests[0].requestBody).toEqual('uh=42324acbed&top=off');
+  });
+
+  it('calls onsuccess callback upon successful logout', function() {
+    var response = '{"errors":[]}';
+    server.respondWith('POST',
+                       'https://ssl.reddit.com/logout',
+                       [200, { "Content-Type": "application/json" }, response]);
+    var onsuccess = sinon.spy();
+    snooby.logout('modhash', onsuccess);
+    server.respond();
+    expect(onsuccess.calledOnce).toBeTruthy();
   });
 });

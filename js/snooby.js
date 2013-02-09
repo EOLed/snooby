@@ -32,14 +32,14 @@ var snooby = {
 
   comments: function(permalink, op, callback) {
     $('#loading').show();
-    $($.get('http://reddit.com' + permalink + '.json', function(comments) {
+    $.get('http://reddit.com' + permalink + '.json', function(comments) {
       comments.shift();
       $.each(comments, function(index, comment) {
         $.each(comment.data.children, function(commentIndex, value) {
           callback(value, op);
         });
       });
-    }));
+    });
   },
 
   subreddits: function(callback, done) {
