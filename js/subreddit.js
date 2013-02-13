@@ -32,7 +32,7 @@ var _subreddits = {
         setTimeout(function() { thiz.scrollback(); }, 0);
       });
 
-    } else {
+    /*} else {
       console.log('loading subreddit listings from reddit');
       _cache.setItem('subreddit.domReady', true);
       $('#loading').show();
@@ -43,7 +43,7 @@ var _subreddits = {
         bbr.formatPost(post, function(bbPost) {
           $(bbPost).appendTo('#listing');
         });
-      });
+      });*/
     }
   },
 

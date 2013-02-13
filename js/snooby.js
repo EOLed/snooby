@@ -27,22 +27,28 @@ var snooby = {
   },
 
   comments: function(permalink, op, callback) {
+    var thiz = this;
     $.get('http://reddit.com' + permalink + '.json', function(comments) {
-      comments.shift();
-      $.each(comments, function(index, comment) {
-        $.each(comment.data.children, function(commentIndex, value) {
-          callback(value, op);
-        });
+      thiz._processComment(comments, op, callback);
+    });
+  },
+
+  _processComment: function(comments, op, callback) {
+    comments.shift();
+    $.each(comments, function(index, comment) {
+      $.each(comment.data.children, function(commentIndex, value) {
+        callback(value, op);
       });
     });
   },
 
   subreddits: function(callback, done) {
     console.log('loading subreddits...');
-    var cachedSubreddits = JSON.parse(localStorage.getItem('subreddits'));
+    var thiz = this;
+    var cachedSubreddits = JSON.parse(_cache.getPersistedItem('subreddit.list'));
     if (cachedSubreddits === null) {
       console.log('no cached subreddits, must get from reddit...');
-      var user = localStorage.getItem('snooby.user');
+      var user = _cache.getPersistedItem('snooby.user');
       if (user !== null)
         user = JSON.parse(user);
 
@@ -54,33 +60,34 @@ var snooby = {
             return a.data.display_name.localeCompare(b.data.display_name);
           });
           console.log('caching subreddits...');
-          localStorage.setItem('subreddits', JSON.stringify(listing.data.children));
-          this._processSubreddits(listing.data.children, callback, done);
+          _cache.persistItem('subreddit.list', JSON.stringify(listing.data.children));
+          thiz._processSubreddits(listing.data.children, callback, done);
         });
       } else {
         console.log('getting subreddits for user: ' + user.username);
-        _getUserSubreddits(callback, {}, [], done);
+        thiz._getUserSubreddits(callback, {}, [], done);
       }
     } else {
       console.log('using cached subreddits...');
-      this._processSubreddits(cachedSubreddits, callback, done);
+      thiz._processSubreddits(cachedSubreddits, callback, done);
     }
   },
 
   _getUserSubreddits: function(callback, data, reddits, done) {
+    var thiz = this;
     $.get('http://reddit.com/reddits/mine.json', data, function(listing) {
       reddits = reddits.concat(listing.data.children);
 
       if (listing.data.after !== null) {
-        return getUserSubreddits(callback, { after: listing.data.after }, reddits, done);
+        return thiz._getUserSubreddits(callback, { after: listing.data.after }, reddits, done);
       }
       var sortedSubreddits = [];
       reddits.sort(function(a, b) {
         return a.data.display_name.localeCompare(b.data.display_name);
       });
       console.log('caching subreddits...');
-      localStorage.setItem('subreddits', JSON.stringify(reddits));
-      this._processSubreddits(reddits, callback, done);
+      _cache.persistItem('subreddit.list', JSON.stringify(reddits));
+      thiz._processSubreddits(reddits, callback, done);
     });
   },
 

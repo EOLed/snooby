@@ -8,8 +8,8 @@ var _settings = {
       _cache.setItem('subreddit.screenReady', false);
       _cache.setItem('subreddit.domReady', false);
       _cache.setItem('subreddit.selected', 'frontpage');
-      localStorage.setItem('snooby.user', JSON.stringify(user));
-      localStorage.removeItem('subreddits');
+      _cache.persistItem('snooby.user', JSON.stringify(user));
+      _cache.removePersistedItem('subreddit.list');
 
       snooby.subreddits(null, function() {
         var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
@@ -24,13 +24,13 @@ var _settings = {
 
   doLogout: function() {
     document.getElementById('logoutButton').setCaption('Logging out... <i class="icon-spinner icon-spin"></i>');
-    var user = JSON.parse(localStorage.getItem('snooby.user'));
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
     snooby.logout(user.modhash, function() {
       _cache.setItem('subreddit.screenReady', false);
       _cache.setItem('subreddit.domReady', false);
       _cache.setItem('subreddit.selected', 'frontpage');
-      localStorage.removeItem('subreddits');
-      localStorage.removeItem('snooby.user');
+      _cache.removePersistedItem('subreddit.list');
+      _cache.removePersistedItem('snooby.user');
       snooby.subreddits(null, function() {
         $('#loginPanel').show();
         $('#accountPanel').hide();
@@ -40,7 +40,7 @@ var _settings = {
   },
   
   onScreenReady: function(element, params) {
-    var loggedUser = JSON.parse(localStorage.getItem("snooby.user"));
+    var loggedUser = JSON.parse(_cache.getPersistedItem("snooby.user"));
     if (loggedUser === null) {
       element.getElementById('loginPanel').style.display = 'block';
     } else {

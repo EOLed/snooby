@@ -17,7 +17,7 @@ var _cache = {
   },
 
   persistItem: function(key, value) {
-    localStorage.addItem(key, JSON.stringify(value));
+    localStorage.setItem(key, value);
   },
 
   removePersistedItem: function(key) {
@@ -25,6 +25,6 @@ var _cache = {
   },
 
   getPersistedItem: function(key) {
-    return JSON.parse(localStorage.getItem(key));
+    return localStorage.getItem(key);
   }
 };
