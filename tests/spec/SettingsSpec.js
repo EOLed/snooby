@@ -1,3 +1,4 @@
+var blackberry = { ui: { dialog: { customAskAsync: function() {} } } };
 describe('Settings', function() {
   it('logs in with the username and password provided from form', function() {
     var getElementById = sinon.stub(document, 'getElementById');
@@ -16,6 +17,79 @@ describe('Settings', function() {
     
     _settings.doLogin();
     expect(login.calledWith('achan', 'pw')).toBeTruthy();
+    getElementById.restore();
+    subreddits.restore();
+    login.restore();
+  });
+
+  it('shows error message when user exceeds rate limit', function() {
+    var getElementById = sinon.stub(document, 'getElementById');
+    var setCaption = sinon.spy();
+    getElementById.withArgs('loginButton').returns({ setCaption: setCaption });
+
+    var subreddits = sinon.stub(app, 'subreddits', function(noop, callback) {
+    });
+
+    var customAskAsync = sinon.stub(blackberry.ui.dialog, 'customAskAsync');
+
+    var login = sinon.stub(app, 'login', function(username, pw, callback) {
+      callback({"json": {"errors": [["RATELIMIT", 
+                                     "you are doing that too much. try again in 1 minute.",
+                                     "vdelay"]]}},
+               sinon.spy(),
+               sinon.spy());
+    });
+
+    _settings.doLogin();
+    expect(blackberry.ui.dialog.customAskAsync.calledWith('you are doing that too much. try again in 1 minute.')).toBeTruthy();
+    expect(setCaption.calledWith('<i class="icon-signin"> Login</i>')).toBeTruthy();
+    getElementById.restore();
+    subreddits.restore();
+    blackberry.ui.dialog.customAskAsync.restore();
+    app.login.restore();
+  });
+
+  it('shows error message when user enters bad credentials', function() {
+    var getElementById = sinon.stub(document, 'getElementById');
+    var setCaption = sinon.spy();
+    getElementById.withArgs('loginButton').returns({ setCaption: setCaption });
+
+    var subreddits = sinon.stub(app, 'subreddits', function(noop, callback) {
+    });
+
+    var login = sinon.stub(app, 'login', function(username, pw, callback) {
+      callback({"json": {"errors": [["WRONG_PASSWORD", "invalid password", "passwd"]]}},
+               sinon.spy(),
+               sinon.spy());
+    });
+    
+    var customAskAsync = sinon.stub(blackberry.ui.dialog, 'customAskAsync');
+
+    _settings.doLogin();
+    expect(blackberry.ui.dialog.customAskAsync.calledWith(sinon.match.string)).toBeTruthy();
+    expect(setCaption.calledWith('<i class="icon-signin"> Login</i>')).toBeTruthy();
+    getElementById.restore();
+    subreddits.restore();
+    login.restore();
+  });
+
+  it('doesn\'t reload subreddits upon bad login', function() {
+    var getElementById = sinon.stub(document, 'getElementById');
+    getElementById.withArgs('loginButton').returns({ setCaption: function(s) {} });
+
+    var subreddits = sinon.stub(app, 'subreddits', function(noop, callback) {
+    });
+
+    var login = sinon.stub(app, 'login', function(username, pw, callback) {
+      callback({"json": {"errors": [["WRONG_PASSWORD", "invalid password", "passwd"]]}},
+               sinon.spy(),
+               sinon.spy());
+    });
+    
+    var blackberry = sinon.stub();
+
+    _settings.doLogin();
+    expect(app.subreddits.callCount).toBe(0);
     getElementById.restore();
     subreddits.restore();
     login.restore();

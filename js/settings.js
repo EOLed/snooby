@@ -4,22 +4,37 @@ var _settings = {
     var username = $('#username').val();
     var password = $('#password').val();
     app.login(username, password, function(data, status, xhr) {
-      var user = { username: username, password: password, modhash: data.json.data.modhash };
-      _cache.setItem('subreddit.screenReady', false);
-      _cache.setItem('subreddit.domReady', false);
-      _cache.setItem('subreddit.selected', 'frontpage');
-      _cache.persistItem('snooby.user', JSON.stringify(user));
-      _cache.removePersistedItem('subreddit.list');
-      _cache.removePersistedItem('snooby.subreddits');
+      if (typeof data.json.errors === 'undefined') {
+        var user = { username: username, password: password, modhash: data.json.data.modhash };
+        _cache.setItem('subreddit.screenReady', false);
+        _cache.setItem('subreddit.domReady', false);
+        _cache.setItem('subreddit.selected', 'frontpage');
+        _cache.persistItem('snooby.user', JSON.stringify(user));
+        _cache.removePersistedItem('subreddit.list');
+        _cache.removePersistedItem('snooby.subreddits');
 
-      app.subreddits(null, function() {
-        var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
-        $('#currentLogin').html(html);
-        $('#loginPanel').hide();
-        $('#accountPanel').show();
-        $('#password').val('');
+        app.subreddits(null, function() {
+          var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
+          $('#currentLogin').html(html);
+          $('#loginPanel').hide();
+          $('#accountPanel').show();
+          $('#password').val('');
+
+          document.getElementById('loginButton').setCaption('<i class="icon-signin"> Login</i>');
+        });
+      } else if (data.json.errors[0][0] === 'WRONG_PASSWORD') {
+        blackberry.ui.dialog.customAskAsync('Incorrect username or password.',
+                                            ['OK'],
+                                            null,
+                                            { title: 'Login Error' });
         document.getElementById('loginButton').setCaption('<i class="icon-signin"> Login</i>');
-      });
+      } else if (data.json.errors[0][0] === 'RATELIMIT') {
+        blackberry.ui.dialog.customAskAsync(data.json.errors[0][1],
+                                            ['OK'],
+                                            null,
+                                            { title: 'Login Error' });
+        document.getElementById('loginButton').setCaption('<i class="icon-signin"> Login</i>');
+      }
     });
   },
 
