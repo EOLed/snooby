@@ -36,7 +36,7 @@ var _subreddits = {
       _cache.setItem('subreddit.domReady', true);
       $('#loading').show();
       $('#listing').hide();
-      snooby.listing(params.subreddit, function(post) {
+      app.listing(params.subreddit, function(post) {
         $('#loading').hide();
         $('#listing').show();
         bbr.formatPost(post, function(bbPost) {
