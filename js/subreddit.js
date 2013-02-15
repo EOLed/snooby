@@ -10,7 +10,7 @@ var _subreddits = {
       _cache.setItem('subreddit.scrollTop', 0);
     }
 
-    snooby.subreddits(function(subreddit) {
+    app.subreddits(function(subreddit) {
       bbr.createSubredditTabOption(subreddit, function(subredditTab) {
         element.getElementById('actionBar').appendChild(subredditTab);
       });

@@ -1,5 +1,5 @@
 var snooby = {
-  login: function(username, password, onsuccess, onfailure) {
+  login: function(username, password, onsuccess) {
     $.post('https://ssl.reddit.com/api/login', 
            { user: username, passwd: password, rem: true, api_type: 'json' },
            onsuccess);
@@ -14,92 +14,37 @@ var snooby = {
     var url = subreddits === 'frontpage' ? 'http://reddit.com/.json' : 
                                            'http://reddit.com/r/' + subreddits + '.json';
     $.get(url, function(listing) {
-      thiz._processListing(subreddits, callback, listing);
+      callback(subreddits, listing);
     });
   },
 
-  _processListing: function(subreddits, callback, listing) {
-    _cache.setItem('subreddit.listing', listing);
-    _cache.setItem('subreddit.selected', subreddits);
-    $.each(listing.data.children, function(index, value) {
-      callback(value);
-    });
+  comments: function(permalink, op, onsuccess) {
+    $.get('http://reddit.com' + permalink + '.json', onsuccess);
   },
 
-  comments: function(permalink, op, callback) {
+  defaultSubreddits: function(onsuccess) {
+    $.get('http://reddit.com/reddits.json', onsuccess);
+  },
+
+  userSubreddits: function(callback) {
     var thiz = this;
-    $.get('http://reddit.com' + permalink + '.json', function(comments) {
-      thiz._processComment(comments, op, callback);
-    });
-  },
-
-  _processComment: function(comments, op, callback) {
-    comments.shift();
-    $.each(comments, function(index, comment) {
-      $.each(comment.data.children, function(commentIndex, value) {
-        callback(value, op);
-      });
-    });
-  },
-
-  subreddits: function(callback, done) {
-    console.log('loading subreddits...');
-    var thiz = this;
-    var cachedSubreddits = JSON.parse(_cache.getPersistedItem('subreddit.list'));
-    if (cachedSubreddits === null) {
-      console.log('no cached subreddits, must get from reddit...');
-      var user = _cache.getPersistedItem('snooby.user');
-      if (user !== null)
-        user = JSON.parse(user);
-
-      if (user === null) {
-        console.log('getting default reddits...');
-        $.get('http://reddit.com/reddits.json', function(listing) {
-          var sortedSubreddits = [];
-          listing.data.children.sort(function(a, b) {
-            return a.data.display_name.localeCompare(b.data.display_name);
-          });
-          console.log('caching subreddits...');
-          _cache.persistItem('subreddit.list', JSON.stringify(listing.data.children));
-          thiz._processSubreddits(listing.data.children, callback, done);
-        });
-      } else {
-        console.log('getting subreddits for user: ' + user.username);
-        thiz._getUserSubreddits(callback, {}, [], done);
-      }
-    } else {
-      console.log('using cached subreddits...');
-      thiz._processSubreddits(cachedSubreddits, callback, done);
-    }
-  },
-
-  _getUserSubreddits: function(callback, data, reddits, done) {
-    var thiz = this;
-    $.get('http://reddit.com/reddits/mine.json', data, function(listing) {
+    var reddits = [];
+    var processSubreddits = function(listing) {
       reddits = reddits.concat(listing.data.children);
-
       if (listing.data.after !== null) {
-        return thiz._getUserSubreddits(callback, { after: listing.data.after }, reddits, done);
+        $.get('http://reddit.com/reddits/mine.json', 
+              { after: listing.data.after }, 
+              processSubreddits);
+        return;
       }
-      var sortedSubreddits = [];
+
       reddits.sort(function(a, b) {
         return a.data.display_name.localeCompare(b.data.display_name);
       });
-      console.log('caching subreddits...');
-      _cache.persistItem('subreddit.list', JSON.stringify(reddits));
-      thiz._processSubreddits(reddits, callback, done);
-    });
-  },
 
-  _processSubreddits: function(reddits, callback, done) {
-    var frontpage = { data: { display_name: 'frontpage' } };
-    reddits.unshift(frontpage);
-    $.each(reddits, function(index, value) {
-      if (typeof callback == 'function')
-        callback(value);
-    });
+      callback(reddits);
+    };
 
-    if (typeof done == 'function')
-      done();
+    $.get('http://reddit.com/reddits/mine.json', {}, processSubreddits);
   }
 };

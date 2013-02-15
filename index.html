@@ -12,6 +12,7 @@
     <script type="text/javascript" src="js/cache.js"></script>
     <script type="text/javascript" src="js/bbui-reddit.js"></script>
     <script type="text/javascript" src="js/snooby.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript">
       function ready() {
         alert('wtf');
@@ -31,7 +32,7 @@
           y: '%dy',
           yy: '%dy'
         };
-        snooby.subreddits(null, function() {
+        app.subreddits(null, function() {
           bb.init({ 
             ondomready: function(element, id, params) {
               if (id == 'subreddit')

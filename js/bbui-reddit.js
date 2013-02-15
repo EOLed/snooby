@@ -137,7 +137,7 @@ var bbr = {
     $('#loading').show();
     $('#listing').empty();
     var thiz = this;
-    snooby.listing(subreddit, function(post) {
+    app.listing(subreddit, function(post) {
       $('#loading').hide();
       $('#listing').show();
       thiz.formatPost(post, function(bbPost) {

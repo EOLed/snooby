@@ -3,7 +3,7 @@ var _settings = {
     document.getElementById('loginButton').setCaption('Logging in... <i class="icon-spinner icon-spin"></i>');
     var username = $('#username').val();
     var password = $('#password').val();
-    snooby.login(username, password, function(data, status, xhr) {
+    app.login(username, password, function(data, status, xhr) {
       var user = { username: username, password: password, modhash: data.json.data.modhash };
       _cache.setItem('subreddit.screenReady', false);
       _cache.setItem('subreddit.domReady', false);
@@ -11,7 +11,7 @@ var _settings = {
       _cache.persistItem('snooby.user', JSON.stringify(user));
       _cache.removePersistedItem('subreddit.list');
 
-      snooby.subreddits(null, function() {
+      app.subreddits(null, function() {
         var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
         $('#currentLogin').html(html);
         $('#loginPanel').hide();
@@ -25,13 +25,13 @@ var _settings = {
   doLogout: function() {
     document.getElementById('logoutButton').setCaption('Logging out... <i class="icon-spinner icon-spin"></i>');
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    snooby.logout(user.modhash, function() {
+    app.logout(user.modhash, function() {
       _cache.setItem('subreddit.screenReady', false);
       _cache.setItem('subreddit.domReady', false);
       _cache.setItem('subreddit.selected', 'frontpage');
       _cache.removePersistedItem('subreddit.list');
       _cache.removePersistedItem('snooby.user');
-      snooby.subreddits(null, function() {
+      app.subreddits(null, function() {
         $('#loginPanel').show();
         $('#accountPanel').hide();
         document.getElementById('logoutButton').setCaption('<i class="icon-signout"> Log Out</i>');
