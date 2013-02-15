@@ -26,13 +26,12 @@ var _subreddits = {
       var thiz = this;
       var cachedListing = _cache.getItem('subreddit.listing');
       $.each(cachedListing.data.children, function(index, value) {
+        setTimeout(function() { thiz.scrollback(); }, 0);
         bbr.formatPost(value, function(bbPost) {
           $(bbPost).appendTo('#listing');
         });
-        setTimeout(function() { thiz.scrollback(); }, 0);
       });
-
-    /*} else {
+    } else {
       console.log('loading subreddit listings from reddit');
       _cache.setItem('subreddit.domReady', true);
       $('#loading').show();
@@ -43,7 +42,7 @@ var _subreddits = {
         bbr.formatPost(post, function(bbPost) {
           $(bbPost).appendTo('#listing');
         });
-      });*/
+      });
     }
   },
 

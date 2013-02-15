@@ -84,7 +84,7 @@ var bbr = {
 
     div.html(html);
     if (score < -4)
-      this._toggleComment(div.children()[0]);
+      this.toggleComment(div.children()[0]);
 
     return div;
   },

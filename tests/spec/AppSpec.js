@@ -147,7 +147,7 @@ describe('app.subreddits()', function() {
 
   it('callbacks are called after retrieving default subreddits', function() {
     sinon.stub(snooby, 'defaultSubreddits', function(callback) {
-      callback(defaultSubs);
+      callback(defaultSubs.data.children);
     });
 
     var getPersistedItem = sinon.stub(_cache, 'getPersistedItem');
@@ -166,18 +166,19 @@ describe('app.subreddits()', function() {
 
   it('subreddits are cached after retrieved', function() {
     sinon.stub(snooby, 'defaultSubreddits', function(callback) {
-      callback(defaultSubs);
+      callback(defaultSubs.data.children);
     });
     var getPersistedItem = sinon.stub(_cache, 'getPersistedItem');
     getPersistedItem.withArgs('snooby.user').returns(null);
-    getPersistedItem.withArgs('snooby.subreddits').returns(JSON.stringify(defaultSubs));
+    getPersistedItem.withArgs('snooby.subreddits').returns(JSON.stringify(defaultSubs.data.children));
     sinon.spy(_cache, 'persistItem');
 
     var callback = sinon.spy();
     var oncomplete = sinon.spy();
     app.subreddits(callback, oncomplete);
 
-    expect(_cache.persistItem.calledWith('snooby.subreddits', JSON.stringify(defaultSubs))).toBeTruthy();
+    expect(_cache.persistItem.calledWith('snooby.subreddits', 
+                                         JSON.stringify(defaultSubs.data.children))).toBeTruthy();
     _cache.getPersistedItem.restore();
     _cache.persistItem.restore();
     snooby.defaultSubreddits.restore();

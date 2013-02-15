@@ -49,10 +49,9 @@ var app = {
     }
   },
 
-  _processSubreddits: function(listing, callback, oncomplete) {
-    _cache.persistItem('snooby.subreddits', JSON.stringify(listing));
+  _processSubreddits: function(subreddits, callback, oncomplete) {
+    _cache.persistItem('snooby.subreddits', JSON.stringify(subreddits));
     var frontpage = { data: { display_name: 'frontpage' } };
-    var subreddits = listing.data.children;
     subreddits.unshift(frontpage);
 
     $.each(subreddits, function(index, value) {

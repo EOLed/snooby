@@ -23,7 +23,10 @@ var snooby = {
   },
 
   defaultSubreddits: function(onsuccess) {
-    $.get('http://reddit.com/reddits.json', onsuccess);
+    var thiz = this;
+    $.get('http://reddit.com/reddits.json', function(listing) {
+        thiz._sortSubreddits(listing.data.children, onsuccess);
+    });
   },
 
   userSubreddits: function(callback) {
@@ -38,13 +41,17 @@ var snooby = {
         return;
       }
 
-      reddits.sort(function(a, b) {
-        return a.data.display_name.localeCompare(b.data.display_name);
-      });
-
-      callback(reddits);
+      thiz._sortSubreddits(reddits, callback);
     };
 
     $.get('http://reddit.com/reddits/mine.json', {}, processSubreddits);
+  },
+
+  _sortSubreddits: function(subreddits, callback) {
+    subreddits.sort(function(a, b) {
+      return a.data.display_name.localeCompare(b.data.display_name);
+    });
+
+    callback(subreddits);
   }
 };
