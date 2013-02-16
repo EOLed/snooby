@@ -37,13 +37,15 @@
               if (id == 'subreddit')
                 _subreddits.onDomReady(element, params);
               else if (id == 'comments')
-                _comments.onScreenReady(element, params);
+                _comments.onDomReady(element, params);
             }, 
             onscreenready: function(element, id, params) {
               if (id === 'subreddit')
                 _subreddits.onScreenReady(element, params);
               else if (id === 'settings')
                 _settings.onScreenReady(element, params);
+              else if (id == 'comments')
+                _comments.onScreenReady(element, params);
             }
           });
 

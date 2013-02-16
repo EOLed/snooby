@@ -141,5 +141,3 @@ describe('Settings', function() {
     logout.restore();
   });
 });
-
-    

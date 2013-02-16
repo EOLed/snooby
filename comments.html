@@ -16,40 +16,29 @@
     <!-- <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png">Downvote</div>
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png">Upvote</div> -->
   </div>
-</div>
-
-<script type="text/javascript">
-  app.comments(params.link.data.permalink, params.link.data.author, function(comment) {
-    bbr.formatComment(comment, params.link.data.author, function(bbComment) {
-      $('#loading').hide();
-      $('#comments').show();
-      $(bbComment).appendTo('#comments');
-    });
-  });
-</script>
-
-<script id="linkHeaderTemplate" type="text/template">
-  <div class="container">
-    <div class="row link-title">
-      <div class="span12">
-        {{&title}}
+  <script id="linkHeaderTemplate" type="text/template">
+    <div class="container">
+      <div class="row link-title">
+        <div class="span12">
+          {{&title}}
+        </div>
+      </div>
+      <div class="row link-details">
+        <div class="span12">{{domain}} • {{numComments}} comments</div>
       </div>
     </div>
-    <div class="row link-details">
-      <div class="span12">{{domain}} • {{numComments}} comments</div>
-    </div>
-  </div>
-</script>
+  </script>
 
-<script id="linkHeaderDetailsTemplate" type="text/template">
-  <div class="container">
-    <div class="row">
-      <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
-      <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
-      <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
+  <script id="linkHeaderDetailsTemplate" type="text/template">
+    <div class="container">
+      <div class="row">
+        <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
+        <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
+        <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
+      </div>
     </div>
-  </div>
-</script>
+  </script>
+</div>
 
 <script id="commentTemplate" type="text/template">
   <div class="row comment-author-section" onclick="bbr.toggleComment(this)">

@@ -1,5 +1,8 @@
 var _comments = {
   onScreenReady: function(element, params) {
+  },
+
+  onDomReady: function(element, params) {
     var domain = params.link.data.domain;
     var selfPost = domain === 'self.' + params.link.data.subreddit;
     var headerTemplate = $('#linkHeaderTemplate').html();
@@ -21,5 +24,13 @@ var _comments = {
     $('#linkHeader').append(header);
     $('#linkDetails').append(details);
     $('#loading').show();
+
+    app.comments(params.link.data.permalink, params.link.data.author, function(comment) {
+      bbr.formatComment(comment, params.link.data.author, function(bbComment) {
+        $('#loading').hide();
+        $('#comments').show();
+        $(bbComment).appendTo('#comments');
+      });
+    });
   }
 };
