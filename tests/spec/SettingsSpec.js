@@ -12,7 +12,11 @@ describe('Settings', function() {
     });
 
     var login = sinon.stub(app, 'login', function(username, pw, callback) {
-      callback({ json: { data: { modhash: 'asdfasdfsadfa' } } }, sinon.spy(), sinon.spy());
+      callback({"json": {"errors": [], 
+                         "data": {"modhash": "dbwdgjf6nm67a54b81bb5cbc8164c6a650913bc0a3f9ca70d5", 
+                                  "cookie": "6249076,2013-02-15T18:06:23,7caaa5dcc2b57eb7f1e3342e863d20eb52"}}},
+               sinon.spy(),
+               sinon.spy());
     });
     
     _settings.doLogin();
@@ -103,7 +107,7 @@ describe('Settings', function() {
     });
 
     var login = sinon.stub(app, 'login', function(username, pw, callback) {
-      callback({ json: { data: { modhash: 'asdfasdfsadfa' } } }, sinon.spy(), sinon.spy());
+      callback({"json": {"errors": [], "data": {"modhash": "dbwdgjf6nm67a54b81bb5cbc8164c6a650913bc0a3f9ca70d5", "cookie": "6249076,2013-02-15T18:06:23,11b4817caaa5dcc2b57eb7f1e3342e863d20eb52"}}}, sinon.spy(), sinon.spy());
     });
 
     var removePersistedItem = sinon.spy(_cache, 'removePersistedItem');

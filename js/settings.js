@@ -4,7 +4,7 @@ var _settings = {
     var username = $('#username').val();
     var password = $('#password').val();
     app.login(username, password, function(data, status, xhr) {
-      if (typeof data.json.errors === 'undefined') {
+      if (data.json.errors.length === 0) {
         var user = { username: username, password: password, modhash: data.json.data.modhash };
         _cache.setItem('subreddit.screenReady', false);
         _cache.setItem('subreddit.domReady', false);
