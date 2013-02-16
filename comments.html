@@ -29,26 +29,27 @@
     </div>
   </script>
 
-  <script id="linkHeaderDetailsTemplate" type="text/template">
-    <div class="container">
-      <div class="row">
-        <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
-        <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
-        <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
+    <script id="linkHeaderDetailsTemplate" type="text/template">
+      <div class="container">
+        <div class="row">
+          <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
+          <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
+          <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
+        </div>
+      </div>
+    </script>
+  </div>
+
+  <script id="commentTemplate" type="text/template">
+    <div class="row comment-author-section" onclick="bbr.toggleComment(this)">
+      <div class="span">
+        <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
+      </div>
+    </div>
+    <div class="row comment-body" style="display: block;">
+      <div class="span">
+        {{{body}}}
       </div>
     </div>
   </script>
 </div>
-
-<script id="commentTemplate" type="text/template">
-  <div class="row comment-author-section" onclick="bbr.toggleComment(this)">
-    <div class="span">
-      <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
-    </div>
-  </div>
-  <div class="row comment-body" style="display: block;">
-    <div class="span">
-      {{{body}}}
-    </div>
-  </div>
-</script>
