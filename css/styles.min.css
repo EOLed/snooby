@@ -79,6 +79,11 @@ div#listing .details-section {
   margin-top: 15px;
 }
 
+#linkHeader .link-body {
+  font-size: .75em;
+  margin-top: 15px;
+}
+
 #linkHeader .link-details {
   color: #c60;
   font-size: .65em;

@@ -5,10 +5,11 @@ var _comments = {
   onDomReady: function(element, params) {
     var domain = params.link.data.domain;
     var selfPost = domain === 'self.' + params.link.data.subreddit;
-    var headerTemplate = $('#linkHeaderTemplate').html();
+    var headerTemplate = $(selfPost ? '#selfPostHeaderTemplate' : '#linkHeaderTemplate').html();
     var html = Mustache.to_html(headerTemplate,
                                 { title: selfPost ? params.link.data.title : 
                                                     '<a href="' + params.link.data.url + '">' + params.link.data.title + '</a>',
+                                  body: selfPost ? SnuOwnd.getParser().render(params.link.data.selftext) : null,
                                   domain: params.link.data.domain,
                                   numComments: params.link.data.num_comments });
     var header = $('<div/>');
