@@ -18,7 +18,8 @@ var _subreddits = {
   },
 
   onDomReady: function(element, params) {
-    document.getElementById('actionBar').setSelectedTab(document.getElementById('tab-' + params.subreddit));
+    document.getElementById('actionBar')
+            .setSelectedTab(document.getElementById('tab-' + _cache.getItem('subreddit.selected')));
     if (_cache.getItem('subreddit.domReady') === true) {
       $('#loading').hide();
       console.log('loading subreddit listings from memory');
