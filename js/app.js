@@ -18,11 +18,17 @@ var app = {
   },
 
   comments: function(permalink, op, callback) {
+    var length = 0;
+    var MAX_LENGTH = 50000;
     snooby.comments(permalink, op, function(comments) {
       comments.shift();
       $.each(comments, function(index, comment) {
         $.each(comment.data.children, function(commentIndex, value) {
-          callback(value, op);
+          if (length < MAX_LENGTH) {
+            length += JSON.stringify(value).length;
+              callback(value, op);
+          } else
+            return false;
         });
       });
     });
