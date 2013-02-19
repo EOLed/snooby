@@ -31,7 +31,8 @@
           y: '%dy',
           yy: '%dy'
         };
-        app.subreddits(null, function() {
+
+        function init() {
           bb.init({ 
             ondomready: function(element, id, params) {
               if (id == 'subreddit')
@@ -52,8 +53,17 @@
           bb.pushScreen('subreddit.html', 
                         'subreddit', 
                         {subreddit: 'frontpage'});
-        });
+        }
+
+        if (_cache.getPersistedItem('snooby.subreddits.actionBar') === null) {
+          app.subreddits(null, function() {
+            init();
+          });
+        } else {
+          init();
+        }
       }
+
       window.addEventListener('load', function(e) {
         document.addEventListener('webworksready', ready);
       }, false);

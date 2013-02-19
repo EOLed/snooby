@@ -12,6 +12,7 @@ var _settings = {
         _cache.persistItem('snooby.user', JSON.stringify(user));
         _cache.removePersistedItem('subreddit.list');
         _cache.removePersistedItem('snooby.subreddits');
+        _cache.removePersistedItem('snooby.subreddits.actionBar');
 
         app.subreddits(null, function() {
           var html = Mustache.to_html($('#loggedUserTemplate').html(), { username: username });
@@ -48,6 +49,7 @@ var _settings = {
       _cache.removePersistedItem('subreddit.list');
       _cache.removePersistedItem('snooby.user');
       _cache.removePersistedItem('snooby.subreddits');
+      _cache.removePersistedItem('snooby.subreddits.actionBar');
       app.subreddits(null, function() {
         $('#loginPanel').show();
         $('#accountPanel').hide();

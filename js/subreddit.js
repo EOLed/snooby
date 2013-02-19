@@ -10,11 +10,18 @@ var _subreddits = {
       _cache.setItem('subreddit.scrollTop', 0);
     }
 
-    app.subreddits(function(subreddit) {
-      bbr.createSubredditTabOption(subreddit, function(subredditTab) {
-        element.getElementById('actionBar').appendChild(subredditTab);
+    var actionBar = _cache.getPersistedItem('snooby.subreddits.actionBar');
+    if (typeof actionBar === 'undefined' || actionBar === null) {
+      app.subreddits(function(subreddit) {
+        bbr.createSubredditTabOption(subreddit, function(subredditTab) {
+          element.getElementById('actionBar').appendChild(subredditTab);
+        });
+      }, function() {
+        _cache.persistItem('snooby.subreddits.actionBar', element.getElementById('actionBar').innerHTML);
       });
-    });
+    } else {
+      element.getElementById('actionBar').innerHTML = actionBar;
+    }
   },
 
   onDomReady: function(element, params) {
