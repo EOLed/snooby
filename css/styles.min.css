@@ -181,7 +181,7 @@ img.thumb {
   width: 100%
 }
 
-#settings .separator {
+#settings .separator, #support .separator {
   text-align: center;
   margin: 1em 0;
   color: #ccc;
