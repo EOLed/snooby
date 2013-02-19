@@ -36,14 +36,23 @@
     <i class="icon-star"></i> 
     <i class="icon-star"></i>
   </div>
-  <div id="supportSnooby" data-bb-type="round-panel">
+  <div id="snoobyGoldPurchased" data-bb-type="round-panel" style="display: none">
     <div data-bb-type="panel-header">Supporting Snooby</div>
     <div>
-      Snooby is a Blackberry 10 Reddit client made by <a href="http://am05.com">Amos Chan</a>.
-      If you've enjoyed using this app, please help support further development of Snooby!
+      Thank you for purchasing Snooby Gold!
+    </div>
+  </div>
+  <div id="supportSnooby" data-bb-type="round-panel" style="display: none">
+    <div data-bb-type="panel-header">Supporting Snooby</div>
+    <div>
+      Buying Snooby Gold gives you the full suite of Snooby features. Right now,
+      though, the only feature it provides is that good feeling you get knowing
+      you're helping a small-time developer fulfill his dream :) Thanks.
     </div>
     <div data-bb-type="label-control-horizontal-row">
-      <div data-bb-type="button"><i class="icon-coffee"> Buy me a coffee</i></div>
+      <div id="snoobyGoldButton" data-bb-type="button" onclick="_settings.purchaseSnoobyGold()">
+        <i class="icon-trophy"></i> I want Snooby Gold!
+      </div>
     </div>
   </div>
   <script id="loggedUserTemplate" type="text/template">
