@@ -181,7 +181,7 @@ img.thumb {
   width: 100%
 }
 
-#settings .separator, #support .separator {
+#settings .separator, #support .separator, #about .separator {
   text-align: center;
   margin: 1em 0;
   color: #ccc;
@@ -197,4 +197,13 @@ img.thumb {
 #supportSnooby a, #supportSnooby a:visited {
   color: #444;
   text-decoration: none;
+}
+
+#about a {
+  color: #048;
+}
+
+#about .link {
+  color: #048;
+  font-size: .65em;
 }
