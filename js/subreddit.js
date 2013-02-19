@@ -22,11 +22,11 @@ var _subreddits = {
     } else {
       element.getElementById('actionBar').innerHTML = actionBar;
     }
+    
+    element.getElementById('tab-' + _cache.getItem('subreddit.selected')).setAttribute('data-bb-selected', true);
   },
 
   onDomReady: function(element, params) {
-    document.getElementById('actionBar')
-            .setSelectedTab(document.getElementById('tab-' + _cache.getItem('subreddit.selected')));
     if (_cache.getItem('subreddit.domReady') === true) {
       $('#loading').hide();
       console.log('loading subreddit listings from memory');
