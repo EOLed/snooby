@@ -57,6 +57,12 @@
                         {subreddit: 'frontpage'});
         }
 
+        var version = _cache.getPersistedItem('snooby.version');
+        if (version === null || version !== '1.0.2') {
+          _cache.removePersistedItem('snooby.subreddits.actionBar');
+          _cache.persistItem('snooby.version', '1.0.2');
+        }
+
         if (_cache.getPersistedItem('snooby.subreddits.actionBar') === null) {
           app.subreddits(null, function() {
             init();
