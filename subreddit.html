@@ -9,7 +9,7 @@
   <div id="listing" style="display: none;"></div>
   <div id="actionBar" data-bb-type="action-bar">
     <div data-bb-type="action" 
-         onclick="document.getElementById('actionBar').setSelectedTab(document.getElementById('tab-' + _cache.getItem('subreddit.selected')))" 
+         onclick="_subreddits.refresh()" 
          data-bb-style="button" data-bb-img="img/icons/ic_rotate.png">Refresh</div>
    <div data-bb-type="action"
         onclick="bb.pushScreen('settings.html', 'settings');"

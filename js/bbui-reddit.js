@@ -134,15 +134,18 @@ var bbr = {
   },
 
   switchSubreddit: function(subreddit) {
-    $('#loading').show();
-    $('#listing').empty();
-    var thiz = this;
-    app.listing(subreddit, function(post) {
-      $('#loading').hide();
-      $('#listing').show();
-      thiz.formatPost(post, function(bbPost) {
-        $(bbPost).appendTo('#listing');
+    var selectedSubreddit = _cache.getItem('subreddit.selected');
+    if (typeof selectedSubreddit === 'undefined' || selectedSubreddit !== subreddit) {
+      $('#loading').show();
+      $('#listing').empty();
+      var thiz = this;
+      app.listing(subreddit, function(post) {
+        $('#loading').hide();
+        $('#listing').show();
+        thiz.formatPost(post, function(bbPost) {
+          $(bbPost).appendTo('#listing');
+        });
       });
-    });
+    }
   }
 };

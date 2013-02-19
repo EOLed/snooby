@@ -61,5 +61,11 @@ var _subreddits = {
   scrollback: function() {
     $('#subreddit').children('div').eq(1).scrollTop(_cache.getItem('subreddit.scrollTop'));
     $('#listing').show();
+  },
+
+  refresh: function() {
+    var selectedTab = document.getElementById('tab-' + _cache.getItem('subreddit.selected'));
+    _cache.removeItem('subreddit.selected');
+    document.getElementById('actionBar').setSelectedTab(selectedTab);
   }
 };
