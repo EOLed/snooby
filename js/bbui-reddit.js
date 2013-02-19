@@ -20,7 +20,8 @@ var bbr = {
                        link.data.thumbnail !== 'self' &&
                        link.data.thumbnail !== 'default';
 
-    var linkTitle = selfPost ? link.data.title : '<a href="' + link.data.url + '">' + link.data.title + '</a>';
+    var linkTitle = link.data.title;
+
     if (link.data.over_18) 
       linkTitle += ' <span class="label label-important nsfw">nsfw</span>';
 
@@ -47,6 +48,7 @@ var bbr = {
       if (selfPost) {
         bb.pushScreen('comments.html', 'comments', { link: link });
       } else {
+        window.open(link.data.url);
       }
     });
 
