@@ -24,35 +24,46 @@ var _comments = {
 
     var currentChunkIndex = 0;
     var chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
-    chunk.appendTo('#comments');
+    chunk.appendTo('#inner');
 
     app.comments(params.link.data.permalink, 
                  params.link.data.author, 
                  function(comment, op, chunkIndex) {
       bbr.formatComment(comment, op, function(bbComment) {
         $('#loading').hide();
-        $('#comments').show();
+        $('#inner').show();
 
         if (chunkIndex !== currentChunkIndex) {
           currentChunkIndex = chunkIndex;
           chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
           chunk.hide();
-          chunk.appendTo('#comments');
+          chunk.appendTo('#inner');
+          document.getElementById('pull-to-refresh').style.display = 'block';
         }
 
         bbComment.appendTo(chunk);
       }, chunkIndex);
     });
+
+    this._setupPullToRefresh();
   },
 
-  _chunkIndex: 1,
+  _setupPullToRefresh: function() {
+    document.getElementById('commentsScreen').addEventListener('touchend', function (evt) {
+      if (document.getElementById('pull-to-refresh').classList.contains('pulling')) {
+        setTimeout(function() {
+          document.getElementById('pull-to-refresh').classList.remove('pulling');
+          console.log('do pull to refresh');
+        }, 1);
+      }
+    });
+  },
 
   onScroll: function(element) {
-    var scrollPanel = element.children[1];
-
-    if ($(scrollPanel).scrollTop() > ($(scrollPanel).height() - 100) ) { 
-      $('#commentChunk' + this._chunkIndex).show();
-      this._chunkIndex++;
-    } 
+    var scroller = element.children[1];
+    if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 100) {
+      document.getElementById('pull-to-refresh').classList.add('pulling');
+    }
   }
 };
+

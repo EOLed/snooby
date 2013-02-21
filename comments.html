@@ -1,4 +1,4 @@
-<div data-bb-type="screen"> <!-- onscroll="_comments.onScroll(this)"> -->
+<div id="commentsScreen" data-bb-type="screen" onscroll="_comments.onScroll(this)">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
@@ -10,7 +10,11 @@
   <div id="linkDetails"></div>
   <div class="container">
     <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
-    <div id="comments"></div>
+    <div id="comments">
+      <div id="inner">
+      </div>
+    </div>
+    <div id="pull-to-refresh" style="display: none"><div id="ptrarrow">&#x21ea;</div><span id="ptrtext"></span></div>
   </div>
   <div data-bb-type="action-bar" data-bb-back-caption="Back">
     <!-- <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png">Downvote</div>

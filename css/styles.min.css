@@ -128,6 +128,7 @@ div#listing .details-section {
 
 #comments {
   font-size: .75em;
+
 }
 
 #comments ul, #comments ol {
@@ -206,4 +207,42 @@ img.thumb {
 #about .link {
   color: #048;
   font-size: .65em;
+}
+
+#comments {
+    -webkit-box-flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: -blackberry-touch;
+}
+
+#inner {
+  -webkit-transform: translateZ(0); /* This is necessary, or we clip at y=0. WHY?! */
+}
+
+#pull-to-refresh {
+  border-top-style: dashed;
+  border-top-color: #eee;
+  margin-top: 1em;
+  color: #ccc;
+  width:100%;
+  font-size: .65em;
+}
+#ptrarrow {
+  display: inline-block;
+  font-size:2em;
+  -webkit-transition: -webkit-transform 0.15s ease-out;
+  margin-right:10px;
+  -webkit-transform: rotate(-180deg);
+}
+#pull-to-refresh.pulling #ptrarrow {
+  -webkit-transform: none;
+}
+
+#ptrtext:after {
+  content: "Pull up for more comments...";
+  vertical-align:0.5em;
+}
+#pull-to-refresh.pulling #ptrtext:after {
+  content: "Release for more comments...";
 }
