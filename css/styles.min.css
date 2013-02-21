@@ -233,10 +233,9 @@ img.thumb {
   font-size:2em;
   -webkit-transition: -webkit-transform 0.15s ease-out;
   margin-right:10px;
-  -webkit-transform: rotate(-180deg);
 }
 #pull-to-refresh.pulling #ptrarrow {
-  -webkit-transform: none;
+  -webkit-transform: rotate(-180deg);
 }
 
 #ptrtext:after {
