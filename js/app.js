@@ -17,20 +17,34 @@ var app = {
     }); 
   },
 
-  comments: function(permalink, op, callback) {
+  comments: function(permalink, op, callback, oncomplete) {
     var length = 0;
-    var MAX_LENGTH = 50000;
+    var CHUNK_LENGTH = 50000;
+    if (typeof resume === 'undefined')
+      resume = 0;
+
     snooby.comments(permalink, op, function(comments) {
       comments.shift();
-      $.each(comments, function(index, comment) {
-        $.each(comment.data.children, function(commentIndex, value) {
-          if (length < MAX_LENGTH) {
-            length += JSON.stringify(value).length;
-              callback(value, op);
-          } else
-            return false;
-        });
+
+      // seperate comments in chunks
+      var chunkIndex = 0;
+
+      $.each(comments[0].data.children, function(commentIndex, value) {
+        if (commentIndex < resume) 
+          return;
+
+        if (length > CHUNK_LENGTH) {
+          chunkIndex++;
+          length = 0;
+          _cache.setItem('comments.resume', commentIndex);
+        }
+
+        length += JSON.stringify(value).length;
+        callback(value, op, chunkIndex);
       });
+
+      if (typeof oncomplete === 'function')
+        oncomplete();
     });
   },
 

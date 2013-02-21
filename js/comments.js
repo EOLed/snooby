@@ -22,12 +22,37 @@ var _comments = {
   onDomReady: function(element, params) {
     $('#loading').show();
 
-    app.comments(params.link.data.permalink, params.link.data.author, function(comment) {
-      bbr.formatComment(comment, params.link.data.author, function(bbComment) {
+    var currentChunkIndex = 0;
+    var chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
+    chunk.appendTo('#comments');
+
+    app.comments(params.link.data.permalink, 
+                 params.link.data.author, 
+                 function(comment, op, chunkIndex) {
+      bbr.formatComment(comment, op, function(bbComment) {
         $('#loading').hide();
         $('#comments').show();
-        $(bbComment).appendTo('#comments');
-      });
+
+        if (chunkIndex !== currentChunkIndex) {
+          currentChunkIndex = chunkIndex;
+          chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
+          chunk.hide();
+          chunk.appendTo('#comments');
+        }
+
+        bbComment.appendTo(chunk);
+      }, chunkIndex);
     });
+  },
+
+  _chunkIndex: 1,
+
+  onScroll: function(element) {
+    var scrollPanel = element.children[1];
+
+    if ($(scrollPanel).scrollTop() > ($(scrollPanel).height() - 100) ) { 
+      $('#commentChunk' + this._chunkIndex).show();
+      this._chunkIndex++;
+    } 
   }
 };
