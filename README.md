@@ -1,3 +1,6 @@
+Snooby: A Blackberry 10 Reddit Client
+=====================================
+
 Introducing [Snooby](http://appworld.blackberry.com/webstore/content/23060906/), the very early 
 stages of a Blackberry 10 Reddit client. As it stands, it's a read-only Reddit client... capable
 of only browsing the front page or the subreddits that you are subscribed to.
