@@ -23,7 +23,7 @@ var _comments = {
     $('#loading').show();
 
     var currentChunkIndex = 0;
-    var chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
+    var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
     chunk.appendTo('#inner');
 
     app.comments(params.link.data.permalink, 
@@ -35,7 +35,7 @@ var _comments = {
 
         if (chunkIndex !== currentChunkIndex) {
           currentChunkIndex = chunkIndex;
-          chunk = $("<div id='commentChunk" + currentChunkIndex + "'></div>");
+          chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
           chunk.hide();
           chunk.appendTo('#inner');
           document.getElementById('pull-to-refresh').style.display = 'block';
@@ -53,15 +53,30 @@ var _comments = {
       if (document.getElementById('pull-to-refresh').classList.contains('pulling')) {
         setTimeout(function() {
           document.getElementById('pull-to-refresh').classList.remove('pulling');
-          console.log('do pull to refresh');
-        }, 1);
+          var chunks = document.getElementsByClassName('chunk');
+          var numChunks = chunks.length - 1;
+          for (var i = 0; i < numChunks; i++) {
+            var currentChunk = chunks[i];
+            if (currentChunk.style.display !== 'none') {
+              currentChunk.style.display = 'none';
+              chunks[i+1].style.display = 'block';
+
+              if (i >= (numChunks - 1)) {
+                document.getElementById('pull-to-refresh').style.display = 'none';
+              }
+
+              document.getElementById('commentsScreen').scrollToElement(document.getElementById('linkDetails'));
+              break;
+            }
+          }
+        }, 350);
       }
     });
   },
 
   onScroll: function(element) {
     var scroller = element.children[1];
-    if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 100) {
+    if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 75) {
       document.getElementById('pull-to-refresh').classList.add('pulling');
     }
   }
