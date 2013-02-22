@@ -87,7 +87,7 @@ describe('Listing', function() {
                        'http://reddit.com/r/blackops2.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
     var callback = sinon.spy();
-    snooby.listing('blackops2', callback);
+    snooby.listing('blackops2', {}, callback);
     server.respond();
     expect(callback.calledWith('blackops2', blackopsListing)).toBeTruthy();
   });

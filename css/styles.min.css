@@ -225,23 +225,43 @@ img.thumb {
   border-top-color: #eee;
   margin-top: 1em;
   color: #ccc;
-  width:100%;
+  width: 100%;
   font-size: .65em;
+  padding-top: 1.5em;
 }
+
+#subreddit #pull-to-refresh {
+  margin-top: 0;
+  border-top-style: none;
+  padding-top: 1.5em;
+  text-align: center;
+}
+
 #ptrarrow {
   display: inline-block;
   font-size:2em;
   -webkit-transition: -webkit-transform 0.15s ease-out;
   margin-right:10px;
 }
+
 #pull-to-refresh.pulling #ptrarrow {
   -webkit-transform: rotate(-180deg);
 }
 
-#ptrtext:after {
+#commentsScreen #ptrtext:after {
   content: "Pull up for more comments...";
   vertical-align:0.5em;
 }
-#pull-to-refresh.pulling #ptrtext:after {
+
+#commentsScreen #pull-to-refresh.pulling #ptrtext:after {
   content: "Release for more comments...";
+}
+
+#subreddit #ptrtext:after {
+  content: "Pull up for more posts...";
+  vertical-align:0.5em;
+}
+
+#subreddit #pull-to-refresh.pulling #ptrtext:after {
+  content: "Release for more posts...";
 }

@@ -38,7 +38,7 @@ describe('app.listing()', function() {
     server.respondWith('GET',
                        'http://reddit.com/r/blackops2.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
-    app.listing('blackops2', sinon.spy());
+    app.listing('blackops2', {}, sinon.spy());
     server.respond();
     expect(_cache.setItem.calledWith('subreddit.listing', blackopsListing)).toBeTruthy();
     _cache.setItem.restore();
@@ -50,7 +50,7 @@ describe('app.listing()', function() {
     server.respondWith('GET',
                        'http://reddit.com/r/blackops2.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
-    app.listing('blackops2', sinon.spy());
+    app.listing('blackops2', {}, sinon.spy());
     server.respond();
     expect(_cache.setItem.calledWith('subreddit.selected', 'blackops2')).toBeTruthy();
     _cache.setItem.restore();
@@ -62,10 +62,22 @@ describe('app.listing()', function() {
     server.respondWith('GET',
                        'http://reddit.com/r/blackops2.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
-    app.listing('blackops2', callback);
+    app.listing('blackops2', {}, callback);
     server.respond();
     for (var i = 0; i < blackopsListing.data.children.length; i++)
       expect(JSON.stringify(callback.args[i][0])).toBe(JSON.stringify(blackopsListing.data.children[i]));
+  });
+
+  it('passes listing to oncomplete callback', function() {
+    var blackopsListing = responses.reddit.listings.blackops2;
+    var callback = sinon.spy();
+    server.respondWith('GET',
+                       'http://reddit.com/r/blackops2.json',
+                       [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
+    app.listing('blackops2', {}, sinon.spy(), callback);
+    server.respond();
+
+    expect(JSON.stringify(callback.args[0][0])).toBe(JSON.stringify(blackopsListing));
   });
 });
 

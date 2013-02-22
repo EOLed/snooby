@@ -39,19 +39,41 @@ var _subreddits = {
           $(bbPost).appendTo('#listing');
         });
       });
+
+      if (cachedListing.data.after === null)
+        $('#pull-to-refresh').hide();
+      else
+        $('#pull-to-refresh').show();
     } else {
       console.log('loading subreddit listings from reddit');
       _cache.setItem('subreddit.domReady', true);
-      $('#loading').show();
-      $('#listing').hide();
-      app.listing(params.subreddit, function(post) {
-        $('#loading').hide();
-        $('#listing').show();
-        bbr.formatPost(post, function(bbPost) {
-          $(bbPost).appendTo('#listing');
-        });
-      });
+      this._updateListing(params.subreddit);
     }
+
+    this._setupPullToRefresh();
+  },
+
+  _updateListing: function(subreddit, data) {
+    $('#pull-to-refresh').hide();
+    $('#loading').show();
+    $('#listing').hide();
+    $('#listing').empty();
+    app.listing(subreddit, data, function(post) {
+      bbr.formatPost(post, function(bbPost) {
+        $(bbPost).appendTo('#listing');
+      });
+    }, function(listing) {
+      $('#loading').hide();
+      $('#listing').show();
+
+      if (listing.data.after === null) {
+        _cache.removeItem('subreddit.after');
+        $('#pull-to-refresh').hide();
+      } else {
+        _cache.setItem('subreddit.after', listing.data.after);
+        $('#pull-to-refresh').show();
+      }
+    });
   },
 
   onUnload: function(element) {
@@ -64,8 +86,35 @@ var _subreddits = {
   },
 
   refresh: function() {
-    var selectedTab = document.getElementById('tab-' + _cache.getItem('subreddit.selected'));
+    var selectedSubreddit = _cache.getItem('subreddit.selected');
     _cache.removeItem('subreddit.selected');
+
+    var selectedTab = document.getElementById('tab-' + selectedSubreddit);
     document.getElementById('actionBar').setSelectedTab(selectedTab);
+  },
+
+  _setupPullToRefresh: function() {
+    var thiz = this;
+    document.getElementById('subreddit').addEventListener('touchend', function (evt) {
+      if (document.getElementById('pull-to-refresh').classList.contains('pulling')) {
+        setTimeout(function() {
+          document.getElementById('pull-to-refresh').classList.remove('pulling');
+          thiz._updateListing(_cache.getItem('subreddit.selected'),
+                              { after: _cache.getItem('subreddit.after') });
+        }, 350);
+      }
+    });
+  },
+
+  onScroll: function(element) {
+    var ptr = document.getElementById('pull-to-refresh');
+    
+    if ((ptr.style.display === '' || ptr.style.display === 'block') && 
+        _cache.getItem('subreddit.after') !== null) {
+      var scroller = element.children[1];
+      if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 75) {
+        ptr.classList.add('pulling');
+      }
+    }
   }
 };

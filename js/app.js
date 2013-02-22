@@ -7,13 +7,16 @@ var app = {
     snooby.logout(modhash, onsuccess);
   },
 
-  listing: function(subreddits, callback) {
-    snooby.listing(subreddits, function(subreddits, listing) {
+  listing: function(subreddits, data, callback, oncomplete) {
+    snooby.listing(subreddits, data, function(subreddits, listing) {
       _cache.setItem('subreddit.listing', listing);
       _cache.setItem('subreddit.selected', subreddits);
       $.each(listing.data.children, function(index, value) {
         callback(value);
       });
+
+      if (typeof oncomplete === 'function')
+        oncomplete(listing);
     }); 
   },
 

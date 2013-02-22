@@ -9,11 +9,11 @@ var snooby = {
     $.post('https://ssl.reddit.com/logout', { uh: modhash, top: 'off' }, onsuccess);
   },
 
-  listing: function(subreddits, callback) {
+  listing: function(subreddits, data, callback) {
     var thiz = this;
     var url = subreddits === 'frontpage' ? 'http://reddit.com/.json' : 
                                            'http://reddit.com/r/' + subreddits + '.json';
-    $.get(url, function(listing) {
+    $.get(url, data, function(listing) {
       callback(subreddits, listing);
     });
   },
