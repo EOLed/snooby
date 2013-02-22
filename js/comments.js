@@ -30,9 +30,6 @@ var _comments = {
                  params.link.data.author, 
                  function(comment, op, chunkIndex) {
       bbr.formatComment(comment, op, function(bbComment) {
-        $('#loading').hide();
-        $('#inner').show();
-
         if (chunkIndex !== currentChunkIndex) {
           currentChunkIndex = chunkIndex;
           chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
@@ -43,6 +40,9 @@ var _comments = {
 
         bbComment.appendTo(chunk);
       }, chunkIndex);
+    }, function() {
+      $('#loading').hide();
+      $('#inner').show();
     });
 
     this._setupPullToRefresh();
