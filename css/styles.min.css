@@ -131,11 +131,11 @@ div#listing .details-section {
 
 }
 
-#comments ul, #comments ol {
+#comments ul, #comments ol, #linkHeader ul, #linkHeader ol {
   margin-left: 38px;
 }
 
-#comments li {
+#comments li, #linkHeader li {
   line-height: normal;
 }
 
