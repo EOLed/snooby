@@ -2,7 +2,8 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         version="1.0.3" 
-        id="snooby">
+        id="snooby"
+        rim:userAgent="Snooby">
   <author href="http://snooby.co/"
     rim:copyright="Copyright 2013 Amos Chan">Amos Chan</author>
   <name>Snooby</name>
