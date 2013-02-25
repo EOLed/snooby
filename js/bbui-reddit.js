@@ -25,7 +25,8 @@ var bbr = {
     if (link.data.over_18) 
       linkTitle += ' <span class="label label-important nsfw">nsfw</span>';
 
-    var linkDescription = Mustache.to_html(hasThumbnail ? $('#titleWithThumbnail').html() : $('#titleWithoutThumbnail').html(),
+    var linkDescription = Mustache.to_html(hasThumbnail ? $('#titleWithThumbnail').html() : 
+                                                          $('#titleWithoutThumbnail').html(),
                                            { title: linkTitle,
                                              numComments: link.data.num_comments,
                                              thumbnail: link.data.thumbnail });
@@ -139,5 +140,41 @@ var bbr = {
     var selectedSubreddit = _cache.getItem('subreddit.selected');
     if (typeof selectedSubreddit === 'undefined' || selectedSubreddit !== subreddit)
       _subreddits._updateListing(subreddit, {});
+  },
+
+  dispatchLink: function(e) {
+    var target = e.target;
+    if (target && target.nodeName === 'A') {
+      console.log('anchor clicked');
+      e.preventDefault();
+
+      var redditMatch = /^([\w]*\.)*reddit\.com/;
+      if (target.hostname.match(redditMatch)) 
+        this._handleRedditLink(target);
+    }
+  },
+
+  _handleRedditLink: function(a) {
+    var subredditMatch = /^\/r\/(\w)*(\/)*$/;
+    var commentMatch = /^\/r\/(\w)*\/comments\/(\w)*\/(\w)*(\/)*$/;
+
+    if (a.pathname.match(commentMatch))
+      return this._handleRedditCommentLink(a);
+
+    if (a.pathname.match(subredditMatch))
+      return this._handleSubredditLink(a);
+  },
+
+  _handleRedditCommentLink: function(a) {
+    bb.pushScreen('comments.html', 'comments', { link: { data: { permalink: a.pathname } } });
+  },
+
+  _handleSubredditLink: function(a) {
+    var pathname = a.pathname;
+    var suffix = '/';
+    var length = pathname.indexOf(suffix, pathname.length - suffix.length) !== -1 ? pathname.length - 1 : 
+                                                                                    pathname.length;
+    var subreddit = pathname.substring(3, length);
+    bb.pushScreen('subreddit.html', 'subreddit', { subreddits: subreddit });
   }
 };

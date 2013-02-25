@@ -72,6 +72,10 @@
         }
       }
 
+      window.addEventListener('click', function(e) {
+        bbr.dispatchLink(e);
+      });
+
       window.addEventListener('load', function(e) {
         document.addEventListener('webworksready', ready);
       }, false);
