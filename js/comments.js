@@ -1,22 +1,31 @@
 var _comments = {
   onScreenReady: function(element, params) {
-    var domain = params.link.data.domain;
-    var selfPost = domain === 'self.' + params.link.data.subreddit;
+    if (typeof params.link.data.domain === 'undefined')
+      return;
+
+    this._populateOp(element, params.link);
+  },
+
+  _populateOp: function(element, op) {
+    var selfPost = op.data.domain === 'self.' + op.data.subreddit;
     var headerTemplate = element.getElementById(selfPost ? 'selfPostHeaderTemplate' : 
                                                            'linkHeaderTemplate').innerHTML;
     var html = Mustache.to_html(headerTemplate,
-                                { title: selfPost ? params.link.data.title : 
-                                                    '<a href="' + params.link.data.url + '">' + params.link.data.title + '</a>',
-                                  body: selfPost ? SnuOwnd.getParser().render(params.link.data.selftext) : null,
-                                  domain: params.link.data.domain,
-                                  numComments: params.link.data.num_comments });
+                                { title: selfPost ? op.data.title : 
+                                                    '<a href="' + op.data.url + '">' + op.data.title + '</a>',
+                                  body: selfPost ? SnuOwnd.getParser().render(op.data.selftext) : null,
+                                  domain: op.data.domain,
+                                  numComments: op.data.num_comments });
     element.getElementById('linkHeader').innerHTML = html;
 
     html = Mustache.to_html(element.getElementById('linkHeaderDetailsTemplate').innerHTML,
-                            { author: params.link.data.author,
-                              score: params.link.data.score,
-                              time: moment.unix(params.link.data.created_utc).fromNow() });
+                            { author: op.data.author,
+                              score: op.data.score,
+                              time: moment.unix(op.created_utc).fromNow() });
     element.getElementById('linkDetails').innerHTML = html;
+
+    element.getElementById('linkHeader').style.display = 'block';
+    element.getElementById('linkDetails').style.display = 'block';
   },
 
   onDomReady: function(element, params) {
@@ -26,8 +35,13 @@ var _comments = {
     var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
     chunk.appendTo('#inner');
 
+    var thiz = this;
+    var opcallback = element.getElementById('linkHeader').style.display === 'none' ?
+                     function(op) {
+                       thiz._populateOp(element, op);
+                     } : null;
+
     app.comments(params.link.data.permalink, 
-                 params.link.data.author, 
                  function(comment, op, chunkIndex) {
       bbr.formatComment(comment, op, function(bbComment) {
         if (chunkIndex !== currentChunkIndex) {
@@ -43,7 +57,7 @@ var _comments = {
     }, function() {
       $('#loading').hide();
       $('#inner').show();
-    });
+    }, opcallback);
 
     this._setupPullToRefresh();
   },
@@ -65,7 +79,8 @@ var _comments = {
                 document.getElementById('pull-to-refresh').style.display = 'none';
               }
 
-              document.getElementById('commentsScreen').scrollToElement(document.getElementById('linkDetails'));
+              document.getElementById('commentsScreen')
+                      .scrollToElement(document.getElementById('linkDetails'));
               break;
             }
           }

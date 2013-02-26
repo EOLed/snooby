@@ -18,7 +18,7 @@ var snooby = {
     });
   },
 
-  comments: function(permalink, op, onsuccess) {
+  comments: function(permalink, onsuccess) {
     $.get('http://reddit.com' + permalink + '.json', onsuccess);
   },
 

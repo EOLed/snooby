@@ -73,7 +73,7 @@ var bbr = {
     div.addClass(className);
 
     var author = comment.data.author;
-    if (comment.data.author == op)
+    if (comment.data.author == op.data.author)
       author = '<span class="op">' + author + '</span>';
 
     var commentTemplate = $('#commentTemplate').html();
@@ -150,13 +150,15 @@ var bbr = {
 
       var redditMatch = /^([\w]*\.)*reddit\.com/;
       if (target.hostname.match(redditMatch)) 
-        this._handleRedditLink(target);
+        return this._handleRedditLink(target);
+
+      window.open(target.href);
     }
   },
 
   _handleRedditLink: function(a) {
     var subredditMatch = /^\/r\/(\w)*(\/)*$/;
-    var commentMatch = /^\/r\/(\w)*\/comments\/(\w)*\/(\w)*(\/)*$/;
+    var commentMatch = /^\/r\/(\w)*\/comments\/(\w)*\/.*$/;
 
     if (a.pathname.match(commentMatch))
       return this._handleRedditCommentLink(a);

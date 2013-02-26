@@ -105,7 +105,8 @@ describe('app.comments()', function() {
                        'http://reddit.com/r/blackops2/comments/187oca/when_did_aftermath_get_so_popular/.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(commentListing)]);
     var callback = sinon.spy();
-    app.comments('/r/blackops2/comments/187oca/when_did_aftermath_get_so_popular/', sinon.spy(), callback);
+    app.comments('/r/blackops2/comments/187oca/when_did_aftermath_get_so_popular/', 
+                 callback);
     server.respond();
     expect(callback.called).toBeTruthy();
   });

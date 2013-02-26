@@ -15,6 +15,22 @@ describe('bbr.dispatchLink', function() {
     mock.restore();
   });
 
+  it('handles comment context links natively', function() {
+    var mock = sinon.mock(bb);
+    mock.expects('pushScreen')
+        .withArgs('comments.html', 
+                  'comments',
+                  { link: { data: { permalink: '/r/test/comments/190i6b/testing_opening_links_for_res/c8jnn3c' } } })
+        .once();
+
+    e.target.hostname = 'www.reddit.com';
+    e.target.pathname = '/r/test/comments/190i6b/testing_opening_links_for_res/c8jnn3c';
+    e.target.href = 'http://www.reddit.com/r/test/comments/190i6b/testing_opening_links_for_res/c8jnn3c';
+    bbr.dispatchLink(e);
+    mock.verify();
+    mock.restore();
+  });
+
   it('handles comment links natively', function() {
     var mock = sinon.mock(bb);
     mock.expects('pushScreen')

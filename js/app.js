@@ -20,13 +20,17 @@ var app = {
     }); 
   },
 
-  comments: function(permalink, op, callback, oncomplete) {
+  comments: function(permalink, callback, oncomplete, opcallback) {
     var length = 0;
     var CHUNK_LENGTH = 30000;
     if (typeof resume === 'undefined')
       resume = 0;
 
-    snooby.comments(permalink, op, function(comments) {
+    snooby.comments(permalink, function(comments) {
+      var op = comments[0].data.children[0];
+      if (typeof opcallback === 'function')
+        opcallback(op);
+
       comments.shift();
 
       // seperate comments in chunks
