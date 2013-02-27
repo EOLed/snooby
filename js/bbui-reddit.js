@@ -1,5 +1,6 @@
 var bbr = {
   formatPost: function(link, callback) {
+    var thiz = this;
     var linkTemplate = $('#linkTemplate').html();
     var domain = link.data.domain;
     var selfPost = domain === 'self.' + link.data.subreddit;
@@ -49,7 +50,14 @@ var bbr = {
       if (selfPost) {
         bb.pushScreen('comments.html', 'comments', { link: link });
       } else {
-        window.open(link.data.url);
+        var url = link.data.url;
+        if (url.substring(0, 1) === '/')
+          url = 'http://reddit.com' + url;
+
+        var a = document.createElement('a');
+        a.href = url;
+
+        thiz._handleLink(a);
       }
     });
 
@@ -148,12 +156,16 @@ var bbr = {
       console.log('anchor clicked');
       e.preventDefault();
 
-      var redditMatch = /^([\w]*\.)*reddit\.com/;
-      if (target.hostname.match(redditMatch)) 
-        return this._handleRedditLink(target);
-
-      window.open(target.href);
+      this._handleLink(target);
     }
+  },
+
+  _handleLink: function(a) {
+    var redditMatch = /^([\w]*\.)*reddit\.com/;
+    if (a.hostname.match(redditMatch)) 
+      return this._handleRedditLink(a);
+
+    window.open(a.href);
   },
 
   _handleRedditLink: function(a) {
