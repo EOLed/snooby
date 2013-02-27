@@ -177,6 +177,7 @@ var bbr = {
     var length = pathname.indexOf(suffix, pathname.length - suffix.length) !== -1 ? pathname.length - 1 : 
                                                                                     pathname.length;
     var subreddit = pathname.substring(3, length);
-    bb.pushScreen('subreddit.html', 'subreddit', { subreddits: subreddit });
+    _cache.removeItem('subreddit.visited');
+    bb.pushScreen('subreddit.html', 'subreddit', { subreddit: subreddit });
   }
 };

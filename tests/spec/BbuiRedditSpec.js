@@ -65,7 +65,7 @@ describe('bbr.dispatchLink', function() {
 
   it('handles subreddit links natively', function() {
     var mock = sinon.mock(bb);
-    mock.expects('pushScreen').withArgs('subreddit.html', 'subreddit', { subreddits: 'test' }).once();
+    mock.expects('pushScreen').withArgs('subreddit.html', 'subreddit', { subreddit: 'test' }).once();
     e.target.hostname = 'www.reddit.com';
     e.target.pathname = '/r/test';
     e.target.href = 'http://www.reddit.com/r/test'
@@ -76,7 +76,7 @@ describe('bbr.dispatchLink', function() {
 
   it('handles subreddit links natively (trailing slash)', function() {
     var mock = sinon.mock(bb);
-    mock.expects('pushScreen').withArgs('subreddit.html', 'subreddit', { subreddits: 'test' }).once();
+    mock.expects('pushScreen').withArgs('subreddit.html', 'subreddit', { subreddit: 'test' }).once();
     e.target.hostname = 'www.reddit.com';
     e.target.pathname = '/r/test/';
     e.target.href = 'http://www.reddit.com/r/test/'

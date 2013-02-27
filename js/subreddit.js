@@ -23,7 +23,17 @@ var _subreddits = {
       element.getElementById('actionBar').innerHTML = actionBar;
     }
     
-    element.getElementById('tab-' + _cache.getItem('subreddit.selected')).setAttribute('data-bb-selected', true);
+    var selectedSubreddit = _cache.getItem('subreddit.selected');
+    var selectedTab = element.getElementById('tab-' + selectedSubreddit);
+    if (selectedTab === null) {
+      bbr.createSubredditTabOption({ data: { display_name: selectedSubreddit } }, 
+                                   function(subredditTab) {
+        selectedTab = element.getElementById('actionBar').appendChild(subredditTab);
+        selectedTab.setAttribute('data-bb-selected', true);
+      });
+    }
+
+    selectedTab.setAttribute('data-bb-selected', true);
   },
 
   onDomReady: function(element, params) {
