@@ -60,6 +60,7 @@
         var version = _cache.getPersistedItem('snooby.version');
         if (version === null || version !== '1.0.4') {
           _cache.removePersistedItem('snooby.subreddits.actionBar');
+          _cache.persistItem('snooby.gold', 'false');
           _cache.persistItem('snooby.version', '1.0.4');
         }
 

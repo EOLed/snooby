@@ -74,32 +74,35 @@ describe('Support page', function() {
     getElementById.withArgs('supportSnooby').returns({ style: { display: false } });
     getElementById.withArgs('snoobyGoldPurchased').returns({ style: { display: false } });
 
-    var purchase = sinon.stub(blackberry.payment, 'checkExisting', function(data, onsuccess, onfail) {
-      onsuccess({ subscriptionExists: false });
-    });
+    var getPersistedItem = sinon.stub(_cache, 'getPersistedItem');
+    getPersistedItem.withArgs('snooby.gold').returns('false');
+
+    // var purchase = sinon.stub(blackberry.payment, 'checkExisting', function(data, onsuccess, onfail) {
+    //   onsuccess({ subscriptionExists: false });
+    // });
 
     _support.onDomReady(element);
     expect(element.getElementById('supportSnooby').style.display).toBe('block');
     expect(element.getElementById('snoobyGoldPurchased').style.display).toBe('none');
-    blackberry.payment.checkExisting.restore();
+    // blackberry.payment.checkExisting.restore();
     element.getElementById.restore();
+    _cache.getPersistedItem.restore();
   });
 
   it('Thank you panel is displayed if Snooby Gold is purchased', function() {
-    var element = document;//{ getElementById: function(id) { return { style: { display: false } }; } };
+    var element = document;
     var getElementById = sinon.stub(element, 'getElementById');
     var supportSnoobyDisplay = sinon.spy();
     getElementById.withArgs('supportSnooby').returns({ style: { display: false } });
     getElementById.withArgs('snoobyGoldPurchased').returns({ style: { display: false } });
 
-    var purchase = sinon.stub(blackberry.payment, 'checkExisting', function(data, onsuccess, onfail) {
-      onsuccess({ subscriptionExists: true });
-    });
+    var getPersistedItem = sinon.stub(_cache, 'getPersistedItem');
+    getPersistedItem.withArgs('snooby.gold').returns('true');
 
     _support.onDomReady(element);
     expect(element.getElementById('supportSnooby').style.display).toBe('none');
     expect(element.getElementById('snoobyGoldPurchased').style.display).toBe('block');
-    blackberry.payment.checkExisting.restore();
     element.getElementById.restore();
+    _cache.getPersistedItem.restore();
   });
 });
