@@ -265,3 +265,8 @@ img.thumb {
 #subreddit #pull-to-refresh.pulling #ptrtext:after {
   content: "Release for more posts...";
 }
+
+.linkHostname {
+  font-size: .6em;
+  color: #ccc;
+}
