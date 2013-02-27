@@ -21,7 +21,7 @@ var _comments = {
     html = Mustache.to_html(element.getElementById('linkHeaderDetailsTemplate').innerHTML,
                             { author: op.data.author,
                               score: op.data.score,
-                              time: moment.unix(op.created_utc).fromNow() });
+                              time: moment.unix(op.data.created_utc).fromNow() });
     element.getElementById('linkDetails').innerHTML = html;
 
     element.getElementById('linkHeader').style.display = 'block';
