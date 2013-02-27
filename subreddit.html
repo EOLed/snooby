@@ -18,8 +18,14 @@
          onclick="_subreddits.refresh()" 
          data-bb-style="button" data-bb-img="img/icons/ic_rotate.png">Refresh</div>
    <div data-bb-type="action"
+        onclick="_subreddits.promptSubreddit()"
+        data-bb-style="button"
+        data-bb-overflow="true"
+        data-bb-img="img/icons/ic_open.png">Go to Subreddit...</div>
+   <div data-bb-type="action"
         onclick="bb.pushScreen('settings.html', 'settings');"
         data-bb-style="button"
+        data-bb-overflow="true"
         data-bb-img="img/icons/ic_settings.png">Settings</div>
    <div data-bb-type="action"
         onclick="bb.pushScreen('support.html', 'support');"

@@ -129,7 +129,7 @@ var bbr = {
     tab.setAttribute('data-bb-style', 'tab');
     tab.setAttribute('data-bb-overflow', true);
     tab.setAttribute('data-bb-img', 'img/icons/ic_view_list.png');
-    tab.setAttribute('id', 'tab-' + subreddit.data.display_name);
+    tab.setAttribute('id', _subreddits.getSubredditTabId(subreddit.data.display_name));
     tab.innerHTML = subreddit.data.display_name;
     tab.setAttribute('onclick', 'bbr.switchSubreddit(\'' + subreddit.data.display_name +  '\');');
 
@@ -176,7 +176,10 @@ var bbr = {
     var suffix = '/';
     var length = pathname.indexOf(suffix, pathname.length - suffix.length) !== -1 ? pathname.length - 1 : 
                                                                                     pathname.length;
-    var subreddit = pathname.substring(3, length);
+    this.pushSubredditScreen(pathname.substring(3, length));
+  },
+
+  pushSubredditScreen: function(subreddit) {
     _cache.removeItem('subreddit.visited');
     bb.pushScreen('subreddit.html', 'subreddit', { subreddit: subreddit });
   }

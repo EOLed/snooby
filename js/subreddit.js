@@ -24,7 +24,7 @@ var _subreddits = {
     }
     
     var selectedSubreddit = _cache.getItem('subreddit.selected');
-    var selectedTab = element.getElementById('tab-' + selectedSubreddit);
+    var selectedTab = element.getElementById(this.getSubredditTabId(selectedSubreddit));
     if (selectedTab === null) {
       bbr.createSubredditTabOption({ data: { display_name: selectedSubreddit } }, 
                                    function(subredditTab) {
@@ -63,6 +63,10 @@ var _subreddits = {
     this._setupPullToRefresh();
   },
 
+  getSubredditTabId: function(subreddit) {
+    return 'tab-' + subreddit.toLowerCase();
+  },
+
   _updateListing: function(subreddit, data) {
     $('#pull-to-refresh').hide();
     $('#loading').show();
@@ -99,7 +103,7 @@ var _subreddits = {
     var selectedSubreddit = _cache.getItem('subreddit.selected');
     _cache.removeItem('subreddit.selected');
 
-    var selectedTab = document.getElementById('tab-' + selectedSubreddit);
+    var selectedTab = document.getElementById(this.getSubredditTabId(selectedSubreddit));
     document.getElementById('actionBar').setSelectedTab(selectedTab);
   },
 
@@ -126,5 +130,19 @@ var _subreddits = {
         ptr.classList.add('pulling');
       }
     }
+  },
+
+  promptSubreddit: function() {
+    blackberry.ui.dialog.standardAskAsync('Enter subreddit name:',
+                                          blackberry.ui.dialog.D_PROMPT,
+                                          function(selection) {
+                                            if (selection.return === 'Ok') {
+                                              var promptText = selection.promptText.trim();
+                                              if (promptText !== '')
+                                                bbr.pushSubredditScreen(promptText); 
+                                            }
+                                          },
+                                          { title: 'Go to Subreddit...' });
+
   }
 };
