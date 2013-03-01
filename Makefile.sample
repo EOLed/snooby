@@ -4,17 +4,41 @@ SASS = ${STYLESHEETS}/sass
 TMP = ./tmp
 HR=\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
 CHECK=\033[32m✔\033[39m
+DEVICE_IP = 192.168.1.61
 
 build:
 	@echo "\n${HR}"
 	@echo "Building Snooby..."
 	@echo "${HR}\n"
+	@echo "Running JSHint on javascript...             ${CHECK} Done"
 	@jshint js/bbui-reddit.js
 	@jshint js/comments.js
 	@jshint js/settings.js
-	@jshint js/subreddit.js
 	@jshint js/snooby.js
-	@echo "Running JSHint on javascript...             ${CHECK} Done"
+	@jshint js/cache.js
+	@echo "\n${HR}"
+	@echo "Snooby successfully built at ${DATE}."
+	@echo "${HR}\n"
+
+tests: build
+	@echo "\n${HR}"
+	@echo "Building Snooby..."
+	@echo "${HR}\n"
+	@echo "Running Jasmine...                          ${CHECK} Done"
+	@phantomjs tests/run-jasmine.js tests/SpecRunner.html 
+
+deploy: tests package 
+	@rm -Rf ~/Downloads/snooby
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/bbwp /tmp/snooby.zip -g <KEYSTOREPASSWORD> --buildId 21 -o ~/Downloads/snooby
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password <DEVICEPASSWORD" -device ${DEVICE_IP} -package ~/Downloads/snooby/device/snooby.bar 
+	@rm -Rf ${TMP}
+
+deploydebug: tests package debugtoken deploytoken 
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/bbwp /tmp/snooby.zip -d -o /tmp/output
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password <DEVICEPASSWORD> -device ${DEVICE_IP} -package /tmp/output/device/snooby.bar 
+	@rm -Rf ${TMP}
+
+package:
 	@echo "Setting up build environment...             ${CHECK} Done"
 	@mkdir -p ${TMP}
 	@cp *.html ${TMP}
@@ -22,17 +46,21 @@ build:
 	@cp -R js ${TMP}
 	@cp submodules/snuownd/snuownd.js ${TMP}/js
 	@mkdir -p ${TMP}/img/icons
-	@cp img/icons/ic_{up,down,view_list,rotate,settings,search}.png ${TMP}/img/icons
+	@cp img/icons/ic_{open,info,star,up,down,view_list,rotate,settings,search}.png ${TMP}/img/icons
 	@cp img/icons/app-114.png ${TMP}/img/icons
 	@cp img/splash.png ${TMP}/img
 	@cp -R font ${TMP}
 	@cp -R css ${TMP}
 	@echo "Cleaning up build environment...            ${CHECK} Done"
 	@rm -Rf /tmp/snooby.zip
+	@rm -Rf /tmp/output
 	@cd ${TMP}; zip -r /tmp/snooby.zip . -x .*
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/bbwp /tmp/snooby.zip -g <password> --buildId <buildId> -d -o /tmp/output
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.7/dependencies/tools/bin/blackberry-deploy -installApp -device 172.16.29.128 -package /tmp/output/simulator/snooby.bar 
-	@rm -Rf ${TMP}
-	@echo "\n${HR}"
-	@echo "Snooby successfully built at ${DATE}."
-	@echo "${HR}\n"
+
+
+debugtoken:
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-debugtokenrequest -storepass <KEYSTOREPASSWORD> -devicepin <DEVICEPIN> /tmp/debugtoken.bar
+	@cp /tmp/debugtoken.bar /Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11
+
+deploytoken:
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installDebugToken /tmp/debugtoken.bar -device ${DEVICE_IP} -password <DEVICEPASSWORD> 
+
