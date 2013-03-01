@@ -30,6 +30,7 @@ var bbr = {
                                                           $('#titleWithoutThumbnail').html(),
                                            { title: linkTitle,
                                              numComments: link.data.num_comments,
+                                             id: link.data.id,
                                              thumbnail: link.data.thumbnail });
 
     var html = Mustache.to_html(linkTemplate, 
@@ -41,6 +42,13 @@ var bbr = {
                                   author: link.data.author });
     var div = $('<div/>');
     div.html(html);
+
+    div.attr('data-webworks-context',
+             JSON.stringify({ id: link.data.id,
+                              type: 'linkContext',
+                              header: 'Link Actions',
+                              subheader: link.data.title }));
+
     $('.comments', div).click(function() {
       bb.pushScreen('comments.html', 'comments', { link: link });
     });

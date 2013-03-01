@@ -61,6 +61,32 @@ var _subreddits = {
     }
 
     this._setupPullToRefresh();
+
+    this._setupContextMenu();
+  },
+
+  _setupContextMenu: function() {
+    blackberry.ui.contextmenu.enabled = true;
+
+    var options = {};
+
+    blackberry.ui.contextmenu.defineCustomContext('linkContext', options);
+
+    var upvote = { actionId: 'upvoteAction',
+                   label: 'Upvote',
+                   icon: '../img/icons/ic_up.png' };
+
+    var downvote = { actionId: 'downvoteAction',
+                     label: 'Downvote',
+                     icon: '../img/icons/ic_down.png' };
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], downvote, function(sourceId) {
+      alert('downvote' + sourceId);
+    });
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], upvote, function(sourceId) {
+      alert('upvote' + sourceId);
+    });
   },
 
   getSubredditTabId: function(subreddit) {
