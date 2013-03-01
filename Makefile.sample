@@ -5,6 +5,10 @@ TMP = ./tmp
 HR=\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
 CHECK=\033[32m✔\033[39m
 DEVICE_IP = 192.168.1.61
+DEVICE_PASSWORD = mypassword
+DEVICE_PIN = mypin
+KEYSTORE_PASSWORD = mykeystorepass
+BUILD_ID = 21
 
 build:
 	@echo "\n${HR}"
@@ -29,13 +33,13 @@ tests: build
 
 deploy: tests package 
 	@rm -Rf ~/Downloads/snooby
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/bbwp /tmp/snooby.zip -g <KEYSTOREPASSWORD> --buildId 21 -o ~/Downloads/snooby
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password <DEVICEPASSWORD" -device ${DEVICE_IP} -package ~/Downloads/snooby/device/snooby.bar 
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/bbwp /tmp/snooby.zip -g ${KEYSTORE_PASSWORD} --buildId ${BUILD_ID} -o ~/Downloads/snooby
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password ${DEVICE_PASSWORD} -device ${DEVICE_IP} -package ~/Downloads/snooby/device/snooby.bar 
 	@rm -Rf ${TMP}
 
 deploydebug: tests package debugtoken deploytoken 
 	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/bbwp /tmp/snooby.zip -d -o /tmp/output
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password <DEVICEPASSWORD> -device ${DEVICE_IP} -package /tmp/output/device/snooby.bar 
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installApp -password ${DEVICE_PASSWORD} -device ${DEVICE_IP} -package /tmp/output/device/snooby.bar 
 	@rm -Rf ${TMP}
 
 package:
@@ -58,9 +62,9 @@ package:
 
 
 debugtoken:
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-debugtokenrequest -storepass <KEYSTOREPASSWORD> -devicepin <DEVICEPIN> /tmp/debugtoken.bar
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-debugtokenrequest -storepass ${KEYSTORE_PASSWORD} -devicepin ${DEVICE_PIN} /tmp/debugtoken.bar
 	@cp /tmp/debugtoken.bar /Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11
 
 deploytoken:
-	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installDebugToken /tmp/debugtoken.bar -device ${DEVICE_IP} -password <DEVICEPASSWORD> 
+	@/Developer/SDKs/Research\ In\ Motion/BlackBerry\ 10\ WebWorks\ SDK\ 1.0.4.11/dependencies/tools/bin/blackberry-deploy -installDebugToken /tmp/debugtoken.bar -device ${DEVICE_IP} -password ${DEVICE_PASSWORD} 
 
