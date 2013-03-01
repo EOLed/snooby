@@ -12,6 +12,28 @@ describe('App', function() {
     expect(snooby.logout.called).toBeTruthy();
     snooby.logout.restore();
   });
+
+});
+
+describe('Voting', function() {
+  it('Downvotes through snooby', function() {
+    var downvote = sinon.stub(snooby, 'vote');
+    app.downvote(sinon.spy(), sinon.spy(), sinon.spy());
+    expect(downvote.args[0][0]).toBe(-1);
+    snooby.vote.restore();
+  });
+  it('Upvotes through snooby', function() {
+    var upvote = sinon.stub(snooby, 'vote');
+    app.upvote(sinon.spy(), sinon.spy(), sinon.spy());
+    expect(upvote.args[0][0]).toBe(1);
+    snooby.vote.restore();
+  });
+  it('Unvotes through snooby', function() {
+    var unvote = sinon.stub(snooby, 'vote');
+    app.unvote(sinon.spy(), sinon.spy(), sinon.spy());
+    expect(unvote.args[0][0]).toBe(0);
+    snooby.vote.restore();
+  });
 });
 
 describe('app.listing()', function() {

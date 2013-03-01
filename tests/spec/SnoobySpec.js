@@ -191,3 +191,31 @@ describe('Subreddits', function() {
     }
   });
 });
+
+describe('Voting', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('passes the correct parameters', function() {
+    snooby.vote(1, '23423423', '342342323', function() {});
+    expect(server.requests[0].requestBody).toEqual('dir=1&id=23423423&uh=342342323');
+  });
+
+  it('calls onsuccess callback upon successful vote', function() {
+    var response = '{"errors":[]}';
+    server.respondWith('POST',
+                       'http://www.reddit.com/api/vote',
+                       [200, { "Content-Type": "application/json" }, response]);
+    var onsuccess = sinon.spy();
+    snooby.vote(1, 'asdf', 'asdf', onsuccess);
+    server.respond();
+    expect(onsuccess.calledOnce).toBeTruthy();
+  });
+});

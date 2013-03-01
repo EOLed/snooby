@@ -76,6 +76,27 @@ var app = {
     }
   },
 
+  unvote: function(id, modhash, onsuccess) {
+    if (typeof onsuccess !== 'function')
+      onsuccess = function() {};
+
+    snooby.vote(0, id, modhash, onsuccess);
+  },
+
+  upvote: function(id, modhash, onsuccess) {
+    if (typeof onsuccess !== 'function')
+      onsuccess = function() {};
+
+    snooby.vote(1, id, modhash, onsuccess);
+  },
+
+  downvote: function(id, modhash, onsuccess) {
+    if (typeof onsuccess !== 'function')
+      onsuccess = function() {};
+
+    snooby.vote(-1, id, modhash, onsuccess);
+  },
+
   _processSubreddits: function(subreddits, callback, oncomplete) {
     _cache.persistItem('snooby.subreddits', JSON.stringify(subreddits));
     var frontpage = { data: { display_name: 'frontpage' } };

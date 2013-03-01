@@ -81,11 +81,15 @@ var _subreddits = {
                      icon: '../img/icons/ic_down.png' };
 
     blackberry.ui.contextmenu.addItem(['linkContext'], downvote, function(sourceId) {
-      alert('downvote' + sourceId);
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var subreddit = _cache.getItem('subreddit.selected');
+      app.downvote(sourceId, user.modhash, subreddit);
     });
 
     blackberry.ui.contextmenu.addItem(['linkContext'], upvote, function(sourceId) {
-      alert('upvote' + sourceId);
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var subreddit = _cache.getItem('subreddit.selected');
+      app.upvote(sourceId, user.modhash, subreddit);
     });
   },
 

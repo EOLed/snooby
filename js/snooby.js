@@ -47,6 +47,12 @@ var snooby = {
     $.get('http://reddit.com/reddits/mine.json', {}, processSubreddits);
   },
 
+  vote: function(dir, id, modhash, onsuccess) {
+    $.post('http://www.reddit.com/api/vote',
+           { dir: dir, id: id, uh: modhash },
+           onsuccess);
+  },
+
   _sortSubreddits: function(subreddits, callback) {
     subreddits.sort(function(a, b) {
       return a.data.display_name.localeCompare(b.data.display_name);

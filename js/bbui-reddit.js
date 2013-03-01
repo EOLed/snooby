@@ -30,7 +30,6 @@ var bbr = {
                                                           $('#titleWithoutThumbnail').html(),
                                            { title: linkTitle,
                                              numComments: link.data.num_comments,
-                                             id: link.data.id,
                                              thumbnail: link.data.thumbnail });
 
     var html = Mustache.to_html(linkTemplate, 
@@ -44,7 +43,7 @@ var bbr = {
     div.html(html);
 
     div.attr('data-webworks-context',
-             JSON.stringify({ id: link.data.id,
+             JSON.stringify({ id: link.data.name,
                               type: 'linkContext',
                               header: 'Link Actions',
                               subheader: link.data.title }));
