@@ -65,6 +65,9 @@
     <div class="row comment-author-section" onclick="bbr.toggleComment(this)">
       <div class="span">
         <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
+        {{#authorFlair}}
+          • {{authorFlair}}
+        {{/authorFlair}}
       </div>
     </div>
     <div class="row comment-body" style="display: block;">

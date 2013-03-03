@@ -49,6 +49,7 @@ var bbr = {
                                   time: moment.unix(link.data.created_utc).fromNow(),
                                   name: link.data.name,
                                   scoreClass: scoreClass,
+                                  authorFlair: link.data.author_flair_text,
                                   author: link.data.author });
     var div = $('<div/>');
     div.html(html);
@@ -108,6 +109,7 @@ var bbr = {
     var html = Mustache.to_html(commentTemplate,
                                 { body: SnuOwnd.getParser().render(comment.data.body),
                                   author: author,
+                                  authorFlair: comment.data.author_flair_text,
                                   score: (score > 0 ? "+" : "") + score,
                                   time: moment.unix(comment.data.created_utc).fromNow() });
 
