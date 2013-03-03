@@ -279,6 +279,6 @@ img.thumb {
   color: #b56719;
 }
 
-.score {
+.meta .score {
   -webkit-transition: all ease-in-out 0.6s;
 }
