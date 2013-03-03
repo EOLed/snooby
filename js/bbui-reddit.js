@@ -4,7 +4,9 @@ var bbr = {
     var linkTemplate = $('#linkTemplate').html();
     var domain = link.data.domain;
     var selfPost = domain === 'self.' + link.data.subreddit;
-    if (!selfPost) {
+    if (selfPost) {
+      domain = 'self';
+    } else {
       var len = domain.length;
       if (len > 20) {
         domain = domain.substring(0, domain.lastIndexOf('.'));
