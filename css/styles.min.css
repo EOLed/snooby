@@ -270,3 +270,15 @@ img.thumb {
   font-size: .6em;
   color: #ccc;
 }
+
+.downvoted {
+  color: #47638a;
+}
+
+.upvoted {
+  color: #b56719;
+}
+
+.score {
+  -webkit-transition: all ease-in-out 0.6s;
+}

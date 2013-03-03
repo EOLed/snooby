@@ -65,6 +65,58 @@ var _subreddits = {
     this._setupContextMenu();
   },
 
+  _doDownvote: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can vote.');
+      return;
+    }
+
+    var subreddit = _cache.getItem('subreddit.selected');
+    app.downvote(sourceId, user.modhash, subreddit);
+
+    var scoreElement = $('#score-' + sourceId);
+    var score = parseInt(scoreElement.html()) - 1;
+
+    if (scoreElement.hasClass('downvoted'))
+      return;
+
+    if (scoreElement.hasClass('upvoted')) {
+      scoreElement.removeClass('upvoted');
+      score--;
+    }
+
+    scoreElement.addClass('downvoted');
+    scoreElement.html(score);
+  },
+
+  _doUpvote: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can vote.');
+      return;
+    }
+
+    var subreddit = _cache.getItem('subreddit.selected');
+    app.upvote(sourceId, user.modhash, subreddit);
+
+    var scoreElement = $('#score-' + sourceId);
+    var score = parseInt(scoreElement.html()) + 1;
+
+    if (scoreElement.hasClass('upvoted'))
+      return;
+
+    if (scoreElement.hasClass('downvoted')) {
+      scoreElement.removeClass('downvoted');
+      score++;
+    }
+
+    scoreElement.addClass('upvoted');
+    scoreElement.html(score);
+  },
+
   _setupContextMenu: function() {
     blackberry.ui.contextmenu.enabled = true;
 
@@ -80,17 +132,9 @@ var _subreddits = {
                      label: 'Downvote',
                      icon: '../img/icons/ic_down.png' };
 
-    blackberry.ui.contextmenu.addItem(['linkContext'], downvote, function(sourceId) {
-      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-      var subreddit = _cache.getItem('subreddit.selected');
-      app.downvote(sourceId, user.modhash, subreddit);
-    });
+    blackberry.ui.contextmenu.addItem(['linkContext'], downvote, this._doDownvote);
 
-    blackberry.ui.contextmenu.addItem(['linkContext'], upvote, function(sourceId) {
-      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-      var subreddit = _cache.getItem('subreddit.selected');
-      app.upvote(sourceId, user.modhash, subreddit);
-    });
+    blackberry.ui.contextmenu.addItem(['linkContext'], upvote, this._doUpvote);
   },
 
   getSubredditTabId: function(subreddit) {

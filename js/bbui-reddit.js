@@ -32,12 +32,21 @@ var bbr = {
                                              numComments: link.data.num_comments,
                                              thumbnail: link.data.thumbnail });
 
+    var scoreClass = '';
+
+    if (link.data.likes === true)
+      scoreClass = 'upvoted';
+    else if (link.data.likes === false)
+      scoreClass = 'downvoted';
+
     var html = Mustache.to_html(linkTemplate, 
                                 { linkDescription: linkDescription,
                                   subreddit: link.data.subreddit,
                                   score: link.data.score,
                                   domain: domain,
                                   time: moment.unix(link.data.created_utc).fromNow(),
+                                  name: link.data.name,
+                                  scoreClass: scoreClass,
                                   author: link.data.author });
     var div = $('<div/>');
     div.html(html);
@@ -45,8 +54,8 @@ var bbr = {
     div.attr('data-webworks-context',
              JSON.stringify({ id: link.data.name,
                               type: 'linkContext',
-                              header: 'Link Actions',
-                              subheader: link.data.title }));
+                              header: link.data.title,
+                              subheader: link.data.author }));
 
     $('.comments', div).click(function() {
       bb.pushScreen('comments.html', 'comments', { link: link });

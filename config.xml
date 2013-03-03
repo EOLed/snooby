@@ -17,6 +17,7 @@
   <feature id="blackberry.payment" />
   <feature id="blackberry.app" />
   <feature id="blackberry.ui.contextmenu" />
+  <feature id="blackberry.ui.toast" />
   <access uri="http://redditmedia.com" subdomains="true">
     <feature id="blackberry.app" required="true" version="1.0.0.0"/>
     <feature id="blackberry.invoke" required="true" version="1.0.0.0"/>

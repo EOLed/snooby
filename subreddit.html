@@ -37,45 +37,48 @@
         data-bb-style="button"
         data-bb-overflow="true"
         data-bb-img="img/icons/ic_info.png">About</div>
-   <script id="linkTemplate" type="text/template">
-     <div class="link-section">
-       <div class="container-fluid">
-         <div class="row">
-           {{&linkDescription}}
+  </div>
+  <script id="linkTemplate" type="text/template">
+   <div class="link-section">
+     <div class="container-fluid">
+       <div class="row">
+         {{&linkDescription}}
+       </div>
+     </div>  
+   </div>
+   <div class="details-section">
+     <div class="container">
+       <div class="row">
+         <div class="span10 meta">
+           <span class="subreddit">{{subreddit}}</span> • 
+           <span class="score {{scoreClass}}" id="score-{{name}}">{{score}}</span> • 
+           {{domain}} • 
+           {{author}}
          </div>
-       </div>  
-     </div>
-     <div class="details-section">
-       <div class="container">
-         <div class="row">
-           <div class="span10 meta">
-             <span class="subreddit">{{subreddit}}</span> • {{score}} • {{domain}} • {{author}}
-           </div>
-           <div class="span2 time">{{time}}</div>
-         </div>
-       </div>  
-     </div>
-   </script>
-   <script id="titleWithThumbnail" type="text/template">
-     <div class="span2 thumb">
-       <img src="{{thumbnail}}" />
-     </div>
-     <div class="span8 link-title">
-       {{&title}}
-     </div>
-     <div class="span2 comments">
-       <div class="comment-count">{{numComments}}</div>
-       <i class='icon-comment'></i>
-     </div>
-   </script>
-   <script id="titleWithoutThumbnail" type="text/template">
-     <div class="span10 link-title">
-       {{&title}}
-     </div>
-     <div class="span2 comments">
-       <div class="comment-count">{{numComments}}</div>
-       <i class='icon-comment'></i>
-     </div>
-   </script>
- </div>
+         <div class="span2 time">{{time}}</div>
+       </div>
+     </div>  
+   </div>
+ </script>
+ <script id="titleWithThumbnail" type="text/template">
+   <div class="span2 thumb">
+     <img src="{{thumbnail}}" />
+   </div>
+   <div class="span8 link-title">
+     {{&title}}
+   </div>
+   <div class="span2 comments">
+     <div class="comment-count">{{numComments}}</div>
+     <i class='icon-comment'></i>
+   </div>
+ </script>
+ <script id="titleWithoutThumbnail" type="text/template">
+   <div class="span10 link-title">
+     {{&title}}
+   </div>
+   <div class="span2 comments">
+     <div class="comment-count">{{numComments}}</div>
+     <i class='icon-comment'></i>
+   </div>
+ </script>
 </div>
