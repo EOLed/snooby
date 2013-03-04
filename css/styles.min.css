@@ -273,10 +273,12 @@ img.thumb {
 
 .downvoted {
   color: #47638a;
+  font-weight: bold;
 }
 
 .upvoted {
   color: #b56719;
+  font-weight: bold;
 }
 
 .meta .score {

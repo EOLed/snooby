@@ -67,20 +67,23 @@ var _subreddits = {
 
   _doDownvote: function(sourceId) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var scoreElement = $('#score-' + sourceId);
+    var score = parseInt(scoreElement.html());
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
       return;
     }
 
-    var subreddit = _cache.getItem('subreddit.selected');
-    app.downvote(sourceId, user.modhash, subreddit);
-
-    var scoreElement = $('#score-' + sourceId);
-    var score = parseInt(scoreElement.html()) - 1;
-
-    if (scoreElement.hasClass('downvoted'))
+    if (scoreElement.hasClass('downvoted')) {
+      app.unvote(sourceId, user.modhash, subreddit);
+      scoreElement.removeClass('downvoted');
+      scoreElement.html(++score);
       return;
+    }
+
+    app.downvote(sourceId, user.modhash, subreddit);
 
     if (scoreElement.hasClass('upvoted')) {
       scoreElement.removeClass('upvoted');
@@ -88,25 +91,28 @@ var _subreddits = {
     }
 
     scoreElement.addClass('downvoted');
-    scoreElement.html(score);
+    scoreElement.html(--score);
   },
 
   _doUpvote: function(sourceId) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var scoreElement = $('#score-' + sourceId);
+    var score = parseInt(scoreElement.html());
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
       return;
     }
 
-    var subreddit = _cache.getItem('subreddit.selected');
-    app.upvote(sourceId, user.modhash, subreddit);
-
-    var scoreElement = $('#score-' + sourceId);
-    var score = parseInt(scoreElement.html()) + 1;
-
-    if (scoreElement.hasClass('upvoted'))
+    if (scoreElement.hasClass('upvoted')) {
+      app.unvote(sourceId, user.modhash, subreddit);
+      scoreElement.removeClass('upvoted');
+      scoreElement.html(--score);
       return;
+    }
+
+    app.upvote(sourceId, user.modhash, subreddit);
 
     if (scoreElement.hasClass('downvoted')) {
       scoreElement.removeClass('downvoted');
@@ -114,7 +120,7 @@ var _subreddits = {
     }
 
     scoreElement.addClass('upvoted');
-    scoreElement.html(score);
+    scoreElement.html(++score);
   },
 
   _setupContextMenu: function() {
