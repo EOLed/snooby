@@ -46,6 +46,7 @@ var _subreddits = {
       $.each(cachedListing.data.children, function(index, value) {
         setTimeout(function() { thiz.scrollback(); }, 0);
         bbr.formatPost(value, function(bbPost) {
+          $(bbPost).attr('data-snooby-index', index);
           $(bbPost).appendTo('#listing');
         });
       });
@@ -70,6 +71,9 @@ var _subreddits = {
     var subreddit = _cache.getItem('subreddit.selected');
     var scoreElement = $('#score-' + sourceId);
     var score = parseInt(scoreElement.html());
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
@@ -80,6 +84,8 @@ var _subreddits = {
       app.unvote(sourceId, user.modhash, subreddit);
       scoreElement.removeClass('downvoted');
       scoreElement.html(++score);
+      link.data.score = score;
+      link.data.likes = null;
       return;
     }
 
@@ -92,6 +98,8 @@ var _subreddits = {
 
     scoreElement.addClass('downvoted');
     scoreElement.html(--score);
+    link.data.score = score;
+    link.data.likes = false;
   },
 
   _doUpvote: function(sourceId) {
@@ -99,6 +107,9 @@ var _subreddits = {
     var subreddit = _cache.getItem('subreddit.selected');
     var scoreElement = $('#score-' + sourceId);
     var score = parseInt(scoreElement.html());
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
@@ -109,6 +120,8 @@ var _subreddits = {
       app.unvote(sourceId, user.modhash, subreddit);
       scoreElement.removeClass('upvoted');
       scoreElement.html(--score);
+      link.data.score = score;
+      link.data.likes = null;
       return;
     }
 
@@ -121,6 +134,8 @@ var _subreddits = {
 
     scoreElement.addClass('upvoted');
     scoreElement.html(++score);
+    link.data.score = score;
+    link.data.likes = true;
   },
 
   _setupContextMenu: function() {
@@ -152,8 +167,10 @@ var _subreddits = {
     $('#loading').show();
     $('#listing').hide();
     $('#listing').empty();
+    var index = 0;
     app.listing(subreddit, data, function(post) {
       bbr.formatPost(post, function(bbPost) {
+        $(bbPost).attr('data-snooby-index', index++);
         $(bbPost).appendTo('#listing');
       });
     }, function(listing) {

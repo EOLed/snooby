@@ -54,6 +54,7 @@ var bbr = {
     var div = $('<div/>');
     div.html(html);
 
+    div.attr('id', 'link-' + link.data.name);
     div.attr('data-webworks-context',
              JSON.stringify({ id: link.data.name,
                               type: 'linkContext',
