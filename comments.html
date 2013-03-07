@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
   <script type="text/javascript" src="js/snuownd.js"></script>
+  <script type="text/javascript" src="js/jquery.visible.min.js"></script>
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader" style="display: none"></div>
   <div id="linkDetails" style="display: none"></div>
@@ -17,8 +18,8 @@
     <div id="pull-to-refresh" style="display: none"><div id="ptrarrow">&#x21ea;</div><span id="ptrtext"></span></div>
   </div>
   <div data-bb-type="action-bar" data-bb-back-caption="Back">
-    <!-- <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png">Downvote</div>
-    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png">Upvote</div> -->
+    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png" onclick="_comments.upvotePost()">Upvote</div>
+    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png" onclick="_comments.downvotePost()">Downvote</div>
   </div>
   <script id="linkHeaderTemplate" type="text/template">
     <div class="container">
@@ -54,7 +55,7 @@
       <div class="container">
         <div class="row">
           <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
-          <div class="span4 score"><i class="icon-heart"></i> {{score}}</div>
+          <div class="span4 score"><i class="icon-heart"></i> <span id="linkScore" class="{{linkScoreClass}}">{{score}}</span></div>
           <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
         </div>
       </div>
