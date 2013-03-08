@@ -16,22 +16,20 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript">
       function ready() {
-        moment.relativeTime = {
-          future: '%s',
-          past: '%s',
-          s: '%ds',
-          ss: '%ds',
-          m: '%dm',
-          mm: '%dm',
-          h: '%dh',
-          hh: '%dh',
-          d: '%dd',
-          dd: '%dd',
-          M: '%dm',
-          MM: '%dm',
-          y: '%dy',
-          yy: '%dy'
-        };
+        moment.lang('en', { relativeTime:  { future: '%s',
+                                             past: '%s',
+                                             s: '%ds',
+                                             ss: '%ds',
+                                             m: '%dm',
+                                             mm: '%dm',
+                                             h: '%dh',
+                                             hh: '%dh',
+                                             d: '%dd',
+                                             dd: '%dd',
+                                             M: '%dm',
+                                             MM: '%dm',
+                                             y: '%dy',
+                                             yy: '%dy' } });
 
         function init() {
           bb.init({ 
