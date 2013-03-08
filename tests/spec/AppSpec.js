@@ -16,21 +16,32 @@ describe('App', function() {
 });
 
 describe('Voting', function() {
+  var cache;
+
+  beforeEach(function() {
+    cache = sinon.stub(_cache, 'getPersistedItem');
+    cache.withArgs('snooby.gold').returns("true");
+  });
+
+  afterEach(function() {
+    _cache.getPersistedItem.restore();
+  });
+
   it('Downvotes through snooby', function() {
     var downvote = sinon.stub(snooby, 'vote');
-    app.downvote(sinon.spy(), sinon.spy(), sinon.spy());
+    app.downvote(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(downvote.args[0][0]).toBe(-1);
     snooby.vote.restore();
   });
   it('Upvotes through snooby', function() {
     var upvote = sinon.stub(snooby, 'vote');
-    app.upvote(sinon.spy(), sinon.spy(), sinon.spy());
+    app.upvote(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(upvote.args[0][0]).toBe(1);
     snooby.vote.restore();
   });
   it('Unvotes through snooby', function() {
     var unvote = sinon.stub(snooby, 'vote');
-    app.unvote(sinon.spy(), sinon.spy(), sinon.spy());
+    app.unvote(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(unvote.args[0][0]).toBe(0);
     snooby.vote.restore();
   });

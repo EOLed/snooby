@@ -76,25 +76,40 @@ var app = {
     }
   },
 
-  unvote: function(id, modhash, onsuccess) {
-    if (typeof onsuccess !== 'function')
-      onsuccess = function() {};
+  unvote: function(id, modhash, onsuccess, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
 
-    snooby.vote(0, id, modhash, onsuccess);
+    var doUnvote = function() {
+      snooby.vote(0, id, modhash, onsuccess);
+    };
+
+    rateLimiter.requestAction(rateLimiter.VOTE, doUnvote, onrateexceeded);
   },
 
-  upvote: function(id, modhash, onsuccess) {
-    if (typeof onsuccess !== 'function')
-      onsuccess = function() {};
+  upvote: function(id, modhash, onsuccess, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
 
-    snooby.vote(1, id, modhash, onsuccess);
+    var doUpvote = function() {
+      snooby.vote(1, id, modhash, onsuccess);
+    };
+
+    rateLimiter.requestAction(rateLimiter.VOTE, doUpvote, onrateexceeded);
   },
 
-  downvote: function(id, modhash, onsuccess) {
-    if (typeof onsuccess !== 'function')
-      onsuccess = function() {};
+  downvote: function(id, modhash, onsuccess, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
 
-    snooby.vote(-1, id, modhash, onsuccess);
+    var doDownvote = function() {
+      snooby.vote(-1, id, modhash, onsuccess);
+    };
+
+    rateLimiter.requestAction(rateLimiter.VOTE, doDownvote, onrateexceeded);
   },
 
   _processSubreddits: function(subreddits, callback, oncomplete) {
@@ -109,5 +124,9 @@ var app = {
 
     if (typeof oncomplete === 'function')
       oncomplete();
+  },
+
+  _rateExceededToast: function() {
+    blackberry.ui.toast.show('You have exceeded today\'s free rate limit. Please wait a little or purchase Snooby Gold for unlimited access.', { timeout: 9000 });
   }
 };

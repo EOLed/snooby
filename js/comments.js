@@ -114,6 +114,7 @@ var _comments = {
     var op = _cache.getItem('comment.op');
     var subreddit = op.data.subreddit;
     var link = null;
+    var thiz = this;
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
@@ -128,34 +129,35 @@ var _comments = {
     });
 
     if (scoreElement.hasClass('upvoted')) {
-      app.unvote(op.data.name, user.modhash, subreddit);
-      scoreElement.removeClass('upvoted');
-      scoreElement.html(--score);
-      if (link !== null) {
-        link.data.score = score;
-        link.data.likes = null;
-      }
+      app.unvote(op.data.name, user.modhash, function() {
+        scoreElement.removeClass('upvoted');
+        scoreElement.html(--score);
+        if (link !== null) {
+          link.data.score = score;
+          link.data.likes = null;
+        }
 
-      this._postScoreOutdated = !scoreElement.visible();
+        thiz._postScoreOutdated = !scoreElement.visible();
+      });
 
       return;
     }
 
-    app.upvote(op.data.name, user.modhash, subreddit);
+    app.upvote(op.data.name, user.modhash, function() {
+      if (scoreElement.hasClass('downvoted')) {
+        scoreElement.removeClass('downvoted');
+        score++;
+      }
 
-    if (scoreElement.hasClass('downvoted')) {
-      scoreElement.removeClass('downvoted');
-      score++;
-    }
+      scoreElement.addClass('upvoted');
+      scoreElement.html(++score);
+      if (link !== null) {
+        link.data.score = score;
+        link.data.likes = true;
+      }
 
-    scoreElement.addClass('upvoted');
-    scoreElement.html(++score);
-    if (link !== null) {
-      link.data.score = score;
-      link.data.likes = true;
-    }
-
-    this._postScoreOutdated = !scoreElement.visible();
+      thiz._postScoreOutdated = !scoreElement.visible();
+    });
   },
 
   _postScoreOutdated: false,
@@ -167,6 +169,7 @@ var _comments = {
     var op = _cache.getItem('comment.op');
     var subreddit = op.data.subreddit;
     var link = null;
+    var thiz = this;
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
@@ -181,33 +184,34 @@ var _comments = {
     });
 
     if (scoreElement.hasClass('downvoted')) {
-      app.unvote(op.data.name, user.modhash, subreddit);
-      scoreElement.removeClass('downvoted');
-      scoreElement.html(++score);
-      if (link !== null) {
-        link.data.score = score;
-        link.data.likes = null;
-      }
+      app.unvote(op.data.name, user.modhash, function() {
+        scoreElement.removeClass('downvoted');
+        scoreElement.html(++score);
+        if (link !== null) {
+          link.data.score = score;
+          link.data.likes = null;
+        }
 
-      this._postScoreOutdated = !scoreElement.visible();
+        thiz._postScoreOutdated = !scoreElement.visible();
+      });
 
       return;
     }
 
-    app.downvote(op.data.name, user.modhash, subreddit);
+    app.downvote(op.data.name, user.modhash, function() {
+      if (scoreElement.hasClass('upvoted')) {
+        scoreElement.removeClass('upvoted');
+        score--;
+      }
 
-    if (scoreElement.hasClass('upvoted')) {
-      scoreElement.removeClass('upvoted');
-      score--;
-    }
+      scoreElement.addClass('downvoted');
+      scoreElement.html(--score);
+      if (link !== null) {
+        link.data.score = score;
+        link.data.likes = false;
+      }
 
-    scoreElement.addClass('downvoted');
-    scoreElement.html(--score);
-    if (link !== null) {
-      link.data.score = score;
-      link.data.likes = false;
-    }
-
-    this._postScoreOutdated = !scoreElement.visible();
+      thiz._postScoreOutdated = !scoreElement.visible();
+    });
   }
 };

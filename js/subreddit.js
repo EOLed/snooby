@@ -74,6 +74,9 @@ var _subreddits = {
     var link = _cache.getItem('subreddit.listing')
                      .data
                      .children[$('#link-' + sourceId).attr('data-snooby-index')];
+    var onrateexceeded = function() {
+      app.rateExceededToast();
+    };
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can vote.');
@@ -81,28 +84,30 @@ var _subreddits = {
     }
 
     if (scoreElement.hasClass('downvoted')) {
-      app.unvote(sourceId, user.modhash, subreddit);
-      scoreElement.removeClass('downvoted');
-      scoreElement.html(++score);
-      link.data.score = score;
-      link.data.likes = null;
+      app.unvote(sourceId, user.modhash, function() {
+        scoreElement.removeClass('downvoted');
+        scoreElement.html(++score);
+        link.data.score = score;
+        link.data.likes = null;
+      });
+
       return;
     }
 
-    app.downvote(sourceId, user.modhash, subreddit);
+    app.downvote(sourceId, user.modhash, function() {
+      if (scoreElement.hasClass('upvoted')) {
+        scoreElement.removeClass('upvoted');
+        score--;
+      }
 
-    if (scoreElement.hasClass('upvoted')) {
-      scoreElement.removeClass('upvoted');
-      score--;
-    }
-
-    scoreElement.addClass('downvoted');
-    scoreElement.html(--score);
-    link.data.score = score;
-    link.data.likes = false;
+      scoreElement.addClass('downvoted');
+      scoreElement.html(--score);
+      link.data.score = score;
+      link.data.likes = false;
+    });
   },
 
-  _doUpvote: function(sourceId) {
+  _doUpvote: function(sourceId, onrateexceeded) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
     var subreddit = _cache.getItem('subreddit.selected');
     var scoreElement = $('#score-' + sourceId);
@@ -117,25 +122,27 @@ var _subreddits = {
     }
 
     if (scoreElement.hasClass('upvoted')) {
-      app.unvote(sourceId, user.modhash, subreddit);
-      scoreElement.removeClass('upvoted');
-      scoreElement.html(--score);
-      link.data.score = score;
-      link.data.likes = null;
+      app.unvote(sourceId, user.modhash, function() {
+        scoreElement.removeClass('upvoted');
+        scoreElement.html(--score);
+        link.data.score = score;
+        link.data.likes = null;
+      });
+
       return;
     }
 
-    app.upvote(sourceId, user.modhash, subreddit);
+    app.upvote(sourceId, user.modhash, function() {
+      if (scoreElement.hasClass('downvoted')) {
+        scoreElement.removeClass('downvoted');
+        score++;
+      }
 
-    if (scoreElement.hasClass('downvoted')) {
-      scoreElement.removeClass('downvoted');
-      score++;
-    }
-
-    scoreElement.addClass('upvoted');
-    scoreElement.html(++score);
-    link.data.score = score;
-    link.data.likes = true;
+      scoreElement.addClass('upvoted');
+      scoreElement.html(++score);
+      link.data.score = score;
+      link.data.likes = true;
+    });
   },
 
   _setupContextMenu: function() {
