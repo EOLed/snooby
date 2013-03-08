@@ -172,6 +172,10 @@ div#listing .details-section {
   font-size: .8em;
   color: #999;
   line-height: 1.6em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-overflow: -blackberry-fade;
 }
 
 .comment-author-section .op {
