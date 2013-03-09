@@ -33,6 +33,8 @@ var _subreddits = {
       });
     }
 
+    element.getElementById('pull-to-refresh').style.display = 'none';
+
     selectedTab.setAttribute('data-bb-selected', true);
   },
 
@@ -44,17 +46,15 @@ var _subreddits = {
       var thiz = this;
       var cachedListing = _cache.getItem('subreddit.listing');
       $.each(cachedListing.data.children, function(index, value) {
-        setTimeout(function() { thiz.scrollback(); }, 0);
         bbr.formatPost(value, function(bbPost) {
           $(bbPost).attr('data-snooby-index', index);
           $(bbPost).appendTo('#listing');
         });
       });
 
-      if (cachedListing.data.after === null)
-        $('#pull-to-refresh').hide();
-      else
-        $('#pull-to-refresh').show();
+      setTimeout(function() { 
+        thiz.scrollback(cachedListing); 
+      }, 0);
     } else {
       console.log('loading subreddit listings from reddit');
       _cache.setItem('subreddit.domReady', true);
@@ -198,9 +198,16 @@ var _subreddits = {
     _cache.setItem('subreddit.scrollTop', $('#subreddit').children('div').eq(1).scrollTop());
   },
 
-  scrollback: function() {
-    $('#subreddit').children('div').eq(1).scrollTop(_cache.getItem('subreddit.scrollTop'));
+  scrollback: function(listing) {
+    $('#listing').css('visibility: hidden');
     $('#listing').show();
+    $('#subreddit').children('div').eq(1).scrollTop(_cache.getItem('subreddit.scrollTop'));
+    $('#listing').css('visibility: visible');
+
+    if (listing.data.after === null)
+      $('#pull-to-refresh').hide();
+    else
+      $('#pull-to-refresh').show();
   },
 
   refresh: function() {
