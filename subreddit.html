@@ -1,6 +1,5 @@
 <div id="subreddit" data-bb-type="screen" data-bb-effect="fade" onscroll="_subreddits.onScroll(this)">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
@@ -41,14 +40,14 @@
   <script id="linkTemplate" type="text/template">
    <div class="link-section">
      <div class="container-fluid">
-       <div class="row">
+       <div class="row-fluid">
          {{&linkDescription}}
        </div>
      </div>  
    </div>
    <div class="details-section">
-     <div class="container">
-       <div class="row">
+     <div class="container-fluid">
+       <div class="row-fluid">
          <div class="span10 meta">
            <span class="subreddit">{{subreddit}}</span> • 
            <span class="score {{scoreClass}}" id="score-{{name}}">{{score}}</span> • 
