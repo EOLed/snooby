@@ -1,6 +1,5 @@
 <div id="commentsScreen" data-bb-type="screen" onscroll="_comments.onScroll(this)">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
@@ -9,7 +8,7 @@
   <script type="text/javascript" src="js/comments.js"></script>
   <div id="linkHeader" style="display: none"></div>
   <div id="linkDetails" style="display: none"></div>
-  <div class="container">
+  <div class="container-fluid">
     <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
     <div id="comments">
       <div id="inner">
@@ -22,20 +21,20 @@
     <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png" onclick="_comments.downvotePost()">Downvote</div>
   </div>
   <script id="linkHeaderTemplate" type="text/template">
-    <div class="container">
-      <div class="row link-title">
+    <div class="container-fluid">
+      <div class="row-fluid link-title">
         <div class="span12">
           {{&title}}
         </div>
       </div>
-      <div class="row link-details">
+      <div class="row-fluid link-details">
         <div class="span12">{{domain}} • {{numComments}} comments</div>
       </div>
     </div>
   </script>
   <script id="selfPostHeaderTemplate" type="text/template">
-    <div class="container">
-      <div class="row link-title">
+    <div class="container-fluid">
+      <div class="row-fluid link-title">
         <div class="span12">
           {{&title}}
         </div>
@@ -52,8 +51,8 @@
   </script>
 
     <script id="linkHeaderDetailsTemplate" type="text/template">
-      <div class="container">
-        <div class="row">
+      <div class="container-fluid">
+        <div class="row-fluid">
           <div class="span4 author"><i class="icon-user"></i> {{author}}</div>
           <div class="span4 score"><i class="icon-heart"></i> <span id="linkScore" class="{{linkScoreClass}}">{{score}}</span></div>
           <div class="span4 time"><i class="icon-time"></i> {{time}}</div>
@@ -63,7 +62,7 @@
   </div>
 
   <script id="commentTemplate" type="text/template">
-    <div class="row comment-author-section" onclick="bbr.toggleComment(this)">
+    <div class="row-fluid comment-author-section" onclick="bbr.toggleComment(this)">
       <div class="span">
         <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
         {{#authorFlair}}
@@ -71,7 +70,7 @@
         {{/authorFlair}}
       </div>
     </div>
-    <div class="row comment-body" style="display: block;">
+    <div class="row-fluid comment-body" style="display: block;">
       <div class="span">
         {{{body}}}
       </div>
