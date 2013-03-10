@@ -33,7 +33,9 @@ var _support = {
                                           { title: 'Could not restore Snooby Gold' });
     };
 
-    blackberry.payment.checkExisting({ sku: 'SNBY-002' }, onsuccess, onfailure);
+    blackberry.payment.checkExisting({ id: '23637875', sku: 'SNBY-002' }, 
+                                     onsuccess,
+                                     onfailure);
   },
 
   onSnoobyGoldPurchase: function(data) {
