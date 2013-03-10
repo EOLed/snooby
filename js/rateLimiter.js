@@ -48,7 +48,7 @@ var rateLimiter = {
     return total;
   },
 
-  _limit: 3,
+  _limit: 50,
 
   VOTE: { action: 'vote', tokens: 1 }
 };
