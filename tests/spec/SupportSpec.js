@@ -1,7 +1,8 @@
 var blackberry = { ui: { dialog: { customAskAsync: function() {} } },
                    payment: { developmentMode: false, 
                               checkExisting: function(data,onsuccess, onfail) {}, 
-                              purchase: function(data, onsuccess, onfail) {} } };
+                              purchase: function(data, onsuccess, onfail) {},
+                              getExistingPurchases: function(refresh, onsuccess, onfail) {} } };
 describe('Support page', function() {
   it('No error dialog is displayed when Snooby Gold purchase is canceled by user', function() {
     var getElementById = sinon.stub(document, 'getElementById');
@@ -67,10 +68,34 @@ describe('Support page', function() {
     document.getElementById.restore();
   });
 
+  it('restores Snooby Gold', function() {
+    var element = document;
+    var getElementById = sinon.stub(element, 'getElementById');
+    getElementById.withArgs('supportSnooby').returns({ style: { display: false } });
+    getElementById.withArgs('snoobyGoldPurchased').returns({ style: { display: false } });
+
+    var getExistingPurchases = sinon.stub(blackberry.payment, 'getExistingPurchases');
+    blackberry.payment.getExistingPurchases = function(refresh, onsuccess, onfailure) {
+      onsuccess([ { digitalGoodID: '23637875', digitalGoodSKU: 'SNBY-002' },
+                  { digitalGoodID: 'whatever', digitalGoodSKU: 'WTVZ' } ]);
+    };
+
+    var cache = sinon.mock(_cache);
+    cache.expects('persistItem').withArgs('snooby.gold', 'true').once();
+
+    _support.restoreSnoobyGold();
+
+    expect(element.getElementById('snoobyGoldPurchased').style.display).toBe('block');
+    expect(element.getElementById('supportSnooby').style.display).toBe('none');
+    cache.verify();
+    cache.restore();
+    element.getElementById.restore();
+  });
+
   it('show support snooby form is displayed if Snooby Gold not purchased', function() {
     var element = document; //{ getElementById: function(id) { return { style: { display: false } }; } };
-    var getElementById = sinon.stub(element, 'getElementById');
     var supportSnoobyDisplay = sinon.spy();
+    var getElementById = sinon.stub(element, 'getElementById');
     getElementById.withArgs('supportSnooby').returns({ style: { display: false } });
     getElementById.withArgs('snoobyGoldPurchased').returns({ style: { display: false } });
 

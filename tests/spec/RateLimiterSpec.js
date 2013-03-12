@@ -40,6 +40,7 @@ describe('Rate Limiter', function() {
 
   it('handles multiple calls exceeding the limit properly', function() {
     rateLimiter._limit = 4;
+    _cache.removePersistedItem('snooby.gold');
     _cache.removePersistedItem('rateLimiter.actions');
     var onrateexceeded = sinon.spy();
     rateLimiter.requestAction({ tokens: 1, action: 'test' }, sinon.spy(), onrateexceeded);
