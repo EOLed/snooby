@@ -107,7 +107,7 @@ var _subreddits = {
     });
   },
 
-  _doUpvote: function(sourceId, onrateexceeded) {
+  _doUpvote: function(sourceId) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
     var subreddit = _cache.getItem('subreddit.selected');
     var scoreElement = $('#score-' + sourceId);
@@ -145,6 +145,23 @@ var _subreddits = {
     });
   },
 
+  _doComment: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var scoreElement = $('#score-' + sourceId);
+    var score = parseInt(scoreElement.html());
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can comment.');
+      return;
+    }
+
+    bb.pushScreen('comment.html', 'comment', { link: link });
+  },
+
   _setupContextMenu: function() {
     blackberry.ui.contextmenu.enabled = true;
 
@@ -159,6 +176,12 @@ var _subreddits = {
     var downvote = { actionId: 'downvoteAction',
                      label: 'Downvote',
                      icon: '../img/icons/ic_down.png' };
+
+    var comment = { actionId: 'commentAction',
+                     label: 'Add a Comment',
+                     icon: '../img/icons/ic_edit.png' };
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], comment, this._doComment);
 
     blackberry.ui.contextmenu.addItem(['linkContext'], downvote, this._doDownvote);
 

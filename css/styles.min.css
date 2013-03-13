@@ -131,11 +131,11 @@ div#listing .details-section {
 
 }
 
-#comments ul, #comments ol, #linkHeader ul, #linkHeader ol {
+#comments ul, #comments ol, #linkHeader ul, #linkHeader ol, #commentScreen ul, #commentScreen ol {
   margin-left: 38px;
 }
 
-#comments li, #linkHeader li {
+#comments li, #linkHeader li, #commentScreen li {
   line-height: normal;
 }
 
@@ -287,4 +287,22 @@ img.thumb {
 
 .meta .score {
   -webkit-transition: all ease-in-out 0.6s;
+}
+
+#commentScreen #commentTextarea {
+  font-size: 1em;
+  font-family: "Slate Pro", Slate, "Myriad Pro", "BBAlpha Sans", Helvetica;
+  border-style: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border-color: transparent;
+  line-height: 1em;
+  height: 720px;
+}
+
+#viewPills {
+  padding: .5em 0;
+  background-color: #333;
+  margin-bottom: .5em;
 }

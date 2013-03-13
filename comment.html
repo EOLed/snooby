@@ -1,0 +1,29 @@
+<div id="commentScreen" data-bb-type="screen">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
+  <script type="text/javascript" src="js/snuownd.js"></script>
+  <script type="text/javascript" src="js/jquery.autosize.js"></script>
+  <script type="text/javascript" src="js/comment.js"></script>
+  <div data-bb-type="title" data-bb-caption="Comment" data-bb-back-caption="Cancel" 
+       data-bb-action-caption="Save" onactionclick="_comment.save()"></div>
+  <div id="viewPills">   
+    <div data-bb-type="pill-buttons">
+      <div data-bb-type="pill-button" data-bb-selected="true" onclick="_comment.showEditor()">Text</div>
+      <div data-bb-type="pill-button" onclick="_comment.showPreview()">Preview</div>
+    </div>
+  </div>
+  <div id="commentEditorPane" class="container-fluid">
+    <div class="row-fluid">
+      <textarea id="commentTextarea" class="span12"></textarea>
+    </div>
+  </div>
+  <div id="commentPreviewPane" class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12" id="commentPreview">
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -50,7 +50,7 @@ package:
 	@cp -R js ${TMP}
 	@cp submodules/snuownd/snuownd.js ${TMP}/js
 	@mkdir -p ${TMP}/img/icons
-	@cp img/icons/ic_{open,info,star,up,down,view_list,rotate,settings,search}.png ${TMP}/img/icons
+	@cp img/icons/ic_{edit,open,info,star,up,down,view_list,rotate,settings,search}.png ${TMP}/img/icons
 	@cp img/icons/app-114.png ${TMP}/img/icons
 	@cp img/splash.png ${TMP}/img
 	@cp -R font ${TMP}
