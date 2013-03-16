@@ -59,5 +59,9 @@ var snooby = {
     });
 
     callback(subreddits);
+  },
+
+  comment: function(text, thingId, modhash, onsuccess) {
+    $.post('http://www.reddit.com/api/comment', { text: text, thing_id: thingId, uh: modhash }, onsuccess);
   }
 };

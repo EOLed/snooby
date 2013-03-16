@@ -219,3 +219,36 @@ describe('Voting', function() {
     expect(onsuccess.calledOnce).toBeTruthy();
   });
 });
+
+describe('Commenting', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('uses POST', function() {
+    snooby.comment('thisistext', 'thingId', 'modhash', function() {});
+    expect(server.getHTTPMethod(server.requests[0])).toEqual('POST');
+  });
+
+  it('passes the correct parameters', function() {
+    snooby.comment('thisistext', 'thingId', 'modhash', function() {});
+    expect(server.requests[0].requestBody).toEqual('text=thisistext&thing_id=thingId&uh=modhash');
+  });
+
+  it('calls onsuccess callback upon successful post', function() {
+    var response = '{"errors":[]}';
+    server.respondWith('POST',
+                       'http://www.reddit.com/api/comment',
+                       [200, { "Content-Type": "application/json" }, response]);
+    var onsuccess = sinon.spy();
+    snooby.comment('iwantcomment', 'adsfs', 'asdf', onsuccess);
+    server.respond();
+    expect(onsuccess.calledOnce).toBeTruthy();
+  });
+});

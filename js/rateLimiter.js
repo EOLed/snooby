@@ -50,5 +50,6 @@ var rateLimiter = {
 
   _limit: 50,
 
-  VOTE: { action: 'vote', tokens: 1 }
+  VOTE: { action: 'vote', tokens: 1 },
+  COMMENT: { action: 'comment', tokens: 3 }
 };

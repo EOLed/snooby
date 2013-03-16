@@ -128,5 +128,17 @@ var app = {
 
   _rateExceededToast: function() {
     blackberry.ui.toast.show('You have exceeded today\'s free rate limit. Please wait a little or purchase Snooby Gold for unlimited access.', { timeout: 9000 });
+  },
+
+  comment: function(text, thingId, modhash, onsuccess, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
+
+    var postComment = function() {
+      snooby.comment(text, thingId, modhash, onsuccess);
+    };
+
+    rateLimiter.requestAction(rateLimiter.COMMENT, postComment, onrateexceeded);
   }
 };

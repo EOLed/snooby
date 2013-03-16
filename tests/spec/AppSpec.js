@@ -234,3 +234,33 @@ describe('app.subreddits()', function() {
     snooby.defaultSubreddits.restore();
   });
 });
+
+describe('Commenting', function() {
+  var cache;
+  var limiter;
+  var comment;
+
+  beforeEach(function() {
+    cache = sinon.stub(_cache, 'getPersistedItem');
+    cache.withArgs('snooby.gold').returns("true");
+    limiter = sinon.spy(rateLimiter, 'requestAction');
+    comment = sinon.spy(snooby, 'comment');
+  });
+
+  afterEach(function() {
+    _cache.getPersistedItem.restore();
+    rateLimiter.requestAction.restore();
+    snooby.comment.restore();
+  });
+
+  it('Comments use rate limiter', function() {
+    app.comment(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
+    expect(limiter.called).toBeTruthy();
+  });
+
+  it('Comments through snooby', function() {
+    app.comment(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
+    expect(comment.called).toBeTruthy();
+  });
+});
+
