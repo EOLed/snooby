@@ -6,6 +6,56 @@ var _comments = {
     this._populateOp(element, params.link);
   },
 
+  _setupContextMenu: function() {
+    blackberry.ui.contextmenu.enabled = true;
+
+    var options = {};
+
+    blackberry.ui.contextmenu.defineCustomContext('commentContext', options);
+
+    var reply = { actionId: 'replyAction',
+                     label: 'Reply',
+                     icon: '../img/icons/ic_edit.png' };
+
+    blackberry.ui.contextmenu.addItem(['commentContext'], reply, this.replyToComment);
+  },
+
+  replyToComment: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var cachedListing = _cache.getItem('comments.listing').data.children;
+    var comment = null;
+    var thiz = this;
+
+    var findFromReplies = function(currentComment) {
+      currentComment.data.replies.data.children.forEach(function(cachedReply, index) {
+        if (cachedReply.data.name === sourceId) {
+          comment = cachedReply;
+          return false;
+        }
+
+        if (cachedReply.data.replies !== '')
+          findFromReplies(cachedReply);
+      });
+    };
+
+    cachedListing.forEach(function(cachedComment, index) {
+      if (cachedComment.data.name === sourceId) {
+        comment = cachedComment;
+        return false;
+      }
+
+      if (cachedComment.data.replies !== '')
+        findFromReplies(cachedComment);
+    });
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can comment.');
+      return;
+    }
+
+    bb.pushScreen('comment.html', 'comment', { parentThing: comment });
+  },
+
   _populateOp: function(element, op) {
     _cache.setItem('comment.op', op);
     var selfPost = op.data.domain === 'self.' + op.data.subreddit;
@@ -68,6 +118,7 @@ var _comments = {
     }, opcallback);
 
     this._setupPullToRefresh();
+    this._setupContextMenu();
   },
 
   _setupPullToRefresh: function() {

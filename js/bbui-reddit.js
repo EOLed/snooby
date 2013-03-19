@@ -98,6 +98,11 @@ var bbr = {
   _createCommentDiv: function(comment, op, className) {
     var div = $('<div/>');
     div.attr('id', comment.data.name);
+    div.attr('data-webworks-context',
+             JSON.stringify({ id: comment.data.name,
+                              type: 'commentContext',
+                              header: comment.data.body,
+                              subheader: comment.data.author }));
     div.addClass(className);
 
     var author = comment.data.author;

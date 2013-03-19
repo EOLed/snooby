@@ -33,6 +33,8 @@ var app = {
 
       comments.shift();
 
+      _cache.setItem('comments.listing', comments[0]);
+
       // seperate comments in chunks
       var chunkIndex = 0;
 

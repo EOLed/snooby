@@ -1,6 +1,6 @@
 var _comment = {
   onScreenReady: function(element, params) {
-    _cache.setItem('comment.link', params.link);
+    _cache.setItem('comment.parent', params.parentThing);
   },
 
   onDomReady: function(element, params) {
@@ -18,21 +18,28 @@ var _comment = {
     $('#commentPreviewPane').show();
   },
 
-  save: function(callback) {
-    var link = _cache.getItem('comment.link');
+  save: function(textarea) {
+    var link = _cache.getItem('comment.parent');
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
 
     var onsuccess = function() {
-      var cachedListing = _cache.getItem('subreddit.listing').data.children;
-      cachedListing.forEach(function(cachedLink, index) {
-        if (cachedLink.data.name === link.data.name) {
-          cachedLink.data.num_comments++;
-          return false;
-        }
-      });
+      link.data.num_comments++;
+      _cache.setItem('comment.created', 
+                     { kind: 't1',
+                       data: { subreddit_id: link.data.subreddit_id,
+                               subreddit: link.data.subreddit,
+                               likes: true,
+                               id: 'reply' + link.data.name,
+                               author: user.username,
+                               parent_id: link.data.name,
+                               edited: false,
+                               downs: 0,
+                               ups: 1 } } );
+            
+                   
       bb.popScreen();
     };
 
-    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    app.comment($('#commentTextarea').val(), link.data.name, user.modhash, onsuccess);
+    app.comment(textarea.val(), link.data.name, user.modhash, onsuccess);
   }
 };

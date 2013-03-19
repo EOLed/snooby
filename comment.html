@@ -7,7 +7,7 @@
   <script type="text/javascript" src="js/jquery.autosize.js"></script>
   <script type="text/javascript" src="js/comment.js"></script>
   <div data-bb-type="title" data-bb-caption="Comment" data-bb-back-caption="Cancel" 
-       data-bb-action-caption="Save" onactionclick="_comment.save()"></div>
+       data-bb-action-caption="Save" onactionclick="_comment.save($('#commentTextarea'))"></div>
   <div id="viewPills">   
     <div data-bb-type="pill-buttons">
       <div data-bb-type="pill-button" data-bb-selected="true" onclick="_comment.showEditor()">Text</div>

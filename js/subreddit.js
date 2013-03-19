@@ -148,8 +148,6 @@ var _subreddits = {
   _doComment: function(sourceId) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
     var subreddit = _cache.getItem('subreddit.selected');
-    var scoreElement = $('#score-' + sourceId);
-    var score = parseInt(scoreElement.html());
     var link = _cache.getItem('subreddit.listing')
                      .data
                      .children[$('#link-' + sourceId).attr('data-snooby-index')];
@@ -159,7 +157,7 @@ var _subreddits = {
       return;
     }
 
-    bb.pushScreen('comment.html', 'comment', { link: link });
+    bb.pushScreen('comment.html', 'comment', { parentThing: link });
   },
 
   _setupContextMenu: function() {
