@@ -1,5 +1,16 @@
 var _comments = {
   onScreenReady: function(element, params) {
+    var visited = _cache.itemExists('comments.visited');
+
+    if (!visited) {
+      _cache.setItem('comments.visited', true);
+      _cache.setItem('comments.screenReady', true);
+      _cache.setItem('comments.domReady', false);
+      _cache.setItem('subreddit.scrollTop', 0);
+    } else {
+      element.getElementById('commentsScreen').style.visibility = 'hidden';
+    }
+
     if (typeof params.link.data.domain === 'undefined')
       return;
 
@@ -41,7 +52,7 @@ var _comments = {
       if (comment.data.name === name) {
         matchingComment = comment;
         return true;
-      } else if (comment.data.replies !== '') {
+      } else if (typeof comment.data.replies !== 'undefined' && comment.data.replies !== '') {
         matchingComment = thiz._findComment(comment.data.replies, name);
         if (matchingComment !== null)
           return true;
@@ -81,39 +92,64 @@ var _comments = {
     element.getElementById('linkDetails').style.display = 'block';
   },
 
+  onUnload: function() {
+    _cache.setItem('comments.container', $('#commentsContainer').html());
+    _cache.setItem('comments.scrollTop', $('#commentsScreen').children('div').eq(1).scrollTop());
+  },
+
   onDomReady: function(element, params) {
-    $('#loading').show();
-
-    var currentChunkIndex = 0;
-    var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
-    chunk.appendTo('#inner');
-
     var thiz = this;
-    var opcallback = element.getElementById('linkHeader').style.display === 'none' ?
-                     function(op) {
-                       thiz._populateOp(element, op);
-                     } : null;
 
-    app.comments(params.link.data.permalink, 
-                 function(comment, op, chunkIndex) {
-      bbr.formatComment(comment, op, function(bbComment) {
-        if (chunkIndex !== currentChunkIndex) {
-          currentChunkIndex = chunkIndex;
-          chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
-          chunk.hide();
-          chunk.appendTo('#inner');
-          document.getElementById('pull-to-refresh').style.display = 'block';
-        }
-
-        bbComment.appendTo(chunk);
-      }, chunkIndex);
-    }, function() {
+    if (_cache.getItem('comments.domReady') === true) {
       $('#loading').hide();
-      $('#inner').show();
-    }, opcallback);
+      console.log('getting comments from memory');
+      $('#commentsContainer').html(_cache.getItem('comments.container'));
+      setTimeout(function() { 
+        thiz.scrollback(); 
+      }, 0);
+    } else {
+      $('#loading').show();
+
+      var currentChunkIndex = 0;
+      var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
+      chunk.appendTo('#inner');
+
+      var opcallback = element.getElementById('linkHeader').style.display === 'none' ?
+                       function(op) {
+                         thiz._populateOp(element, op);
+                       } : null;
+
+      console.log('getting comments from reddit');
+      app.comments(params.link.data.permalink, 
+                   function(comment, op, chunkIndex) {
+        bbr.formatComment(comment, op, function(bbComment) {
+          if (chunkIndex !== currentChunkIndex) {
+            currentChunkIndex = chunkIndex;
+            chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
+            chunk.hide();
+            chunk.appendTo('#inner');
+            document.getElementById('pull-to-refresh').style.display = 'block';
+          }
+
+          bbComment.appendTo(chunk);
+        }, chunkIndex);
+      }, function() {
+        $('#loading').hide();
+        $('#inner').show();
+        _cache.setItem('comments.domReady', true);
+      }, opcallback);
+    }
 
     this._setupPullToRefresh();
     this._setupContextMenu();
+  },
+
+  scrollback: function() {
+    document.getElementById('commentsContainer').style.visibility = 'hidden';
+    document.getElementById('commentsContainer').style.display = 'block';
+    $('#commentsScreen').children('div').eq(1).scrollTop(_cache.getItem('comments.scrollTop'));
+    document.getElementById('commentsContainer').style.visibility = 'visible';
+    document.getElementById('commentsScreen').style.visibility = 'visible';
   },
 
   _setupPullToRefresh: function() {

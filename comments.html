@@ -5,20 +5,29 @@
   <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
   <script type="text/javascript" src="js/snuownd.js"></script>
   <script type="text/javascript" src="js/jquery.visible.min.js"></script>
-  <script type="text/javascript" src="js/comments.js"></script>
+  <script type="text/javascript" src="js/comments.js" onunload="_comments.onUnload()"></script>
   <div id="linkHeader" style="display: none"></div>
   <div id="linkDetails" style="display: none"></div>
-  <div class="container-fluid">
-    <div id="loading" data-bb-type="activity-indicator" data-bb-size="large"></div>
+  <div id="commentsContainer" class="container-fluid">
+    <div id="loading" style="display:none" data-bb-type="activity-indicator" data-bb-size="large">
+    </div>
     <div id="comments">
       <div id="inner">
       </div>
     </div>
-    <div id="pull-to-refresh" style="display: none"><div id="ptrarrow">&#x21ea;</div><span id="ptrtext"></span></div>
+    <div id="pull-to-refresh" style="display: none">
+      <div id="ptrarrow">&#x21ea;</div><span id="ptrtext"></span>
+    </div>
   </div>
   <div data-bb-type="action-bar" data-bb-back-caption="Back">
-    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_up.png" onclick="_comments.upvotePost()">Upvote</div>
-    <div data-bb-type="action" data-bb-style="button" data-bb-img="img/icons/ic_down.png" onclick="_comments.downvotePost()">Downvote</div>
+    <div data-bb-type="action"
+         data-bb-style="button"
+         data-bb-img="img/icons/ic_up.png"
+         onclick="_comments.upvotePost()">Upvote</div>
+    <div data-bb-type="action"
+         data-bb-style="button"
+         data-bb-img="img/icons/ic_down.png"
+         onclick="_comments.downvotePost()">Downvote</div>
   </div>
   <script id="linkHeaderTemplate" type="text/template">
     <div class="container-fluid">

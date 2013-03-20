@@ -62,13 +62,13 @@ var bbr = {
                               subheader: link.data.author }));
 
     $('.comments', div).click(function() {
-      bb.pushScreen('comments.html', 'comments', { link: link });
+      bbr.pushCommentsScreen(link);
     });
 
     $('.link-title', div).click(function() {
       // self-post goes straight to comments
       if (selfPost) {
-        bb.pushScreen('comments.html', 'comments', { link: link });
+        bbr.pushCommentsScreen(link);
       } else {
         var url = link.data.url;
         if (url.substring(0, 1) === '/')
@@ -206,7 +206,7 @@ var bbr = {
   },
 
   _handleRedditCommentLink: function(a) {
-    bb.pushScreen('comments.html', 'comments', { link: { data: { permalink: a.pathname } } });
+    bbr.pushCommentsScreen({ data: { permalink: a.pathname } });
   },
 
   _handleSubredditLink: function(a) {
@@ -215,6 +215,11 @@ var bbr = {
     var length = pathname.indexOf(suffix, pathname.length - suffix.length) !== -1 ? pathname.length - 1 : 
                                                                                     pathname.length;
     this.pushSubredditScreen(pathname.substring(3, length));
+  },
+
+  pushCommentsScreen: function(link) {
+    _cache.removeItem('comments.visited');
+    bb.pushScreen('comments.html', 'comments', { link: link });
   },
 
   pushSubredditScreen: function(subreddit) {
