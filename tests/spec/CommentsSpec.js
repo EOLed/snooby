@@ -20,14 +20,39 @@ describe('Comments', function() {
     cache.restore();
   });
 
-  it('passes current comment to comment composer', function() {
+  it('passes top-level comment to comment composer', function() {
+    var commentsLong = responses.reddit.commentsLong[1];
     getItem.withArgs('comments.listing').returns(responses.reddit.commentsLong[1]);
     var mockBb = sinon.mock(bb);
     mockBb.expects('pushScreen').withArgs('comment.html', 
                                           'comment', 
-                                          { parentThing: responses.reddit.commentsLong[1].data.children[2] });
+                                          { parentThing: commentsLong.data.children[2] });
     
     _comments.replyToComment('t1_c8gomru');
+    mockBb.verify();
+  });
+
+  it('passes nested comment when given a name', function() {
+    var commentsLong = responses.reddit.commentsLong[1];
+    getItem.withArgs('comments.listing').returns(responses.reddit.commentsLong[1]);
+    var mockBb = sinon.mock(bb);
+    mockBb.expects('pushScreen').withArgs('comment.html', 
+                                          'comment', 
+                                          { parentThing: commentsLong.data.children[3].data.replies.data.children[0] });
+    
+    _comments.replyToComment('t1_c8gr5zu');
+    mockBb.verify();
+  });
+
+  it('passes multi-nested comment when given a name', function() {
+    var commentsLong = responses.reddit.commentsLong[1];
+    getItem.withArgs('comments.listing').returns(responses.reddit.commentsLong[1]);
+    var mockBb = sinon.mock(bb);
+    mockBb.expects('pushScreen').withArgs('comment.html', 
+                                          'comment', 
+                                          { parentThing: commentsLong.data.children[0].data.replies.data.children[0].data.replies.data.children[0] });
+    
+    _comments.replyToComment('t1_c8gqurh');
     mockBb.verify();
   });
 });

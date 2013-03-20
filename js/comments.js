@@ -22,31 +22,8 @@ var _comments = {
 
   replyToComment: function(sourceId) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    var cachedListing = _cache.getItem('comments.listing').data.children;
-    var comment = null;
-    var thiz = this;
-
-    var findFromReplies = function(currentComment) {
-      currentComment.data.replies.data.children.forEach(function(cachedReply, index) {
-        if (cachedReply.data.name === sourceId) {
-          comment = cachedReply;
-          return false;
-        }
-
-        if (cachedReply.data.replies !== '')
-          findFromReplies(cachedReply);
-      });
-    };
-
-    cachedListing.forEach(function(cachedComment, index) {
-      if (cachedComment.data.name === sourceId) {
-        comment = cachedComment;
-        return false;
-      }
-
-      if (cachedComment.data.replies !== '')
-        findFromReplies(cachedComment);
-    });
+    var cachedListing = _cache.getItem('comments.listing');
+    var comment = _comments._findComment(cachedListing, sourceId);
 
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can comment.');
@@ -54,6 +31,24 @@ var _comments = {
     }
 
     bb.pushScreen('comment.html', 'comment', { parentThing: comment });
+  },
+
+  _findComment: function(comments, name) {
+    var children = comments.data.children;
+    var matchingComment = null;
+    var thiz = this;
+    children.some(function(comment) {
+      if (comment.data.name === name) {
+        matchingComment = comment;
+        return true;
+      } else if (comment.data.replies !== '') {
+        matchingComment = thiz._findComment(comment.data.replies, name);
+        if (matchingComment !== null)
+          return true;
+      }
+    });
+
+    return matchingComment;
   },
 
   _populateOp: function(element, op) {
