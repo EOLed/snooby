@@ -6,7 +6,7 @@ var _comments = {
       _cache.setItem('comments.visited', true);
       _cache.setItem('comments.screenReady', true);
       _cache.setItem('comments.domReady', false);
-      _cache.setItem('subreddit.scrollTop', 0);
+      _cache.setItem('comments.scrollTop', 0);
     } else {
       element.getElementById('commentsScreen').style.visibility = 'hidden';
     }
