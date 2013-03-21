@@ -140,6 +140,15 @@ var _comments = {
       }, opcallback);
     }
 
+    if (_cache.itemExists('comment.created')) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var comment = _cache.getItem('comment.created');
+      var commentDiv = bbr._createCommentDiv(comment, { data: { author: null } }, 'reply');
+      commentDiv.appendTo('#' + comment.data.parent_id);
+      _cache.removeItem('comment.created');
+      app.comment(comment.data.body, comment.data.parent_id, user.modhash, function() {});
+    }
+
     this._setupPullToRefresh();
     this._setupContextMenu();
   },

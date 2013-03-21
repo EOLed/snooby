@@ -67,6 +67,7 @@ describe('Comment Composer', function() {
                             author: JSON.parse(_cache.getPersistedItem('snooby.user')).username,
                             parent_id: responses.reddit.listings.frontpage.data.children[0].data.name,
                             edited: false,
+                            body: 'your markdown comment',
                             downs: 0,
                             ups: 1 } }; 
                             
