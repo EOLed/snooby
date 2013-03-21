@@ -145,11 +145,15 @@ var _comments = {
   },
 
   scrollback: function() {
-    document.getElementById('commentsContainer').style.visibility = 'hidden';
-    document.getElementById('commentsContainer').style.display = 'block';
+    $('#linkHeader').hide();
+    $('#linkDetails').hide();
+    $('#commentsContainer').css({ visibility: 'hidden' });
+    $('#commentsContainer').show();
     $('#commentsScreen').children('div').eq(1).scrollTop(_cache.getItem('comments.scrollTop'));
-    document.getElementById('commentsContainer').style.visibility = 'visible';
-    document.getElementById('commentsScreen').style.visibility = 'visible';
+    $('#commentsScreen').css({ visibility: 'visible' });
+    $('#linkHeader').show();
+    $('#linkDetails').show();
+    $('#commentsContainer').css({ visibility: 'visible' });
   },
 
   _setupPullToRefresh: function() {
