@@ -28,6 +28,10 @@
          data-bb-style="button"
          data-bb-img="img/icons/ic_down.png"
          onclick="_comments.downvotePost()">Downvote</div>
+    <div data-bb-type="action"
+         data-bb-style="button"
+         data-bb-img="img/icons/ic_edit.png"
+         onclick="_comments.replyToPost(_cache.getItem('comment.op'))">Comment</div>
   </div>
   <script id="linkHeaderTemplate" type="text/template">
     <div class="container-fluid">

@@ -31,17 +31,24 @@ var _comments = {
     blackberry.ui.contextmenu.addItem(['commentContext'], reply, this.replyToComment);
   },
 
-  replyToComment: function(sourceId) {
+  _launchCommentComposer: function(comment) {
     var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    var cachedListing = _cache.getItem('comments.listing');
-    var comment = _comments._findComment(cachedListing, sourceId);
-
     if (user === null) {
       blackberry.ui.toast.show('You must login before you can comment.');
       return;
     }
 
     bb.pushScreen('comment.html', 'comment', { parentThing: comment });
+  },
+
+  replyToComment: function(sourceId) {
+    var cachedListing = _cache.getItem('comments.listing');
+    var comment = _comments._findComment(cachedListing, sourceId);
+    _comments._launchCommentComposer(comment);
+  },
+
+  replyToPost: function(post) {
+    _comments._launchCommentComposer(post);
   },
 
   _findComment: function(comments, name) {
@@ -108,49 +115,72 @@ var _comments = {
         thiz.scrollback(); 
       }, 0);
     } else {
-      $('#loading').show();
-
-      var currentChunkIndex = 0;
-      var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
-      chunk.appendTo('#inner');
-
-      var opcallback = element.getElementById('linkHeader').style.display === 'none' ?
-                       function(op) {
-                         thiz._populateOp(element, op);
-                       } : null;
-
-      console.log('getting comments from reddit');
-      app.comments(params.link.data.permalink, 
-                   function(comment, op, chunkIndex) {
-        bbr.formatComment(comment, op, function(bbComment) {
-          if (chunkIndex !== currentChunkIndex) {
-            currentChunkIndex = chunkIndex;
-            chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
-            chunk.hide();
-            chunk.appendTo('#inner');
-            document.getElementById('pull-to-refresh').style.display = 'block';
-          }
-
-          bbComment.appendTo(chunk);
-        }, chunkIndex);
-      }, function() {
-        $('#loading').hide();
-        $('#inner').show();
-        _cache.setItem('comments.domReady', true);
-      }, opcallback);
+      this._loadCommentsInChunks(element, params);
     }
 
+    this._saveQueuedComment();
+
+    this._setupPullToRefresh();
+    this._setupContextMenu();
+  },
+
+  _loadCommentsInChunks: function(element, params) {
+    $('#loading').show();
+
+    var currentChunkIndex = 0;
+    var chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
+    chunk.appendTo('#inner');
+
+    var opcallback = element.getElementById('linkHeader').style.display === 'none' ?
+                     function(op) {
+                       _comments._populateOp(element, op);
+                     } : null;
+
+    console.log('getting comments from reddit');
+    app.comments(params.link.data.permalink, 
+                 function(comment, op, chunkIndex) {
+      bbr.formatComment(comment, op, function(bbComment) {
+        if (chunkIndex !== currentChunkIndex) {
+          currentChunkIndex = chunkIndex;
+          chunk = $('<div id="commentChunk' + currentChunkIndex + '" class="chunk"></div>');
+          chunk.hide();
+          chunk.appendTo('#inner');
+          document.getElementById('pull-to-refresh').style.display = 'block';
+        }
+
+        bbComment.appendTo(chunk);
+      }, chunkIndex);
+    }, function() {
+      $('#loading').hide();
+      $('#inner').show();
+      _cache.setItem('comments.domReady', true);
+    }, opcallback);
+  },
+
+  _saveQueuedComment: function() {
     if (_cache.itemExists('comment.created')) {
       var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
       var comment = _cache.getItem('comment.created');
       var commentDiv = bbr._createCommentDiv(comment, { data: { author: null } }, 'reply');
-      commentDiv.appendTo('#' + comment.data.parent_id);
+
+      // no parent comment, go back to first chunk
+      if ($('#' + comment.data.parent_id).length === 0) {
+        $('.chunk').css({ display: 'none' });
+        var firstChunk = $('.chunk:first');
+        firstChunk.css({ display: 'block' });
+        commentDiv.prependTo(firstChunk);
+      } else {
+        commentDiv.appendTo('#' + comment.data.parent_id);
+      }
+
       _cache.removeItem('comment.created');
       app.comment(comment.data.body, comment.data.parent_id, user.modhash, function() {});
+      setTimeout(function() { 
+        document.getElementById('commentsScreen').scrollToElement(commentDiv.get(0));
+        commentDiv.hide();
+        commentDiv.fadeIn(1800);
+      }, 0);
     }
-
-    this._setupPullToRefresh();
-    this._setupContextMenu();
   },
 
   scrollback: function() {

@@ -61,9 +61,22 @@ var _subreddits = {
       this._updateListing(params.subreddit);
     }
 
+    this._saveQueuedComment();
+
     this._setupPullToRefresh();
 
     this._setupContextMenu();
+  },
+
+  _saveQueuedComment: function() {
+    if (_cache.itemExists('comment.created')) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var comment = _cache.getItem('comment.created');
+      var commentDiv = bbr._createCommentDiv(comment, { data: { author: null } }, 'reply');
+
+      _cache.removeItem('comment.created');
+      app.comment(comment.data.body, comment.data.parent_id, user.modhash, function() {});
+    }
   },
 
   _doDownvote: function(sourceId) {
