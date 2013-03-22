@@ -162,6 +162,7 @@ var _comments = {
       var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
       var comment = _cache.getItem('comment.created');
       var commentDiv = bbr._createCommentDiv(comment, { data: { author: null } }, 'reply');
+      var op = _cache.getItem('comment.op');
 
       // no parent comment, go back to first chunk
       if ($('#' + comment.data.parent_id).length === 0) {
@@ -176,6 +177,7 @@ var _comments = {
       _cache.removeItem('comment.created');
       app.comment(comment.data.body, comment.data.parent_id, user.modhash, function() {});
       setTimeout(function() { 
+        $('#numComments').text(op.data.num_comments);
         document.getElementById('commentsScreen').scrollToElement(commentDiv.get(0));
         commentDiv.hide();
         commentDiv.fadeIn(1800);
