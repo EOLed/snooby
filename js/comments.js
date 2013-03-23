@@ -164,6 +164,8 @@ var _comments = {
       var commentDiv = bbr._createCommentDiv(comment, { data: { author: null } }, 'reply');
       var op = _cache.getItem('comment.op');
 
+      commentDiv.removeAttr('data-webworks-context');
+
       // no parent comment, go back to first chunk
       if ($('#' + comment.data.parent_id).length === 0) {
         $('.chunk').css({ display: 'none' });
