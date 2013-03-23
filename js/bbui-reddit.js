@@ -96,6 +96,10 @@ var bbr = {
   },
 
   _createCommentDiv: function(comment, op, className) {
+    var user = _cache.getPersistedItem('snooby.user');
+    if (user !== null)
+      user = JSON.parse(user);
+
     var div = $('<div/>');
     div.attr('id', comment.data.name);
     div.attr('data-webworks-context',
@@ -105,21 +109,26 @@ var bbr = {
                               subheader: comment.data.author }));
     div.addClass(className);
 
-    var author = comment.data.author;
-    if (comment.data.author == op.data.author)
-      author = '<span class="op">' + author + '</span>';
-
     var commentTemplate = $('#commentTemplate').html();
     var score = comment.data.ups - comment.data.downs;
 
     var html = Mustache.to_html(commentTemplate,
                                 { body: SnuOwnd.getParser().render(comment.data.body),
-                                  author: author,
+                                  author: comment.data.author,
                                   authorFlair: comment.data.author_flair_text,
                                   score: (score > 0 ? "+" : "") + score,
                                   time: moment.unix(comment.data.created_utc).fromNow() });
 
     div.html(html);
+
+    var $author = div.find('.author');
+
+    if (user !== null && comment.data.author === user.username) {
+      $author.addClass('me');
+    } else if (comment.data.author == op.data.author) {
+      $author.addClass('op');
+    }  
+
     if (score < -4)
       this.toggleComment(div.children()[0]);
 

@@ -168,6 +168,14 @@ div#listing .details-section {
   border-left: .1em solid #444;
 }
 
+#comments .author.op {
+  color: #4c0289; 
+}
+
+#comments .author.me {
+  color: #ed146f;
+}
+
 .comment-author-section {
   font-size: .8em;
   color: #999;
@@ -176,10 +184,6 @@ div#listing .details-section {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-overflow: -blackberry-fade;
-}
-
-.comment-author-section .op {
-  color: #4c0289; 
 }
 
 img.thumb {

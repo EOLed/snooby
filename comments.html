@@ -77,7 +77,9 @@
   <script id="commentTemplate" type="text/template">
     <div class="row-fluid comment-author-section" onclick="bbr.toggleComment(this)">
       <div class="span">
-        <i class='icon-angle-down'></i> {{&author}} • {{score}} • {{time}}
+        <i class='icon-angle-down'></i>
+        <span class="author">{{&author}}</span> • 
+        <span class="score">{{score}}</span> • {{time}}
         {{#authorFlair}}
           • {{authorFlair}}
         {{/authorFlair}}
