@@ -310,3 +310,11 @@ img.thumb {
   background-color: #333;
   margin-bottom: .5em;
 }
+
+code, pre code, pre {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+  overflow-x: scroll;
+  font-size: 20px;
+}
