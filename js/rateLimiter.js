@@ -1,12 +1,16 @@
 var rateLimiter = {
   requestAction: function(action, onaccepted, onrateexceeded) {
-    if (JSON.parse(_cache.getPersistedItem('snooby.gold')) === true ||
-        (this.tokensUsed() + action.tokens) <= this._limit) {
+    if (this.canPerformAction(action)) {
       this._addAction(action);
       onaccepted();
     } else {
       onrateexceeded();
     }
+  },
+
+  canPerformAction: function(action) {
+    return JSON.parse(_cache.getPersistedItem('snooby.gold')) === true ||
+        (this.tokensUsed() + action.tokens) <= this._limit;
   },
 
   _addAction: function(action) {

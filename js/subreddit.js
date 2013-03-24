@@ -159,18 +159,22 @@ var _subreddits = {
   },
 
   _doComment: function(sourceId) {
-    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    var subreddit = _cache.getItem('subreddit.selected');
-    var link = _cache.getItem('subreddit.listing')
-                     .data
-                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
+    if (rateLimiter.canPerformAction(rateLimiter.COMMENT)) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var subreddit = _cache.getItem('subreddit.selected');
+      var link = _cache.getItem('subreddit.listing')
+                       .data
+                       .children[$('#link-' + sourceId).attr('data-snooby-index')];
 
-    if (user === null) {
-      blackberry.ui.toast.show('You must login before you can comment.');
-      return;
+      if (user === null) {
+        blackberry.ui.toast.show('You must login before you can comment.');
+        return;
+      }
+
+      bb.pushScreen('comment.html', 'comment', { parentThing: link });
+    } else {
+      app._rateExceededToast();
     }
-
-    bb.pushScreen('comment.html', 'comment', { parentThing: link });
   },
 
   _setupContextMenu: function() {

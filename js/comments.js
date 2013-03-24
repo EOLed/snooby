@@ -32,18 +32,23 @@ var _comments = {
   },
 
   _launchCommentComposer: function(comment) {
-    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    if (user === null) {
-      blackberry.ui.toast.show('You must login before you can comment.');
-      return;
-    }
+    if (rateLimiter.canPerformAction(rateLimiter.COMMENT)) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      if (user === null) {
+        blackberry.ui.toast.show('You must login before you can comment.');
+        return;
+      }
 
-    bb.pushScreen('comment.html', 'comment', { parentThing: comment });
+      bb.pushScreen('comment.html', 'comment', { parentThing: comment });
+    } else {
+      app._rateExceededToast();
+    }
   },
 
   replyToComment: function(sourceId) {
     var cachedListing = _cache.getItem('comments.listing');
     var comment = _comments._findComment(cachedListing, sourceId);
+
     _comments._launchCommentComposer(comment);
   },
 
