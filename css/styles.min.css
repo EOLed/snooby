@@ -293,6 +293,10 @@ img.thumb {
   -webkit-transition: all ease-in-out 0.6s;
 }
 
+.comment-author-section .score {
+  -webkit-transition: all ease-in-out 0.6s;
+}
+
 #commentScreen #commentTextarea {
   font-size: 1em;
   font-family: "Slate Pro", Slate, "Myriad Pro", "BBAlpha Sans", Helvetica;

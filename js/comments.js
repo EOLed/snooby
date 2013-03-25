@@ -38,7 +38,7 @@ var _comments = {
 
     blackberry.ui.contextmenu.addItem(['commentContext'], reply, this.replyToComment);
 
-    blackberry.ui.contextmenu.addItem(['commentContext'], downvote, this._doDownvote);
+    blackberry.ui.contextmenu.addItem(['commentContext'], downvote, this.downvoteComment);
 
     blackberry.ui.contextmenu.addItem(['commentContext'], upvote, this.upvoteComment);
   },
@@ -268,9 +268,10 @@ var _comments = {
     }
 
     if ($scoreElement.hasClass('upvoted')) {
-      app.unvote(op.data.name, user.modhash, function() {
+      app.unvote(sourceId, user.modhash, function() {
         $scoreElement.removeClass('upvoted');
-        $scoreElement.html(--score);
+        score = --score;
+        $scoreElement.html(score > 0 ? '+' + score : score);
 
         thiz._postScoreOutdated = !$scoreElement.visible();
       });
@@ -278,14 +279,15 @@ var _comments = {
       return;
     }
 
-    app.upvote(op.data.name, user.modhash, function() {
+    app.upvote(sourceId, user.modhash, function() {
       if ($scoreElement.hasClass('downvoted')) {
         $scoreElement.removeClass('downvoted');
         score++;
       }
 
       $scoreElement.addClass('upvoted');
-      $scoreElement.html(++score);
+      score = ++score;
+      $scoreElement.html(score > 0 ? '+' + score : score);
 
       thiz._postScoreOutdated = !$scoreElement.visible();
     });
@@ -396,6 +398,46 @@ var _comments = {
       }
 
       thiz._postScoreOutdated = !scoreElement.visible();
+    });
+  },
+  
+  downvoteComment: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var $scoreElement = $('#' + sourceId + ' .score').first();
+    var score = parseInt($scoreElement.html(), 10);
+    var op = _cache.getItem('comment.op');
+    var subreddit = op.data.subreddit;
+    var $comment = $('#' + sourceId);
+    var thiz = this;
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can vote.');
+      return;
+    }
+
+    if ($scoreElement.hasClass('downvoted')) {
+      app.unvote(sourceId, user.modhash, function() {
+        $scoreElement.removeClass('downvoted');
+        score = ++score;
+        $scoreElement.html(score > 0 ? '+' + score : score);
+
+        thiz._postScoreOutdated = !$scoreElement.visible();
+      });
+
+      return;
+    }
+
+    app.downvote(sourceId, user.modhash, function() {
+      if ($scoreElement.hasClass('upvoted')) {
+        $scoreElement.removeClass('upvoted');
+        score--;
+      }
+
+      $scoreElement.addClass('downvoted');
+      score = --score;
+      $scoreElement.html(score > 0 ? '+' + score : score);
+
+      thiz._postScoreOutdated = !$scoreElement.visible();
     });
   }
 };
