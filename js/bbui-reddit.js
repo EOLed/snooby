@@ -100,14 +100,16 @@ var bbr = {
     if (user !== null)
       user = JSON.parse(user);
 
-    var div = $('<div/>');
-    div.attr('id', comment.data.name);
-    div.attr('data-webworks-context',
+    var titleSnippet = comment.data.body;
+    titleSnippet = titleSnippet.substring(0, Math.min(40, titleSnippet.length));
+    var $div = $('<div/>');
+    $div.attr('id', comment.data.name);
+    $div.attr('data-webworks-context',
              JSON.stringify({ id: comment.data.name,
                               type: 'commentContext',
-                              header: comment.data.body,
+                              header: titleSnippet,
                               subheader: comment.data.author }));
-    div.addClass(className);
+    $div.addClass(className);
 
     var commentTemplate = $('#commentTemplate').html();
     var score = comment.data.ups - comment.data.downs;
@@ -119,9 +121,10 @@ var bbr = {
                                   score: (score > 0 ? "+" : "") + score,
                                   time: moment.unix(comment.data.created_utc).fromNow() });
 
-    div.html(html);
+    $div.html(html);
 
-    var $author = div.find('.author');
+    var $author = $div.find('.author');
+    var $score = $div.find('.score');
 
     if (user !== null && comment.data.author === user.username) {
       $author.addClass('me');
@@ -129,10 +132,16 @@ var bbr = {
       $author.addClass('op');
     }  
 
-    if (score < -4)
-      this.toggleComment(div.children()[0]);
+    if (comment.data.likes) {
+      $score.addClass('upvoted');
+    } else if (comment.data.likes !== null) {
+      $score.addClass('downvoted');
+    }
 
-    return div;
+    if (score < -4)
+      this.toggleComment($div.children()[0]);
+
+    return $div;
   },
 
   toggleComment: function(div) {

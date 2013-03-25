@@ -28,7 +28,19 @@ var _comments = {
                      label: 'Reply',
                      icon: '../img/icons/ic_edit.png' };
 
+    var upvote = { actionId: 'upvoteAction',
+                   label: 'Upvote',
+                   icon: '../img/icons/ic_up.png' };
+
+    var downvote = { actionId: 'downvoteAction',
+                     label: 'Downvote',
+                     icon: '../img/icons/ic_down.png' };
+
     blackberry.ui.contextmenu.addItem(['commentContext'], reply, this.replyToComment);
+
+    blackberry.ui.contextmenu.addItem(['commentContext'], downvote, this._doDownvote);
+
+    blackberry.ui.contextmenu.addItem(['commentContext'], upvote, this.upvoteComment);
   },
 
   _launchCommentComposer: function(comment) {
@@ -239,6 +251,44 @@ var _comments = {
       this._postScoreOutdated = false;
       $('#linkScore').hide().fadeIn('fast');
     }
+  },
+
+  upvoteComment: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var $scoreElement = $('#' + sourceId + ' .score').first();
+    var score = parseInt($scoreElement.html(), 10);
+    var op = _cache.getItem('comment.op');
+    var subreddit = op.data.subreddit;
+    var $comment = $('#' + sourceId);
+    var thiz = this;
+
+    if (user === null) {
+      blackberry.ui.toast.show('You must login before you can vote.');
+      return;
+    }
+
+    if ($scoreElement.hasClass('upvoted')) {
+      app.unvote(op.data.name, user.modhash, function() {
+        $scoreElement.removeClass('upvoted');
+        $scoreElement.html(--score);
+
+        thiz._postScoreOutdated = !$scoreElement.visible();
+      });
+
+      return;
+    }
+
+    app.upvote(op.data.name, user.modhash, function() {
+      if ($scoreElement.hasClass('downvoted')) {
+        $scoreElement.removeClass('downvoted');
+        score++;
+      }
+
+      $scoreElement.addClass('upvoted');
+      $scoreElement.html(++score);
+
+      thiz._postScoreOutdated = !$scoreElement.visible();
+    });
   },
 
   upvotePost: function() {
