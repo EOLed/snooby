@@ -252,3 +252,20 @@ describe('Commenting', function() {
     expect(onsuccess.calledOnce).toBeTruthy();
   });
 });
+
+describe('Mailbox', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('hits the correct url for inbox', function() {
+    snooby.mailbox('inbox', { before: 't1_before', after: 't1_after' });
+    expect(server.requests[0].url).toEqual('http://reddit.com/message/inbox.json?before=t1_before&after=t1_after');
+  });
+});

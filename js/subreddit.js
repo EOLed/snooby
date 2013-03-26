@@ -177,6 +177,13 @@ var _subreddits = {
     }
   },
 
+  pushMailbox: function() {
+    if (rateLimiter.canPerformAction(rateLimiter.VIEW_INBOX))
+      bb.pushScreen('mailbox.html', 'mailbox', { mailbox: 'inbox' });
+    else
+      app._rateExceededToast();
+  },
+
   _setupContextMenu: function() {
     blackberry.ui.contextmenu.enabled = true;
 

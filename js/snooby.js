@@ -22,6 +22,12 @@ var snooby = {
     $.get('http://reddit.com' + permalink + '.json', onsuccess);
   },
 
+  mailbox: function(where, data, callback) {
+    $.get('http://reddit.com/message/' + where + '.json', data, function(listing) {
+      callback(where, listing);
+    });
+  },
+
   defaultSubreddits: function(onsuccess) {
     var thiz = this;
     $.get('http://reddit.com/reddits.json', function(listing) {

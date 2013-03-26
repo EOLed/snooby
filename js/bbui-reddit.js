@@ -84,6 +84,23 @@ var bbr = {
     callback(div);
   },
 
+  formatMessage: function(message, callback) {
+    var thiz = this;
+    var messageTemplate = $('#messageTemplate').html();
+
+    var html = Mustache.to_html(messageTemplate, 
+                                { time: moment.unix(message.data.created_utc).fromNow(),
+                                  subject: message.data.subject,
+                                  body: message.data.body,
+                                  author: message.data.author });
+    var $div = $('<div/>');
+    $div.html(html);
+
+    $div.attr('id', 'message-' + message.data.name);
+
+    callback($div);
+  },
+
   formatComment: function(comment, op, callback) {
     if (typeof comment.data.body === 'undefined')
       return;

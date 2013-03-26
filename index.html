@@ -42,6 +42,8 @@
                 _support.onDomReady(element, params);
               else if (id === 'comment')
                 _comment.onDomReady(element, params);
+              else if (id === 'mailbox')
+                _mailbox.onDomReady(element, params);
             }, 
             onscreenready: function(element, id, params) {
               if (id === 'subreddit')
@@ -50,6 +52,8 @@
                 _settings.onScreenReady(element, params);
               else if (id == 'comments')
                 _comments.onScreenReady(element, params);
+              else if (id == 'mailbox')
+                _mailbox.onScreenReady(element, params);
               else if (id == 'comment')
                 _comment.onScreenReady(element, params);
             }

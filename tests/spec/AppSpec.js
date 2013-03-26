@@ -264,3 +264,33 @@ describe('Commenting', function() {
   });
 });
 
+describe('Mailbox', function() {
+  var cache;
+  var limiter;
+  var mailbox;
+
+  beforeEach(function() {
+    cache = sinon.stub(_cache, 'getPersistedItem');
+    cache.withArgs('snooby.gold').returns("true");
+    limiter = sinon.spy(rateLimiter, 'requestAction');
+    mailbox = sinon.spy(snooby, 'mailbox');
+  });
+
+  afterEach(function() {
+    _cache.getPersistedItem.restore();
+    rateLimiter.requestAction.restore();
+    snooby.mailbox.restore();
+  });
+
+  it('Inbox Retrieval uses rate limiter', function() {
+    app.mailbox(sinon.spy(), sinon.spy(), sinon.spy());
+    expect(limiter.called).toBeTruthy();
+  });
+
+  it('Inbox retrieval goes through snooby', function() {
+    app.mailbox(sinon.spy(), sinon.spy(), sinon.spy());
+    expect(mailbox.called).toBeTruthy();
+  });
+
+});
+

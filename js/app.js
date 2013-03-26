@@ -114,6 +114,27 @@ var app = {
     rateLimiter.requestAction(rateLimiter.VOTE, doDownvote, onrateexceeded);
   },
 
+  mailbox: function(where, data, callback, oncomplete, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
+
+    var doMailbox = function() {
+      snooby.mailbox(where, data, function(mailbox, listing) {
+        _cache.setItem('mailbox.listing', listing);
+        _cache.setItem('mailbox.selected', mailbox);
+        $.each(listing.data.children, function(index, value) {
+          callback(value);
+        });
+
+        if (typeof oncomplete === 'function')
+          oncomplete(listing);
+      }); 
+    }
+
+    rateLimiter.requestAction(rateLimiter.VIEW_INBOX, doMailbox, onrateexceeded);
+  },
+
   _processSubreddits: function(subreddits, callback, oncomplete) {
     _cache.persistItem('snooby.subreddits', JSON.stringify(subreddits));
     var frontpage = { data: { display_name: 'frontpage' } };

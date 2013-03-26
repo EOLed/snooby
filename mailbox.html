@@ -1,0 +1,19 @@
+<div id="mailbox" data-bb-type="screen">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/bbui-min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/styles.min.css"></link>
+  <script type="text/javascript" src="js/mailbox.js"></script>
+  <div id="loading" style="display: none;" data-bb-type="activity-indicator" data-bb-size="large"></div>
+  <div id="listing" style="display: none;">
+    <div id="inner">
+    </div>
+  </div>
+  <div id="pull-to-refresh" style="display: none">
+    <div id="ptrarrow">&#x21ea;</div><span id="ptrtext"></span>
+  </div>
+  <script id="messageTemplate" type="text/template">
+    {{time}} {{subject}} {{body}} {{author}}
+  </script>
+</div>
+
