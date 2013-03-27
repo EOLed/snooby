@@ -21,7 +21,10 @@
       </div>
       <div class="row-fluid">
         <div class="span10 meta">
-          <span class="author">{{author}}</span> from <span class="subreddit">/r/{{subreddit}}</span> 
+          <span class="author">{{author}}</span>
+          {{#subreddit}}
+            from <span class="subreddit">/r/{{subreddit}}</span> 
+          {{/subreddit}}
         </div>
         <div class="span2 time">{{time}}</div>
       </div>
