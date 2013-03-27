@@ -205,7 +205,7 @@ var _subreddits = {
                      icon: '../img/icons/ic_down.png' };
 
     var comment = { actionId: 'commentAction',
-                     label: 'Add a Comment',
+                     label: 'Add a comment',
                      icon: '../img/icons/ic_edit.png' };
 
     blackberry.ui.contextmenu.addItem(['linkContext'], comment, this._doComment);

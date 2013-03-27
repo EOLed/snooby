@@ -33,6 +33,27 @@ var _mailbox = {
       _cache.setItem('mailbox.domReady', true);
       this._updateListing(params.mailbox);
     }
+
+    this._setupContextMenu();
+  },
+
+  _setupContextMenu: function() {
+    blackberry.ui.contextmenu.enabled = true;
+
+    var options = {};
+
+    blackberry.ui.contextmenu.defineCustomContext('messageContext', options);
+
+    var reply = { actionId: 'replyAction',
+                  label: 'Reply',
+                  icon: '../img/icons/ic_edit.png' };
+
+    var markAsRead = { actionId: 'markAsReadAction',
+                       label: 'Mark as read',
+                       icon: '../img/icons/ic_email_read.png' };
+
+    blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
+    blackberry.ui.contextmenu.addItem(['messageContext'], markAsRead, this._doMarkAsRead);
   },
 
   scrollback: function(listing) {

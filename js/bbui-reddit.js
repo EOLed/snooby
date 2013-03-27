@@ -98,6 +98,11 @@ var bbr = {
     $div.html(html);
 
     $div.attr('id', 'message-' + message.data.name);
+    $div.attr('data-webworks-context',
+              JSON.stringify({ id: message.data.name,
+                               type: 'messageContext',
+                               header: message.data.subject,
+                               subheader: message.data.author }));
 
     if (message.data.new === true)
       $div.find('.status').addClass('unread');
