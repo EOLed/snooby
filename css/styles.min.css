@@ -131,11 +131,11 @@ div#listing .details-section {
 
 }
 
-#comments ul, #comments ol, #linkHeader ul, #linkHeader ol, #commentScreen ul, #commentScreen ol {
+#comments ul, #comments ol, #linkHeader ul, #linkHeader ol, #commentScreen ul, #commentScreen ol, #mailbox ul, #mailbox ol {
   margin-left: 38px;
 }
 
-#comments li, #linkHeader li, #commentScreen li {
+#comments li, #linkHeader li, #commentScreen li, #mailbox li {
   line-height: normal;
 }
 
@@ -321,4 +321,34 @@ code, pre code, pre {
   white-space: pre;
   overflow-x: scroll;
   font-size: 20px;
+}
+
+#mailbox #listing {
+  font-size: .75em;
+} 
+
+#mailbox #listing .subject {
+  font-weight: bold;
+}
+
+#mailbox #listing .meta {
+  font-style: italic;
+  font-size: .7em;
+}
+
+#mailbox #listing .time {
+  font-size: .7em;
+  text-align: right;
+}
+
+#mailbox #listing .status {
+  margin: 1em 0;
+  background-color: #eee;
+  text-align: center;
+  padding: 10px;
+  color: #ddd;
+}
+
+#mailbox #listing .status.unread {
+  color: #ff8b24;
 }

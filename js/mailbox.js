@@ -35,6 +35,13 @@ var _mailbox = {
     }
   },
 
+  scrollback: function(listing) {
+    $('#listing').css('visibility: hidden');
+    $('#listing').show();
+    $('#mailbox').children('div').eq(1).scrollTop(_cache.getItem('mailbox.scrollTop'));
+    $('#listing').css('visibility: visible');
+  },
+
   _updateListing: function(mailbox, data) {
     $('#loading').show();
     $('#listing').hide();

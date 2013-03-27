@@ -91,12 +91,16 @@ var bbr = {
     var html = Mustache.to_html(messageTemplate, 
                                 { time: moment.unix(message.data.created_utc).fromNow(),
                                   subject: message.data.subject,
-                                  body: message.data.body,
+                                  subreddit: message.data.subreddit,
+                                  body: SnuOwnd.getParser().render(message.data.body),
                                   author: message.data.author });
     var $div = $('<div/>');
     $div.html(html);
 
     $div.attr('id', 'message-' + message.data.name);
+
+    if (message.data.new === true)
+      $div.find('.status').addClass('unread');
 
     callback($div);
   },
