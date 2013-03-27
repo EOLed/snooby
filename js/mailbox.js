@@ -12,27 +12,27 @@ var _mailbox = {
   },
 
   onDomReady: function(element, params) {
-    if (_cache.getItem('mailbox.domReady') === true) {
-      $('#loading').hide();
-      console.log('loading mailbox listings from memory');
+  //   if (_cache.getItem('mailbox.domReady') === true) {
+  //     $('#loading').hide();
+  //     console.log('loading mailbox listings from memory');
 
-      var thiz = this;
-      var cachedListing = _cache.getItem('mailbox.listing');
-      $.each(cachedListing.data.children, function(index, value) {
-        bbr.formatMessage(value, function(bbMessage) {
-          $(bbMessage).attr('data-snooby-index', index);
-          $(bbMessage).appendTo('#listing');
-        });
-      });
+  //     var thiz = this;
+  //     var cachedListing = _cache.getItem('mailbox.listing');
+  //     $.each(cachedListing.data.children, function(index, value) {
+  //       bbr.formatMessage(value, function(bbMessage) {
+  //         $(bbMessage).attr('data-snooby-index', index);
+  //         $(bbMessage).appendTo('#listing');
+  //       });
+  //     });
 
-      setTimeout(function() { 
-        thiz.scrollback(cachedListing); 
-      }, 0);
-    } else {
+  //     setTimeout(function() { 
+  //       thiz.scrollback(cachedListing); 
+  //     }, 0);
+  //   } else {
       console.log('loading mailbox listings from reddit');
       _cache.setItem('mailbox.domReady', true);
       this._updateListing(params.mailbox);
-    }
+  //   }
 
     this._setupContextMenu();
   },
@@ -54,6 +54,14 @@ var _mailbox = {
 
     blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
     blackberry.ui.contextmenu.addItem(['messageContext'], markAsRead, this._doMarkAsRead);
+  },
+
+  _doMarkAsRead: function(sourceId) {
+    var $status = $('#message-' + sourceId + ' .status').first();
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    app.markAsRead(sourceId, user.modhash);
+
+    $status.removeClass('unread');
   },
 
   scrollback: function(listing) {

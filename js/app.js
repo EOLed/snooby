@@ -163,5 +163,17 @@ var app = {
     };
 
     rateLimiter.requestAction(rateLimiter.COMMENT, postComment, onrateexceeded);
+  },
+
+  markAsRead: function(id, modhash, onsuccess, onrateexceeded) {
+    if (typeof onrateexceeded === 'undefined') {
+      onrateexceeded = this._rateExceededToast;
+    }
+
+    var mark = function() {
+      snooby.markAsRead(id, modhash, onsuccess);
+    };
+
+    rateLimiter.requestAction(rateLimiter.MARK_AS_READ, mark, onrateexceeded);
   }
 };

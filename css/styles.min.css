@@ -347,6 +347,7 @@ code, pre code, pre {
   text-align: center;
   padding: 10px;
   color: #ddd;
+  -webkit-transition: all ease-in-out 0.6s;
 }
 
 #mailbox #listing .status.unread {
