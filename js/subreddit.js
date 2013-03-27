@@ -178,6 +178,11 @@ var _subreddits = {
   },
 
   pushMailbox: function() {
+    if (JSON.parse(_cache.getPersistedItem('snooby.user')) === null) {
+      blackberry.ui.toast.show('You must login before you can check your mail.');
+      return;
+    }
+
     if (rateLimiter.canPerformAction(rateLimiter.VIEW_INBOX))
       bb.pushScreen('mailbox.html', 'mailbox', { mailbox: 'inbox' });
     else
