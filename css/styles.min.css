@@ -325,6 +325,7 @@ code, pre code, pre {
 
 #mailbox #listing {
   font-size: .75em;
+  margin-top: 20px;
 } 
 
 #mailbox #listing .subject {
@@ -342,7 +343,7 @@ code, pre code, pre {
 }
 
 #mailbox #listing .status {
-  margin: 1em 0;
+  margin: .5em 0 2em 0;
   background-color: #eee;
   text-align: center;
   padding: 10px;
