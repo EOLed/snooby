@@ -52,11 +52,11 @@ var _mailbox = {
                        label: 'Mark as read',
                        icon: '../img/icons/ic_email_read.png' };
 
-    var context = { actionId: 'contextAction',
-                    label: 'Context',
-                    icon: '../img/icons/ic_textmessage.png' };
+    var comments = { actionId: 'contextAction',
+                     label: 'Full comments',
+                     icon: '../img/icons/ic_textmessage.png' };
 
-    blackberry.ui.contextmenu.addItem(['messageContext'], context, this._doContext);
+    blackberry.ui.contextmenu.addItem(['messageContext'], comments, this._doFullComments);
     blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
     blackberry.ui.contextmenu.addItem(['messageContext'], markAsRead, this._doMarkAsRead);
   },
@@ -69,9 +69,14 @@ var _mailbox = {
     $status.removeClass('unread');
   },
 
-  _doContext: function(sourceId) {
+  _doFullComments: function(sourceId) {
     var $message = $('#message-' + sourceId);
-    bbr._handleRedditCommentLink({ pathname: $message.data('snooby-context') });
+    var context = $message.data('snooby-context');
+    _mailbox.pushCommentsScreen(context);
+  },
+
+  pushCommentsScreen: function(context) {
+    bbr._handleRedditCommentLink({ pathname: context.substring(0, context.lastIndexOf('/')) });
   },
 
   scrollback: function(listing) {
