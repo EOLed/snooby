@@ -98,6 +98,7 @@ var bbr = {
     $div.html(html);
 
     $div.attr('id', 'message-' + message.data.name);
+    $div.attr('data-snooby-context', message.data.context);
     $div.attr('data-webworks-context',
               JSON.stringify({ id: message.data.name,
                                type: 'messageContext',

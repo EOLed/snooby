@@ -63,6 +63,22 @@ describe('bbr.dispatchLink', function() {
     mock.restore();
   });
 
+  /*it('handles comment links natively with context', function() {
+    var mock = sinon.mock(bb);
+    mock.expects('pushScreen')
+        .withArgs('comments.html', 
+                  'comments',
+                  { link: { data: { permalink: '/r/blackberry/comments/1b0a45/is_blackberry_ripe_for_a_comeback/c92krj4?context=3' } } })
+        .once();
+
+    e.target.hostname = 'www.reddit.com';
+    e.target.pathname = '/r/test/comments/190t6j/test_posting_url/';
+    e.target.href = 'http://www.reddit.com/r/test/comments/190t6j/test_posting_url/'
+    bbr.dispatchLink(e);
+    mock.verify();
+    mock.restore();
+  });*/
+
   it('handles subreddit links natively', function() {
     var mock = sinon.mock(bb);
     mock.expects('pushScreen').withArgs('subreddit.html', 'subreddit', { subreddit: 'test' }).once();
