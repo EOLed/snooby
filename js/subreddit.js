@@ -183,10 +183,12 @@ var _subreddits = {
       return;
     }
 
-    if (rateLimiter.canPerformAction(rateLimiter.VIEW_INBOX))
+    if (rateLimiter.canPerformAction(rateLimiter.VIEW_INBOX)) {
+      _cache.removeItem('mailbox.visited');
       bb.pushScreen('mailbox.html', 'mailbox', { mailbox: 'inbox' });
-    else
+    } else {
       app._rateExceededToast();
+    }
   },
 
   _setupContextMenu: function() {
