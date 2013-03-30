@@ -86,10 +86,13 @@ var _mailbox = {
 
   _doMarkAsRead: function(sourceId) {
     var $status = $('#message-' + sourceId + ' .status').first();
-    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
-    app.markAsRead(sourceId, user.modhash);
 
-    $status.removeClass('unread');
+    if ($status.hasClass('unread')) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      app.markAsRead(sourceId, user.modhash);
+
+      $status.removeClass('unread');
+    }
   },
 
   _doFullComments: function(sourceId) {
@@ -127,5 +130,15 @@ var _mailbox = {
       $('#loading').hide();
       $('#listing').show();
     });
+  },
+
+  messageClicked: function(e) {
+    var target = e.target;
+    return target && $(target).closest('.message') !== [];
+  },
+
+  onMessageClick: function(target) {
+    var name = $(target).closest('.message').data('snooby-message-name');
+    _mailbox._doMarkAsRead(name);
   }
 };

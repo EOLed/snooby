@@ -87,25 +87,28 @@ var bbr = {
   formatMessage: function(message, callback) {
     var thiz = this;
     var messageTemplate = $('#messageTemplate').html();
+    var msg = message.data;
 
     var html = Mustache.to_html(messageTemplate, 
-                                { time: moment.unix(message.data.created_utc).fromNow(),
-                                  subject: message.data.subject,
-                                  subreddit: message.data.subreddit,
-                                  body: SnuOwnd.getParser().render(message.data.body),
-                                  author: message.data.author });
+                                { time: moment.unix(msg.created_utc).fromNow(),
+                                  subject: msg.subject,
+                                  subreddit: msg.subreddit,
+                                  body: SnuOwnd.getParser().render(msg.body),
+                                  author: msg.author });
     var $div = $('<div/>');
     $div.html(html);
 
-    $div.attr('id', 'message-' + message.data.name);
-    $div.attr('data-snooby-context', message.data.context);
+    $div.attr('id', 'message-' + msg.name);
+    $div.addClass('message');
+    $div.attr('data-snooby-context', msg.context);
+    $div.attr('data-snooby-message-name', msg.name);
     $div.attr('data-webworks-context',
-              JSON.stringify({ id: message.data.name,
+              JSON.stringify({ id: msg.name,
                                type: 'messageContext',
-                               header: message.data.subject,
-                               subheader: message.data.author }));
+                               header: msg.subject,
+                               subheader: msg.author }));
 
-    if (message.data.new === true)
+    if (msg.new === true)
       $div.find('.status').addClass('unread');
 
     callback($div);
@@ -223,11 +226,16 @@ var bbr = {
 
   dispatchLink: function(e) {
     var target = e.target;
-    if (target && target.nodeName === 'A') {
-      console.log('anchor clicked');
-      e.preventDefault();
+    if (target) {
+      var nodeName = target.nodeName;
+      if (nodeName === 'A') {
+        console.log('anchor clicked');
+        e.preventDefault();
 
-      this._handleLink(target);
+        this._handleLink(target);
+      } else if (_mailbox && _mailbox.messageClicked(e)) {
+        _mailbox.onMessageClick(target);
+      }
     }
   },
 

@@ -8,11 +8,14 @@ describe('bbr.dispatchLink', function() {
 
   it('does nothing if event target is not a link', function() {
     e.target.nodeName = '';
+    var messageClicked = sinon.stub(_mailbox, 'messageClicked');
+    messageClicked.returns(false);
     var mock = sinon.mock(bb);
     mock.expects('pushScreen').never();
     bbr.dispatchLink(e);
     mock.verify();
     mock.restore();
+    messageClicked.restore();
   });
 
   it('handles comment context links natively', function() {
