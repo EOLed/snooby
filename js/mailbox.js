@@ -49,9 +49,9 @@ var _mailbox = {
                   label: 'Reply',
                   icon: '../img/icons/ic_edit.png' };
 
-    var markAsRead = { actionId: 'markAsReadAction',
-                       label: 'Mark as read',
-                       icon: '../img/icons/ic_email_read.png' };
+    var markAsUnread = { actionId: 'markAsUnreadAction',
+                         label: 'Mark as new',
+                         icon: '../img/icons/ic_email.png' };
 
     var comments = { actionId: 'contextAction',
                      label: 'Full comments',
@@ -59,7 +59,7 @@ var _mailbox = {
 
     blackberry.ui.contextmenu.addItem(['messageContext'], comments, this._doFullComments);
     blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
-    blackberry.ui.contextmenu.addItem(['messageContext'], markAsRead, this._doMarkAsRead);
+    blackberry.ui.contextmenu.addItem(['messageContext'], markAsUnread, this._doMarkAsUnread);
   },
 
   _saveQueuedComment: function() {
@@ -81,6 +81,17 @@ var _mailbox = {
       bb.pushScreen('comment.html', 'comment', { parentThing: { data: { name: sourceId } } });
     } else {
       app._rateExceededToast();
+    }
+  },
+
+  _doMarkAsUnread: function(sourceId) {
+    var $status = $('#message-' + sourceId + ' .status').first();
+
+    if (!$status.hasClass('unread')) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      app.markAsUnread(sourceId, user.modhash);
+
+      $status.addClass('unread');
     }
   },
 

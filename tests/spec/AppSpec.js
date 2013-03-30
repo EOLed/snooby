@@ -268,7 +268,8 @@ describe('Mailbox', function() {
   var cache,
       limiter,
       mailbox,
-      markAsRead;
+      markAsRead,
+      markAsUnread;
 
   beforeEach(function() {
     cache = sinon.stub(_cache, 'getPersistedItem');
@@ -276,6 +277,7 @@ describe('Mailbox', function() {
     limiter = sinon.spy(rateLimiter, 'requestAction');
     mailbox = sinon.spy(snooby, 'mailbox');
     markAsRead = sinon.spy(snooby, 'markAsRead');
+    markAsUnread = sinon.spy(snooby, 'markAsUnread');
   });
 
   afterEach(function() {
@@ -283,6 +285,7 @@ describe('Mailbox', function() {
     rateLimiter.requestAction.restore();
     snooby.mailbox.restore();
     snooby.markAsRead.restore();
+    snooby.markAsUnread.restore();
   });
 
   it('Inbox Retrieval uses rate limiter', function() {
@@ -304,6 +307,17 @@ describe('Mailbox', function() {
     app.markAsRead(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(markAsRead.called).toBeTruthy();
   });
+
+  it('Mark as unread uses rate limiter', function() {
+    app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
+    expect(limiter.called).toBeTruthy();
+  });
+
+  it('mark as unread goes through snooby', function() {
+    app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
+    expect(markAsUnread.called).toBeTruthy();
+  });
+
 
 });
 

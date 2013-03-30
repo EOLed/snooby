@@ -71,6 +71,10 @@ var snooby = {
     $.post('http://www.reddit.com/api/comment', { text: text, thing_id: thingId, uh: modhash }, onsuccess);
   },
 
+  markAsUnread: function(id, modhash, onsuccess) {
+    $.post('http://www.reddit.com/api/unread_message', { id: id, uh: modhash }, onsuccess);
+  },
+
   markAsRead: function(id, modhash, onsuccess) {
     $.post('http://www.reddit.com/api/read_message', { id: id, uh: modhash }, onsuccess);
   }

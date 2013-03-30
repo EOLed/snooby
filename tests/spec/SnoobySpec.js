@@ -269,6 +269,22 @@ describe('Mailbox', function() {
     expect(server.requests[0].url).toEqual('http://reddit.com/message/inbox.json?before=t1_before&after=t1_after');
   });
 
+  it('mark as uread passes the correct parameters', function() {
+    snooby.markAsUnread('thingid', 'modhash', function() {});
+    expect(server.requests[0].requestBody).toEqual('id=thingid&uh=modhash');
+  });
+
+  it('mark as uread calls onsuccess callback upon successful marking', function() {
+    var response = '{"errors":[]}';
+    server.respondWith('POST',
+                       'http://www.reddit.com/api/unread_message',
+                       [200, { "Content-Type": "application/json" }, response]);
+    var onsuccess = sinon.spy();
+    snooby.markAsUnread('thingid', 'asdf', onsuccess);
+    server.respond();
+    expect(onsuccess.calledOnce).toBeTruthy();
+  });
+
   it('mark as read passes the correct parameters', function() {
     snooby.markAsRead('thingid', 'modhash', function() {});
     expect(server.requests[0].requestBody).toEqual('id=thingid&uh=modhash');
