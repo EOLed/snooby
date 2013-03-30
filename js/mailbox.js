@@ -53,13 +53,32 @@ var _mailbox = {
                          label: 'Mark as new',
                          icon: '../img/icons/ic_email.png' };
 
+    var markAsRead = { actionId: 'markAsReadAction',
+                       label: 'Mark as read',
+                       icon: '../img/icons/ic_email_read.png' };
+
     var comments = { actionId: 'contextAction',
                      label: 'Full comments',
                      icon: '../img/icons/ic_textmessage.png' };
 
-    blackberry.ui.contextmenu.addItem(['messageContext'], comments, this._doFullComments);
-    blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
-    blackberry.ui.contextmenu.addItem(['messageContext'], markAsUnread, this._doMarkAsUnread);
+    blackberry.ui.contextmenu.addItem(['replyReadContext', 'replyUnreadContext'], 
+                                      comments, 
+                                      this._doFullComments);
+
+    blackberry.ui.contextmenu.addItem(['messageReadContext',
+                                       'messageUnreadContext',
+                                       'replyReadContext',
+                                       'replyUnreadContext'],
+                                      reply,
+                                      this._doComment);
+
+    blackberry.ui.contextmenu.addItem(['messageReadContext', 'replyReadContext'],
+                                      markAsUnread,
+                                      this._doMarkAsUnread);
+
+    blackberry.ui.contextmenu.addItem(['messageUnreadContext', 'replyUnreadContext'],
+                                      markAsRead,
+                                      this._doMarkAsRead);
   },
 
   _saveQueuedComment: function() {
@@ -92,6 +111,7 @@ var _mailbox = {
       app.markAsUnread(sourceId, user.modhash);
 
       $status.addClass('unread');
+      _mailbox._updateContextType(sourceId, false);
     }
   },
 
@@ -103,7 +123,21 @@ var _mailbox = {
       app.markAsRead(sourceId, user.modhash);
 
       $status.removeClass('unread');
+      _mailbox._updateContextType(sourceId, true);
     }
+  },
+
+  _updateContextType: function(sourceId, read) {
+    var $message = $('#message-' + sourceId),
+        context = JSON.parse($message.attr('data-webworks-context'));
+
+    if (read) {
+      context.type = context.type === 'messageUnreadContext' ? 'messageReadContext' : 'replyReadContext';
+    } else {
+      context.type = context.type === 'messageReadContext' ? 'messageUnreadContext' : 'replyUnreadContext';
+    }
+
+    $message.attr('data-webworks-context', JSON.stringify(context));
   },
 
   _doFullComments: function(sourceId) {

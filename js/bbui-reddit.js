@@ -85,32 +85,38 @@ var bbr = {
   },
 
   formatMessage: function(message, callback) {
-    var thiz = this;
-    var messageTemplate = $('#messageTemplate').html();
-    var msg = message.data;
-
-    var html = Mustache.to_html(messageTemplate, 
+    var thiz = this,
+        messageTemplate = $('#messageTemplate').html(),
+        msg = message.data,
+        html = Mustache.to_html(messageTemplate, 
                                 { time: moment.unix(msg.created_utc).fromNow(),
                                   subject: msg.subject,
                                   subreddit: msg.subreddit,
                                   body: SnuOwnd.getParser().render(msg.body),
-                                  author: msg.author });
-    var $div = $('<div/>');
+                                  author: msg.author }),
+       $div = $('<div/>'),
+       contextType;
+
     $div.html(html);
 
     $div.attr('id', 'message-' + msg.name);
     $div.addClass('message');
     $div.attr('data-snooby-context', msg.context);
     $div.attr('data-snooby-message-name', msg.name);
-    $div.attr('data-webworks-context',
-              JSON.stringify({ id: msg.name,
-                               type: 'messageContext',
-                               header: msg.subject,
-                               subheader: msg.author }));
 
-    if (msg.new === true)
+    if (msg.new === true) {
       $div.find('.status').addClass('unread');
 
+      contextType = message.kind === 't4' ? 'messageUnreadContext' : 'replyUnreadContext';
+    } else {
+      contextType = message.kind === 't4' ? 'messageReadContext' : 'replyReadContext';
+    }
+
+    $div.attr('data-webworks-context',
+              JSON.stringify({ id: msg.name,
+                               type: contextType,
+                               header: msg.subject,
+                               subheader: msg.author }));
     callback($div);
   },
 
