@@ -60,9 +60,7 @@ describe('Comment Composer', function() {
   it('caches the new comment', function() {
     getItem.withArgs('comment.parent').returns(responses.reddit.listings.frontpage.data.children[0]);
     var comment = { kind: "t1", 
-                    data: { subreddit_id: responses.reddit.listings.frontpage.data.children[0].data.subreddit_id,
-                            subreddit: responses.reddit.listings.frontpage.data.children[0].data.subreddit,
-                            likes: true,
+                    data: { likes: true,
                             id: 'reply' + responses.reddit.listings.frontpage.data.children[0].data.name,
                             author: JSON.parse(_cache.getPersistedItem('snooby.user')).username,
                             parent_id: responses.reddit.listings.frontpage.data.children[0].data.name,

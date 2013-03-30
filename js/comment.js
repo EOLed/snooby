@@ -29,9 +29,7 @@ var _comment = {
     
     _cache.setItem('comment.created', 
                    { kind: 't1',
-                     data: { subreddit_id: link.data.subreddit_id,
-                             subreddit: link.data.subreddit,
-                             likes: true,
+                     data: { likes: true,
                              id: 'reply' + link.data.name,
                              author: user.username,
                              parent_id: link.data.name,
@@ -39,8 +37,6 @@ var _comment = {
                              body: textarea.val(),
                              downs: 0,
                              ups: 1 } } );
-          
-               
     bb.popScreen();
   }
 };

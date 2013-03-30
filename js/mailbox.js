@@ -35,6 +35,7 @@ var _mailbox = {
     }
 
     this._setupContextMenu();
+    this._saveQueuedComment();
   },
 
   _setupContextMenu: function() {
@@ -59,6 +60,28 @@ var _mailbox = {
     blackberry.ui.contextmenu.addItem(['messageContext'], comments, this._doFullComments);
     blackberry.ui.contextmenu.addItem(['messageContext'], reply, this._doComment);
     blackberry.ui.contextmenu.addItem(['messageContext'], markAsRead, this._doMarkAsRead);
+  },
+
+  _saveQueuedComment: function() {
+    if (_cache.itemExists('comment.created')) {
+      var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+      var comment = _cache.getItem('comment.created');
+
+      var onsuccess = function() {
+        _cache.removeItem('comment.created'); 
+        blackberry.ui.toast.show('Message sent.');
+      };
+
+      app.comment(comment.data.body, comment.data.parent_id, user.modhash, onsuccess);
+    }
+  },
+
+  _doComment: function(sourceId) {
+    if (rateLimiter.canPerformAction(rateLimiter.COMMENT)) {
+      bb.pushScreen('comment.html', 'comment', { parentThing: { data: { name: sourceId } } });
+    } else {
+      app._rateExceededToast();
+    }
   },
 
   _doMarkAsRead: function(sourceId) {
