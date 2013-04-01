@@ -119,20 +119,16 @@ var app = {
       onrateexceeded = this._rateExceededToast;
     }
 
-    var doMailbox = function() {
-      snooby.mailbox(where, data, function(mailbox, listing) {
-        _cache.setItem('mailbox.listing', listing);
-        _cache.setItem('mailbox.selected', mailbox);
-        $.each(listing.data.children, function(index, value) {
-          callback(value);
-        });
+    snooby.mailbox(where, data, function(mailbox, listing) {
+      _cache.setItem('mailbox.listing', listing);
+      _cache.setItem('mailbox.selected', mailbox);
+      $.each(listing.data.children, function(index, value) {
+        callback(value);
+      });
 
-        if (typeof oncomplete === 'function')
-          oncomplete(listing);
-      }); 
-    }
-
-    rateLimiter.requestAction(rateLimiter.VIEW_INBOX, doMailbox, onrateexceeded);
+      if (typeof oncomplete === 'function')
+        oncomplete(listing);
+    }); 
   },
 
   _processSubreddits: function(subreddits, callback, oncomplete) {
@@ -165,27 +161,11 @@ var app = {
     rateLimiter.requestAction(rateLimiter.COMMENT, postComment, onrateexceeded);
   },
 
-  markAsUnread: function(id, modhash, onsuccess, onrateexceeded) {
-    if (typeof onrateexceeded === 'undefined') {
-      onrateexceeded = this._rateExceededToast;
-    }
-
-    var mark = function() {
-      snooby.markAsUnread(id, modhash, onsuccess);
-    };
-
-    rateLimiter.requestAction(rateLimiter.MARK_AS_UNREAD, mark, onrateexceeded);
+  markAsUnread: function(id, modhash, onsuccess) {
+    snooby.markAsUnread(id, modhash, onsuccess);
   },
 
-  markAsRead: function(id, modhash, onsuccess, onrateexceeded) {
-    if (typeof onrateexceeded === 'undefined') {
-      onrateexceeded = this._rateExceededToast;
-    }
-
-    var mark = function() {
-      snooby.markAsRead(id, modhash, onsuccess);
-    };
-
-    rateLimiter.requestAction(rateLimiter.MARK_AS_READ, mark, onrateexceeded);
+  markAsRead: function(id, modhash, onsuccess) {
+    snooby.markAsRead(id, modhash, onsuccess);
   }
 };

@@ -288,9 +288,9 @@ describe('Mailbox', function() {
     snooby.markAsUnread.restore();
   });
 
-  it('Inbox Retrieval uses rate limiter', function() {
+  it('Inbox Retrieval does not use rate limiter', function() {
     app.mailbox(sinon.spy(), sinon.spy(), sinon.spy());
-    expect(limiter.called).toBeTruthy();
+    expect(limiter.called).toBeFalsy();
   });
 
   it('Inbox retrieval goes through snooby', function() {
@@ -298,9 +298,9 @@ describe('Mailbox', function() {
     expect(mailbox.called).toBeTruthy();
   });
 
-  it('Mark as read uses rate limiter', function() {
+  it('Mark as read does not use rate limiter', function() {
     app.markAsRead(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
-    expect(limiter.called).toBeTruthy();
+    expect(limiter.called).toBeFalsy();
   });
 
   it('mark as read goes through snooby', function() {
@@ -308,16 +308,14 @@ describe('Mailbox', function() {
     expect(markAsRead.called).toBeTruthy();
   });
 
-  it('Mark as unread uses rate limiter', function() {
+  it('Mark as unread does not use rate limiter', function() {
     app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
-    expect(limiter.called).toBeTruthy();
+    expect(limiter.called).toBeFalsy();
   });
 
   it('mark as unread goes through snooby', function() {
     app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(markAsUnread.called).toBeTruthy();
   });
-
-
 });
 
