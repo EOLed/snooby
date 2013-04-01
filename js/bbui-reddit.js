@@ -239,7 +239,7 @@ var bbr = {
         e.preventDefault();
 
         this._handleLink(target);
-      } else if (_mailbox && _mailbox.messageClicked(e)) {
+      } else if (typeof _mailbox !== 'undefined' && _mailbox.messageClicked(e)) {
         _mailbox.onMessageClick(target);
       }
     }
