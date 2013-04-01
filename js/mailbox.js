@@ -129,7 +129,10 @@ var _mailbox = {
 
   _updateContextType: function(sourceId, read) {
     var $message = $('#message-' + sourceId),
-        context = JSON.parse($message.attr('data-webworks-context'));
+        context = JSON.parse($message.attr('data-webworks-context')),
+        message = _cache.getItem('mailbox.listing')
+                        .data
+                        .children[$('#message-' + sourceId).attr('data-snooby-index')];
 
     if (read) {
       context.type = context.type === 'messageUnreadContext' ? 'messageReadContext' : 'replyReadContext';
@@ -138,6 +141,7 @@ var _mailbox = {
     }
 
     $message.attr('data-webworks-context', JSON.stringify(context));
+    message.data.new = !read;
   },
 
   _doFullComments: function(sourceId) {
