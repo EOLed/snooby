@@ -365,10 +365,11 @@ code, pre code, pre {
   line-height: normal;
   margin: 0 40px;
   outline: none;
+  font-size: .9em;
 }
 
 #subredditSortingOptions {
   overflow-x: scroll;
   white-space: nowrap;
-  padding: 60px 0;
+  padding: 40px 0;
 }

@@ -239,7 +239,7 @@ var _subreddits = {
       $('#loading').hide();
       $('#listing').show();
       $('#subredditSortPanel').show();
-      $('#subreddit').children('div').eq(1).scrollTop(168);
+      $('#subreddit').children('div').eq(1).scrollTop(133);
 
       if (listing.data.after === null) {
         _cache.removeItem('subreddit.after');
