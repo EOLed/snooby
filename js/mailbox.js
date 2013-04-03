@@ -183,7 +183,7 @@ var _mailbox = {
 
   messageClicked: function(e) {
     var target = e.target;
-    return target && $(target).closest('.message') !== [];
+    return target && $(target).closest('.message').length > 0;
   },
 
   onMessageClick: function(target) {
