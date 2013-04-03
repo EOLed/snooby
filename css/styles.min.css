@@ -4,7 +4,7 @@ body {
 }
 
 a {
-  outline: 0;
+  outline: none;
 }
 
 div#listing .link-section {
@@ -353,4 +353,22 @@ code, pre code, pre {
 
 #mailbox #listing .status.unread {
   color: #ff8b24;
+}
+
+#subredditSortPanel {
+  background-color: #333;
+  box-shadow: 0px -10px 20px #111 inset;
+}
+
+#subredditSortPanel span {
+  color: #eee;
+  line-height: normal;
+  margin: 0 40px;
+  outline: none;
+}
+
+#subredditSortingOptions {
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 60px 0;
 }

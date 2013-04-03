@@ -7,17 +7,27 @@ var app = {
     snooby.logout(modhash, onsuccess);
   },
 
-  listing: function(subreddits, data, callback, oncomplete) {
-    snooby.listing(subreddits, data, function(subreddits, listing) {
+  listing: function(options) {
+    if (typeof options.sort === 'undefined' || options.sort === null)
+      options.sort = '';
+
+    var callback = function(subreddits, listing) {
       _cache.setItem('subreddit.listing', listing);
       _cache.setItem('subreddit.selected', subreddits);
+      _cache.setItem('subreddit.sort', options.sort);
       $.each(listing.data.children, function(index, value) {
-        callback(value);
+        if (typeof options.callback === 'function')
+          options.callback(value);
       });
 
-      if (typeof oncomplete === 'function')
-        oncomplete(listing);
-    }); 
+      if (typeof options.oncomplete === 'function')
+        options.oncomplete(listing);
+    };
+
+    snooby.listing({ subreddits: options.subreddits, 
+                     data: options.data, 
+                     sort: options.sort, 
+                     callback: callback }); 
   },
 
   comments: function(permalink, callback, oncomplete, opcallback) {

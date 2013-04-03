@@ -9,12 +9,18 @@ var snooby = {
     $.post('https://ssl.reddit.com/logout', { uh: modhash, top: 'off' }, onsuccess);
   },
 
-  listing: function(subreddits, data, callback) {
-    var thiz = this;
-    var url = subreddits === 'frontpage' ? 'http://reddit.com/.json' : 
-                                           'http://reddit.com/r/' + subreddits + '.json';
-    $.get(url, data, function(listing) {
-      callback(subreddits, listing);
+  listing: function(options) {
+    var thiz = this,
+        sort = options.sort,
+        subreddits = options.subreddits;
+
+    if (typeof sort === 'undefined' || sort === 'hot')
+      sort = '';
+
+    var url = subreddits === 'frontpage' ? 'http://reddit.com/' + sort + '.json' : 
+                                           'http://reddit.com/r/' + subreddits + '/' + sort + '.json';
+    $.get(url, options.data, function(listing) {
+      options.callback(subreddits, listing);
     });
   },
 

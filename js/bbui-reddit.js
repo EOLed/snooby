@@ -241,6 +241,8 @@ var bbr = {
         this._handleLink(target);
       } else if (typeof _mailbox !== 'undefined' && _mailbox.messageClicked(e)) {
         _mailbox.onMessageClick(target);
+      } else if (typeof _subreddits !== 'undefined' && _subreddits.sortOptionClicked(e)) {
+        _subreddits.onSortOptionClicked(target);
       }
     }
   },

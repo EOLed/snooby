@@ -72,24 +72,49 @@ describe('Listing', function() {
   });
 
   it('requests frontpage listings from reddit if frontpage is specified', function() {
-    snooby.listing('frontpage', sinon.spy());
+    snooby.listing({ subreddits: 'frontpage' });
     expect(server.requests[0].url).toBe('http://reddit.com/.json');
   });
 
   it('requests subreddit listings from reddit if subreddit is specified', function() {
-    snooby.listing('blackops2', sinon.spy());
-    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2.json');
+    snooby.listing({ subreddits: 'blackops2' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/.json');
   });
 
   it('passes the selected subreddit and its listings to the callback', function() {
     var blackopsListing = responses.reddit.listings.blackops2;
     server.respondWith('GET',
-                       'http://reddit.com/r/blackops2.json',
+                       'http://reddit.com/r/blackops2/.json',
                        [200, { "Content-Type": "application/json" }, JSON.stringify(blackopsListing)]);
     var callback = sinon.spy();
-    snooby.listing('blackops2', {}, callback);
+    snooby.listing({ subreddits: 'blackops2', callback: callback });
     server.respond();
     expect(callback.calledWith('blackops2', blackopsListing)).toBeTruthy();
+  });
+
+  it('sorts listing by controversial', function() {
+    snooby.listing({ subreddits: 'blackops2', sort: 'controversial' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/controversial.json');
+  });
+
+  it('sorts listing by rising', function() {
+    snooby.listing({ subreddits: 'blackops2', sort: 'rising' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/rising.json');
+  });
+
+  it('sorts listing by new', function() {
+    snooby.listing({ subreddits: 'blackops2', sort: 'new' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/new.json');
+  });
+
+  it('sorts listing by top', function() {
+    snooby.listing({ subreddits: 'blackops2', sort: 'top' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/top.json');
+  });
+
+  it('sorts listing by hot', function() {
+    snooby.listing({ subreddits: 'blackops2', sort: 'hot' });
+    expect(server.requests[0].url).toBe('http://reddit.com/r/blackops2/.json');
   });
 });
 

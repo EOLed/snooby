@@ -223,18 +223,23 @@ var _subreddits = {
 
   _updateListing: function(subreddit, data) {
     $('#pull-to-refresh').hide();
+    $('#subredditSortPanel').hide();
     $('#loading').show();
     $('#listing').hide();
     $('#listing').empty();
     var index = 0;
-    app.listing(subreddit, data, function(post) {
+    var callback = function(post) {
       bbr.formatPost(post, function(bbPost) {
         $(bbPost).attr('data-snooby-index', index++);
         $(bbPost).appendTo('#listing');
       });
-    }, function(listing) {
+    };
+
+    var oncomplete = function(listing) {
       $('#loading').hide();
       $('#listing').show();
+      $('#subredditSortPanel').show();
+      $('#subreddit').children('div').eq(1).scrollTop(168);
 
       if (listing.data.after === null) {
         _cache.removeItem('subreddit.after');
@@ -243,7 +248,15 @@ var _subreddits = {
         _cache.setItem('subreddit.after', listing.data.after);
         $('#pull-to-refresh').show();
       }
-    });
+    };
+
+    var sort = _cache.getPersistedItem('subreddit.sort');
+    if (typeof sort === 'undefined' || sort === null) {
+      _cache.persistItem('subreddit.sort', 'hot');
+      sort = 'hot';
+    }
+
+    app.listing({ subreddits: subreddit, data: data, sort: sort, callback: callback, oncomplete: oncomplete });
   },
 
   onUnload: function(element) {
@@ -252,9 +265,12 @@ var _subreddits = {
 
   scrollback: function(listing) {
     $('#listing').css('visibility: hidden');
+    $('#subredditSortPanel').css('visibility: hidden');
     $('#listing').show();
+    $('#subredditSortPanel').show();
     $('#subreddit').children('div').eq(1).scrollTop(_cache.getItem('subreddit.scrollTop'));
     $('#listing').css('visibility: visible');
+    $('#subredditSortPanel').css('visibility: visible');
 
     if (listing.data.after === null)
       $('#pull-to-refresh').hide();
@@ -307,5 +323,16 @@ var _subreddits = {
                                           },
                                           { title: 'Go to Subreddit...' });
 
+  },
+
+  sortOptionClicked: function(e) {
+    var target = e.target;
+    return target && $(target).closest('.sort-option').length > 0;
+  },
+
+  onSortOptionClicked: function(target) {
+    var sort = $(target).closest('.sort-option').data('snooby-sort');
+    _cache.persistItem('subreddit.sort', sort);
+    _subreddits.refresh();
   }
 };
