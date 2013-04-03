@@ -33,6 +33,7 @@ var _subreddits = {
       });
     }
 
+    element.getElementById('noResults').style.display = 'none';
     element.getElementById('pull-to-refresh').style.display = 'none';
 
     selectedTab.setAttribute('data-bb-selected', true);
@@ -222,6 +223,7 @@ var _subreddits = {
   },
 
   _updateListing: function(subreddit, data) {
+    $('#noResults').hide();
     $('#pull-to-refresh').hide();
     $('#subredditSortPanel').hide();
     $('#loading').show();
@@ -237,16 +239,22 @@ var _subreddits = {
 
     var oncomplete = function(listing) {
       $('#loading').hide();
-      $('#listing').show();
       $('#subredditSortPanel').show();
-      $('#subreddit').children('div').eq(1).scrollTop(133);
 
-      if (listing.data.after === null) {
-        _cache.removeItem('subreddit.after');
-        $('#pull-to-refresh').hide();
+      if (listing.data.children.length > 0) {
+        $('#noResults').hide();
+        $('#listing').show();
+        $('#subreddit').children('div').eq(1).scrollTop(133);
+
+        if (listing.data.after === null) {
+          _cache.removeItem('subreddit.after');
+          $('#pull-to-refresh').hide();
+        } else {
+          _cache.setItem('subreddit.after', listing.data.after);
+          $('#pull-to-refresh').show();
+        }
       } else {
-        _cache.setItem('subreddit.after', listing.data.after);
-        $('#pull-to-refresh').show();
+        $('#noResults').show();
       }
     };
 

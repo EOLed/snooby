@@ -373,3 +373,9 @@ code, pre code, pre {
   white-space: nowrap;
   padding: 40px 0;
 }
+
+#noResults {
+  margin: 20px;
+  font-size: .75em;
+  text-align: center;
+}
