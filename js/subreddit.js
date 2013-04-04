@@ -62,6 +62,16 @@ var _subreddits = {
       this._updateListing(params.subreddit);
     }
 
+    var sort = _cache.getPersistedItem('subreddit.sort');
+
+    if (typeof sort === 'undefined') {
+      sort = 'hot';
+      _cache.persistItem('subreddit.sort', sort);
+    }
+
+    $('.sort-option').removeClass('selected');
+    $('#' + sort + '.sort-option').addClass('selected');
+
     this._saveQueuedComment();
 
     this._setupPullToRefresh();
@@ -263,6 +273,9 @@ var _subreddits = {
       _cache.persistItem('subreddit.sort', 'hot');
       sort = 'hot';
     }
+
+    $('.sort-option').removeClass('selected');
+    $('#' + sort + '.sort-option').addClass('selected');
 
     app.listing({ subreddits: subreddit, data: data, sort: sort, callback: callback, oncomplete: oncomplete });
   },

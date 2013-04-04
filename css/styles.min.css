@@ -363,7 +363,8 @@ code, pre code, pre {
 #subredditSortPanel span {
   color: #eee;
   line-height: normal;
-  margin: 0 40px;
+  padding: 0px 30px 10px 30px;
+  margin: 0px 10px;
   outline: none;
   font-size: .9em;
 }
@@ -372,6 +373,12 @@ code, pre code, pre {
   overflow-x: scroll;
   white-space: nowrap;
   padding: 40px 0;
+}
+
+.sort-option.selected {
+  background-color: #222;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px #111 inset;
 }
 
 #noResults {
