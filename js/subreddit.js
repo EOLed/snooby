@@ -33,6 +33,7 @@ var _subreddits = {
       });
     }
 
+    element.getElementById('subredditTopSortingPanel').style.display = 'none';
     element.getElementById('noResults').style.display = 'none';
     element.getElementById('pull-to-refresh').style.display = 'none';
 
@@ -64,12 +65,15 @@ var _subreddits = {
 
     var sort = _cache.getPersistedItem('subreddit.sort');
 
+    $('.sort-option').removeClass('selected');
+
     if (typeof sort === 'undefined') {
       sort = 'hot';
       _cache.persistItem('subreddit.sort', sort);
+    } else if (sort === 'top') {
+      $('#' + _cache.getPersistedItem('subreddit.sort.top') + '.sort-option').addClass('selected');
     }
 
-    $('.sort-option').removeClass('selected');
     $('#' + sort + '.sort-option').addClass('selected');
 
     this._saveQueuedComment();
@@ -233,6 +237,7 @@ var _subreddits = {
   },
 
   _updateListing: function(subreddit, data) {
+    $('#subredditTopSortingPanel').hide();
     $('#noResults').hide();
     $('#pull-to-refresh').hide();
     $('#subredditSortPanel').hide();
@@ -269,12 +274,19 @@ var _subreddits = {
     };
 
     var sort = _cache.getPersistedItem('subreddit.sort');
+    $('.sort-option').removeClass('selected');
+
     if (typeof sort === 'undefined' || sort === null) {
       _cache.persistItem('subreddit.sort', 'hot');
       sort = 'hot';
+    } else if (sort === 'top') {
+      if (typeof data === 'undefined')
+        data = {};
+
+      data.t = _cache.getPersistedItem('subreddit.sort.top');
+      $('#' + data.t + '.sort-option').addClass('selected');
     }
 
-    $('.sort-option').removeClass('selected');
     $('#' + sort + '.sort-option').addClass('selected');
 
     app.listing({ subreddits: subreddit, data: data, sort: sort, callback: callback, oncomplete: oncomplete });
@@ -353,7 +365,22 @@ var _subreddits = {
 
   onSortOptionClicked: function(target) {
     var sort = $(target).closest('.sort-option').data('snooby-sort');
-    _cache.persistItem('subreddit.sort', sort);
-    _subreddits.refresh();
+    if (sort === 'top') {
+      $('.sort-option').removeClass('selected');
+      $('#top.sort-option').addClass('selected');
+      $('#' + _cache.getPersistedItem('subreddit.sort.top') + '.sort-option').addClass('selected');
+      $('#subredditTopSortingPanel').show();
+    } else {
+      var topSort = $(target).closest('#subredditTopSortingOptions').length > 0;
+      if (topSort) {
+        _cache.persistItem('subreddit.sort.top', sort);
+        _cache.persistItem('subreddit.sort', 'top');
+      } else {
+        _cache.removePersistedItem('subreddit.sort.top');
+        _cache.persistItem('subreddit.sort', sort);
+      }
+
+      _subreddits.refresh();
+    }
   }
 };
