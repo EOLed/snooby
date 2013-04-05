@@ -81,6 +81,9 @@ var _subreddits = {
     this._setupPullToRefresh();
 
     this._setupContextMenu();
+
+    var mailIcon = 'img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png';
+    element.getElementById('mailbox').setImage(mailIcon);
   },
 
   _saveQueuedComment: function() {
@@ -255,6 +258,8 @@ var _subreddits = {
     var oncomplete = function(listing) {
       $('#loading').hide();
       $('#subredditSortPanel').show();
+
+      document.getElementById('mailbox').setImage('img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png');
 
       if (listing.data.children.length > 0) {
         $('#noResults').hide();

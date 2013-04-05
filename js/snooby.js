@@ -28,6 +28,15 @@ var snooby = {
     $.get('http://reddit.com' + permalink + '.json', onsuccess);
   },
 
+  /**
+   * Retrieves user account information.
+   *
+   * @param onsuccess <function> success callback
+   */
+  me: function(onsuccess) {
+    $.get('http://www.reddit.com/api/me.json', onsuccess);
+  },
+
   mailbox: function(where, data, callback) {
     $.get('http://reddit.com/message/' + where + '.json', data, function(listing) {
       callback(where, listing);

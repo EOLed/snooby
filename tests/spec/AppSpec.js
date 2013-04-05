@@ -12,7 +12,6 @@ describe('App', function() {
     expect(snooby.logout.called).toBeTruthy();
     snooby.logout.restore();
   });
-
 });
 
 describe('Voting', function() {
@@ -316,6 +315,30 @@ describe('Mailbox', function() {
   it('mark as unread goes through snooby', function() {
     app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(markAsUnread.called).toBeTruthy();
+  });
+
+  it('has mail if cache says so', function() {
+    cache.withArgs('me.hasMail').returns(JSON.stringify({ clientHasMail: true, serverHasMail: true }));
+    expect(app.hasMail()).toBeTruthy();
+  });
+});
+
+describe('Me', function() {
+  var mockSnooby;
+
+  beforeEach(function() {
+    mockSnooby = sinon.mock(snooby);
+  });
+
+  afterEach(function() {
+    mockSnooby.restore();
+  });
+
+  it('retrieves account information through snooby', function() {
+    var callback = sinon.spy();
+    mockSnooby.expects('me').once();
+    app.me(callback);
+    mockSnooby.verify();
   });
 });
 

@@ -326,3 +326,20 @@ describe('Mailbox', function() {
     expect(onsuccess.calledOnce).toBeTruthy();
   });
 });
+
+describe('Me', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('hits the currect url for my account information', function() {
+    snooby.me();
+    expect(server.requests[0].url).toEqual('http://www.reddit.com/api/me.json');
+  });
+});

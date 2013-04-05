@@ -9,6 +9,8 @@ var _mailbox = {
       _cache.setItem('mailbox.selected', params.mailbox);
       _cache.setItem('mailbox.scrollTop', 0);
     }
+
+    app.readMail();
   },
 
   onDomReady: function(element, params) {
