@@ -25,7 +25,7 @@ div#listing .details-section {
   box-shadow: inset 0 1px 0 #fff;
   text-overflow: ellipsis;
   text-overflow: -blackberry-fade;
-  border-bottom: 1px solid #C5C5C5;
+  border-bottom: 1px solid #c5c5c5;
 }
 
 .details-section span.subreddit {
@@ -237,13 +237,13 @@ img.thumb {
   width: 100%;
   font-size: .65em;
   padding-top: 1.5em;
+  text-align: center;
 }
 
 #subreddit #pull-to-refresh {
   margin-top: 0;
   border-top-style: none;
   padding-top: 1.5em;
-  text-align: center;
 }
 
 #ptrarrow {
