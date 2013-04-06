@@ -81,9 +81,6 @@ var _subreddits = {
     this._setupPullToRefresh();
 
     this._setupContextMenu();
-
-    var mailIcon = 'img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png';
-    element.getElementById('mailbox').setImage(mailIcon);
   },
 
   _saveQueuedComment: function() {
@@ -278,6 +275,11 @@ var _subreddits = {
       }
     };
 
+    var onmesuccess = function(me) {
+      var mailIcon = 'img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png';
+      document.getElementById('mailbox').setImage(mailIcon);
+    };
+
     var sort = _cache.getPersistedItem('subreddit.sort');
     $('.sort-option').removeClass('selected');
 
@@ -294,7 +296,12 @@ var _subreddits = {
 
     $('#' + sort + '.sort-option').addClass('selected');
 
-    app.listing({ subreddits: subreddit, data: data, sort: sort, callback: callback, oncomplete: oncomplete });
+    app.listing({ subreddits: subreddit,
+                  data: data,
+                  sort: sort,
+                  callback: callback,
+                  oncomplete: oncomplete,
+                  onmesuccess: onmesuccess });
   },
 
   onUnload: function(element) {

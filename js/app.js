@@ -23,7 +23,10 @@ var app = {
       if (typeof options.oncomplete === 'function')
         options.oncomplete(listing);
 
-      app.me();
+      if (typeof options.onmesuccess !== 'function')
+        options.onmesuccess = function() {};
+
+      app.me(options.onmesuccess);
     };
 
     snooby.listing({ subreddits: options.subreddits, 
