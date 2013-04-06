@@ -71,7 +71,7 @@ var app = {
 
   comments: function(permalink, callback, oncomplete, opcallback) {
     var length = 0;
-    var CHUNK_LENGTH = 80000;
+    var CHUNK_LENGTH = 50000;
     if (typeof resume === 'undefined')
       resume = 0;
 
