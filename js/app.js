@@ -22,11 +22,6 @@ var app = {
 
       if (typeof options.oncomplete === 'function')
         options.oncomplete(listing);
-
-      if (typeof options.onmesuccess !== 'function')
-        options.onmesuccess = function() {};
-
-      app.me(options.onmesuccess);
     };
 
     snooby.listing({ subreddits: options.subreddits, 
@@ -35,37 +30,16 @@ var app = {
                      callback: callback }); 
   },
 
-  hasMail: function() {
-    var hasMail = _cache.getPersistedItem('me.hasMail');
-    return hasMail !== null && JSON.parse(hasMail).clientHasMail;
-  },
-
-  readMail: function() {
-    var hasMail = JSON.parse(_cache.getPersistedItem('me.hasMail'));
-    hasMail.clientHasMail = false;
-
-    _cache.persistItem('me.hasMail', JSON.stringify(hasMail));
+  hasMail: function(onhasmail) {
+    snooby.mailbox('unread', { limit: 1 }, function(mailbox, listing) {
+      if (typeof onhasmail === 'function')
+        onhasmail(listing.data.children.length > 0);
+    }); 
   },
 
   me: function(onsuccess) {
     snooby.me(function(me) {
       _cache.persistItem('me', JSON.stringify(me));
-
-      var hasMail = JSON.parse(_cache.getPersistedItem('me.hasMail'));
-      if (hasMail === null) {
-        hasMail = { clientHasMail: false, serverHasMail: false };
-        _cache.persistItem('me.hasMail', JSON.stringify(hasMail));
-      }
-
-      if (!hasMail.serverHasMail && me.data.has_mail) {
-        hasMail.serverHasMail = true;
-        hasMail.clientHasMail = true;
-      } else if (!me.data.has_mail) {
-        hasMail.serverHasMail = false;
-        hasMail.clientHasMail = false;
-      }
-
-      _cache.persistItem('me.hasMail', JSON.stringify(hasMail));
 
       if (typeof onsuccess === 'function')
         onsuccess(me);

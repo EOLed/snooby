@@ -316,29 +316,61 @@ describe('Mailbox', function() {
     app.markAsUnread(sinon.spy(), sinon.spy(), sinon.spy(), sinon.spy());
     expect(markAsUnread.called).toBeTruthy();
   });
+});
 
-  it('has mail if cache says so', function() {
-    cache.withArgs('me.hasMail').returns(JSON.stringify({ clientHasMail: true, serverHasMail: true }));
-    expect(app.hasMail()).toBeTruthy();
+describe('hasMail', function() {
+  var server;
+
+  beforeEach(function() {
+    server = sinon.fakeServer.create();
+  });
+
+  afterEach(function() {
+    server.restore();
+  });
+
+  it('retrieves unread status from snooby', function() {
+    var mockSnooby = sinon.mock(snooby);
+    var callback = sinon.spy();
+    mockSnooby.expects('mailbox').withArgs('unread', { limit: 1 }).once();
+    app.hasMail(callback);
+    mockSnooby.verify();
+    mockSnooby.restore();
+  });
+
+  it('callback passed with true if has new mail', function() {
+    var callback = sinon.spy();
+    server.respondWith('GET',
+                       'http://reddit.com/message/unread.json?limit=1',
+                       [ 200, 
+                         { "Content-Type": "application/json" }, 
+                         JSON.stringify({ data: { children: [1, 2] } }) ]);
+    app.hasMail(callback);
+    server.respond();
+    expect(callback.calledWith(true)).toBeTruthy();
+  });
+
+  it('callback passed with false if has no new mail', function() {
+    var callback = sinon.spy();
+    server.respondWith('GET',
+                       'http://reddit.com/message/unread.json?limit=1',
+                       [ 200, 
+                         { "Content-Type": "application/json" }, 
+                         JSON.stringify({ data: { children: [] } }) ]);
+    app.hasMail(callback);
+    server.respond();
+    expect(callback.calledWith(false)).toBeTruthy();
   });
 });
 
 describe('Me', function() {
-  var mockSnooby;
-
-  beforeEach(function() {
-    mockSnooby = sinon.mock(snooby);
-  });
-
-  afterEach(function() {
-    mockSnooby.restore();
-  });
-
   it('retrieves account information through snooby', function() {
     var callback = sinon.spy();
+    var mockSnooby = sinon.mock(snooby);
     mockSnooby.expects('me').once();
     app.me(callback);
     mockSnooby.verify();
+    mockSnooby.restore();
   });
 });
 

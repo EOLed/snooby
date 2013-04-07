@@ -42,6 +42,10 @@ var _subreddits = {
 
   onDomReady: function(element, params) {
     if (_cache.getItem('subreddit.domReady') === true) {
+      app.hasMail(function(hasMail) {
+        element.getElementById('mailbox').setImage('img/icons/ic_email' + (hasMail ? '_new' : '') + '.png');
+      });
+
       $('#loading').hide();
       console.log('loading subreddit listings from memory');
 
@@ -237,6 +241,10 @@ var _subreddits = {
   },
 
   _updateListing: function(subreddit, data) {
+    app.hasMail(function(hasMail) {
+      document.getElementById('mailbox').setImage('img/icons/ic_email' + (hasMail ? '_new' : '') + '.png');
+    });
+
     $('#subredditTopSortingPanel').hide();
     $('#noResults').hide();
     $('#pull-to-refresh').hide();
@@ -256,8 +264,6 @@ var _subreddits = {
       $('#loading').hide();
       $('#subredditSortPanel').show();
 
-      document.getElementById('mailbox').setImage('img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png');
-
       if (listing.data.children.length > 0) {
         $('#noResults').hide();
         $('#listing').show();
@@ -273,11 +279,6 @@ var _subreddits = {
       } else {
         $('#noResults').show();
       }
-    };
-
-    var onmesuccess = function(me) {
-      var mailIcon = 'img/icons/ic_email' + (app.hasMail() ? '_new' : '') + '.png';
-      document.getElementById('mailbox').setImage(mailIcon);
     };
 
     var sort = _cache.getPersistedItem('subreddit.sort');
@@ -300,8 +301,7 @@ var _subreddits = {
                   data: data,
                   sort: sort,
                   callback: callback,
-                  oncomplete: oncomplete,
-                  onmesuccess: onmesuccess });
+                  oncomplete: oncomplete });
   },
 
   onUnload: function(element) {
