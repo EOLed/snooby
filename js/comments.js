@@ -244,12 +244,22 @@ var _comments = {
   },
 
   onScroll: function(element) {
+    var ptr = document.getElementById('pull-to-refresh');
+
     var scroller = element.children[1];
-    if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 75) {
-      document.getElementById('pull-to-refresh').classList.add('pulling');
-    } else if ($('#linkScore').visible() && this._postScoreOutdated) {
-      this._postScoreOutdated = false;
-      $('#linkScore').hide().fadeIn('fast');
+    if ((scroller.scrollTop + $(scroller).height()) >= ($(scroller.children[0]).height() + bb.screen.getActionBarHeight())) {
+      setTimeout(function() { 
+        if ((scroller.scrollTop + $(scroller).height()) >= ($(scroller.children[0]).height() + bb.screen.getActionBarHeight())) {
+          ptr.classList.add('pulling');
+        }
+      }, 200);
+    } else {
+      ptr.classList.remove('pulling');
+
+      if ($('#linkScore').visible() && this._postScoreOutdated) {
+        this._postScoreOutdated = false;
+        $('#linkScore').hide().fadeIn('fast');
+      }
     }
   },
 

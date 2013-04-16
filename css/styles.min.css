@@ -238,12 +238,15 @@ img.thumb {
   font-size: .65em;
   padding-top: 1.5em;
   text-align: center;
+  overflow: hidden;
+  height: 100px;
 }
 
 #subreddit #pull-to-refresh {
-  margin-top: 0;
+  margin-top: 50px;
+  margin-bottom: 0;
   border-top-style: none;
-  padding-top: 1.5em;
+  padding: 0;
 }
 
 #ptrarrow {

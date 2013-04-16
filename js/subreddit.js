@@ -350,8 +350,14 @@ var _subreddits = {
     if ((ptr.style.display === '' || ptr.style.display === 'block') && 
         _cache.getItem('subreddit.after') !== null) {
       var scroller = element.children[1];
-      if (scroller.scrollTop + $(scroller).height() >= $(scroller.children[0]).height() + 79 + 75) {
-        ptr.classList.add('pulling');
+      if ((scroller.scrollTop + $(scroller).height()) >= ($(scroller.children[0]).height() + bb.screen.getActionBarHeight())) {
+        setTimeout(function() { 
+          if ((scroller.scrollTop + $(scroller).height()) >= ($(scroller.children[0]).height() + bb.screen.getActionBarHeight())) {
+            ptr.classList.add('pulling');
+          }
+        }, 200);
+      } else {
+        ptr.classList.remove('pulling');
       }
     }
   },
