@@ -277,11 +277,11 @@ var _subreddits = {
                      icon: '../img/icons/ic_edit.png' };
 
     var shareComments = { actionId: 'shareCommentsAction',
-                          label: 'Share Comments',
+                          label: 'Share comments',
                           icon: '../img/icons/ic_share.png' };
 
     var shareLink = { actionId: 'shareLinkAction',
-                      label: 'Share Link',
+                      label: 'Share link',
                       icon: '../img/icons/ic_share.png' };
 
     var invokeBrowser = { actionId: 'invokeBrowserAction',
