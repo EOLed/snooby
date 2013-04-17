@@ -215,6 +215,15 @@ var _subreddits = {
                                               function(e) { console.log(e); });
   },
 
+  _doInvokeBrowser: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
+    blackberry.invoke.invoke({ uri: link.data.url }, function() {}, function() {});
+  },
+
   _doComment: function(sourceId) {
     if (rateLimiter.canPerformAction(rateLimiter.COMMENT)) {
       var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
@@ -274,6 +283,12 @@ var _subreddits = {
     var shareLink = { actionId: 'shareLinkAction',
                       label: 'Share Link',
                       icon: '../img/icons/ic_share.png' };
+
+    var invokeBrowser = { actionId: 'invokeBrowserAction',
+                      label: 'Open in browser',
+                      icon: '../img/icons/ic_open_link.png' };
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], invokeBrowser, this._doInvokeBrowser);
 
     blackberry.ui.contextmenu.addItem(['linkContext'], shareComments, this._doShareComments);
 
