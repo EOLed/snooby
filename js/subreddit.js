@@ -177,6 +177,44 @@ var _subreddits = {
     });
   },
 
+  _doShareLink: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
+
+    if (link.data.is_self) {
+      _subreddits._doShareComments(sourceId);
+      return;
+    }
+
+    var request = { action: 'bb.action.SHARE',
+                    uri: link.data.url,
+                    target_type: ['APPLICATION', 'VIEWER', 'CARD'] };
+
+    blackberry.invoke.card.invokeTargetPicker(request, 
+                                              'Share Link', 
+                                              function() {}, 
+                                              function(e) { console.log(e); });
+  },
+
+  _doShareComments: function(sourceId) {
+    var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
+    var subreddit = _cache.getItem('subreddit.selected');
+    var link = _cache.getItem('subreddit.listing')
+                     .data
+                     .children[$('#link-' + sourceId).attr('data-snooby-index')];
+    var request = { action: 'bb.action.SHARE',
+                    uri: 'http://reddit.com' + link.data.permalink,
+                    target_type: ['APPLICATION', 'VIEWER', 'CARD'] };
+
+    blackberry.invoke.card.invokeTargetPicker(request, 
+                                              'Share Comments', 
+                                              function() {}, 
+                                              function(e) { console.log(e); });
+  },
+
   _doComment: function(sourceId) {
     if (rateLimiter.canPerformAction(rateLimiter.COMMENT)) {
       var user = JSON.parse(_cache.getPersistedItem('snooby.user'));
@@ -228,6 +266,18 @@ var _subreddits = {
     var comment = { actionId: 'commentAction',
                      label: 'Add a comment',
                      icon: '../img/icons/ic_edit.png' };
+
+    var shareComments = { actionId: 'shareCommentsAction',
+                          label: 'Share Comments',
+                          icon: '../img/icons/ic_share.png' };
+
+    var shareLink = { actionId: 'shareLinkAction',
+                      label: 'Share Link',
+                      icon: '../img/icons/ic_share.png' };
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], shareComments, this._doShareComments);
+
+    blackberry.ui.contextmenu.addItem(['linkContext'], shareLink, this._doShareLink);
 
     blackberry.ui.contextmenu.addItem(['linkContext'], comment, this._doComment);
 
