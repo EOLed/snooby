@@ -1,0 +1,7 @@
+{
+  "name": "snooby-server",
+  "version": "0.1.0",
+  "author": "Amos Chan <amosschan@gmail.com>",
+  "description": "development server for snooby.",
+  "dependencies": { "connect": "*" }
+}
